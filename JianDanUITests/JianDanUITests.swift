@@ -8,8 +8,8 @@ final class JianDanUITests: XCTestCase {
 
         // 验证 Tab Bar 三个 tab item 存在（Task 2 将根视图改为 RootTabView）
         XCTAssertTrue(
-            app.tabBars.buttons["告别"].waitForExistence(timeout: 5),
-            "Tab '告别' should exist after launch"
+            app.tabBars.buttons["减单"].waitForExistence(timeout: 5),
+            "Tab '减单' should exist after launch"
         )
         XCTAssertTrue(
             app.tabBars.buttons["极简"].waitForExistence(timeout: 5),

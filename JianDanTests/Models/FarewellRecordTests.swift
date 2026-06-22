@@ -30,22 +30,22 @@ final class FarewellRecordTests: XCTestCase {
         XCTAssertNotNil(record.id)
         XCTAssertNotNil(record.createdAt)
         XCTAssertNotNil(record.updatedAt)
-        XCTAssertTrue(record.photoData.isEmpty)
+        XCTAssertTrue(record.photoFilenames.isEmpty)
     }
 
     func testInitWithPhotos() throws {
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
-        let photoData = Data([0x01, 0x02, 0x03])
+        let filenames = ["a.jpg", "b.jpg"]
         let record = FarewellRecord(
             name: "台灯",
             category: .furniture,
             method: .gift,
-            photos: [photoData, photoData]
+            photoFilenames: filenames
         )
         context.insert(record)
-        XCTAssertEqual(record.photoData.count, 2)
-        XCTAssertEqual(record.photoData.first, photoData)
+        XCTAssertEqual(record.photoFilenames.count, 2)
+        XCTAssertEqual(record.photoFilenames, filenames)
     }
 
     func testCompanionshipDays() throws {
@@ -123,7 +123,7 @@ final class FarewellRecordTests: XCTestCase {
     // 失败示例（DEBUG 下会 crash 测试进程）：
     //   let record = FarewellRecord(name: "", category: .other, method: .other)
     //   let record = FarewellRecord(name: String(repeating: "一", count: 51), ...)
-    //   let record = FarewellRecord(name: "X", ..., photos: [Data(), Data(), Data(), Data()])
+    //   let record = FarewellRecord(name: "X", ..., photoFilenames: ["a","b","c","d"])
 
     // MARK: - 完整 CRUD 流程测试
 
@@ -136,7 +136,7 @@ final class FarewellRecordTests: XCTestCase {
             name: "一套旧书",
             category: .books,
             method: .donate,
-            photos: [Data([0xAA])]
+            photoFilenames: ["test.jpg"]
         )
         record.farewellLetter = "这些书陪我度过了大学时光"
         record.purchasePrice = 120.0
@@ -158,12 +158,13 @@ final class FarewellRecordTests: XCTestCase {
         XCTAssertEqual(loaded.purchasePrice, 120.0)
         XCTAssertEqual(loaded.emotionValue, 4)
         XCTAssertEqual(loaded.recipientDetail, "学校图书馆")
-        XCTAssertEqual(loaded.photoData.count, 1)
+        XCTAssertEqual(loaded.photoFilenames.count, 1)
+        XCTAssertEqual(loaded.photoFilenames, ["test.jpg"])
 
         // Update
-        loaded.farewellLetter = "更新后的告别信"
+        loaded.farewellLetter = "更新后的减单一言"
         try context.save()
-        XCTAssertEqual(loaded.farewellLetter, "更新后的告别信")
+        XCTAssertEqual(loaded.farewellLetter, "更新后的减单一言")
 
         // Delete
         context.delete(loaded)

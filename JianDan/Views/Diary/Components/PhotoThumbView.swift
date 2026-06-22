@@ -1,14 +1,15 @@
 import SwiftUI
 
 /// 单张照片缩略图（拍立得风格）
+/// 通过 ImageStore 从沙盒加载图片
 struct PhotoThumbView: View {
-    let data: Data?
+    let filename: String?
     let category: Category
     var size: CGFloat = 80
 
     var body: some View {
         Group {
-            if let data, let uiImage = UIImage(data: data) {
+            if let filename, let uiImage = ImageStore.loadImage(filename: filename) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -30,7 +31,7 @@ struct PhotoThumbView: View {
 
 #Preview {
     HStack {
-        PhotoThumbView(data: nil, category: .clothing)
-        PhotoThumbView(data: Data([0xFF, 0xD8, 0xFF]), category: .books)
+        PhotoThumbView(filename: nil, category: .clothing)
+        PhotoThumbView(filename: "missing.jpg", category: .books)
     }
 }

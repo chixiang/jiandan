@@ -27,11 +27,9 @@ struct DiaryView: View {
                 }
             }
             .background(Color(.systemBackground))
-            .navigationTitle("告别")
+            .navigationTitle("减单")
             .navigationDestination(for: FarewellRecord.self) { record in
-                // Task 9 会替换为 FarewellDetailView
-                Text(record.name)
-                    .navigationTitle(record.name)
+                FarewellDetailView(record: record)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -40,31 +38,12 @@ struct DiaryView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
-                    .accessibilityLabel("添加告别")
+                    .accessibilityLabel("添加减单记录")
                 }
             }
             .sheet(isPresented: $showingAdd) {
-                // Task 7 会替换为 AddFarewellView
-                AddFarewellPlaceholder()
+                AddFarewellView()
             }
-        }
-    }
-}
-
-/// 临时添加告别占位（Task 7 替换）
-struct AddFarewellPlaceholder: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            Text("新建告别表单（待 Task 7 实现）")
-                .foregroundStyle(.secondary)
-                .navigationTitle("告别")
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button("取消") { dismiss() }
-                    }
-                }
         }
     }
 }

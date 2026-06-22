@@ -7,16 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		129C3445F14098B47F0DFE41 /* PhotoPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315FD98085A1654860A02556 /* PhotoPickerSection.swift */; };
+		16D9C38B7AE96D0C586ED2F5 /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D523E96697D04AEBCE06B44 /* ImageStore.swift */; };
 		195CBA3717213D2C7C8435D6 /* FarewellRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653E826D7FEDD5AA9A1D0C4C /* FarewellRecord.swift */; };
 		2E508AC5FBF9E6A67D6A4574 /* FarewellCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8FCD077678E9390B716892 /* FarewellCardView.swift */; };
 		343A8F732E1FA38AB7285DFA /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB68B3D4F4079460C6C4CA5 /* AppColors.swift */; };
 		432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8F4526A17982744B455D11 /* ProfileView.swift */; };
+		455D2A85DBC0841CB6D98863 /* CategoryPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6D987CB3C3B4637E5E6A47 /* CategoryPickerSection.swift */; };
+		5E3EEC3B819F26C81EFDFE61 /* PhotoCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C3A3CDD346236BEDE492E /* PhotoCarouselView.swift */; };
 		62E402B2A4F658262B879FA5 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97A802DEEFF748A880F9068 /* ThemeManager.swift */; };
 		64D74FA47A484EDD32A0E8CA /* DiaryEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132E58443AB3251FA4F72E44 /* DiaryEmptyView.swift */; };
 		6729CAE706D36D68AC690578 /* JianDanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AD7ECD080FCCA91DE4DE79 /* JianDanApp.swift */; };
+		67D2F73FA8126C3A36F09E6B /* ImageStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1244719ED29A3502A40DD4 /* ImageStoreTests.swift */; };
 		692147C796073FADE9305950 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6435864290CE9E2ECFF7BF3D /* Typography.swift */; };
 		716E636EA0AE737EF6F735EA /* CategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DEAAA9324AC86831B8B755 /* CategoryTests.swift */; };
+		7C9C8DEE7BC5DBDD45FDB7C9 /* FarewellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8219FA361E37E6D1FF2EAAE8 /* FarewellDetailView.swift */; };
 		87BB69F92B650E7187DDD5A6 /* WisdomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED5503F502A9155433A7FFD /* WisdomView.swift */; };
+		890FC4F0258F39243567F303 /* MethodPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */; };
 		8CFD672FE5F1305F54C960AD /* JianDanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784CD7FE36FCEA935CA5A40 /* JianDanUITests.swift */; };
 		966EFDED469F08924E0B9D13 /* PhotoThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2AB1622B63CAA84328376D /* PhotoThumbView.swift */; };
 		A628BE259E83A85497C5946A /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DC7AAE21AC5A77BC58023 /* DiaryView.swift */; };
@@ -25,9 +32,11 @@
 		AF55A8B0E2CC8B1CCF27388F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FBC91255D9A175AAB537393 /* Assets.xcassets */; };
 		B460C927552FAB0105D5782C /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423CC3BB48A4D88527FD61F4 /* AppTheme.swift */; };
 		BF2408695CE30C33BF0187C4 /* FarewellRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE769F5056A471E00722546A /* FarewellRecordTests.swift */; };
+		BFF7FC2643DE6ABE8BD23D7B /* EmotionStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8291787AC78FDB5D852356D /* EmotionStarsView.swift */; };
 		C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F58F233837E8540A75220A /* RootTabView.swift */; };
 		DDB1D458B9EB2C168CF0B004 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953BE81A83D14FA4885D6EC6 /* Category.swift */; };
 		F08B04C6C56711A13179F6CD /* AppThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3BF256622877B3CB2545B /* AppThemeTests.swift */; };
+		F3D843F7E5CBFBDE631B11FB /* AddFarewellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C10B87A7A5D7AE535F63F9 /* AddFarewellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,13 +57,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		042C3A3CDD346236BEDE492E /* PhotoCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselView.swift; sourceTree = "<group>"; };
 		0A2AB1622B63CAA84328376D /* PhotoThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoThumbView.swift; sourceTree = "<group>"; };
 		0B1DC7AAE21AC5A77BC58023 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		0F6CFF80E0DA6229B03F4366 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		132E58443AB3251FA4F72E44 /* DiaryEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEmptyView.swift; sourceTree = "<group>"; };
 		2784CD7FE36FCEA935CA5A40 /* JianDanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JianDanUITests.swift; sourceTree = "<group>"; };
 		30F345B1EE86941AEF8FFDBE /* FarewellMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellMethod.swift; sourceTree = "<group>"; };
+		315FD98085A1654860A02556 /* PhotoPickerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerSection.swift; sourceTree = "<group>"; };
 		3A24425288C83B294986AB8E /* JianDanUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JianDanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A6D987CB3C3B4637E5E6A47 /* CategoryPickerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerSection.swift; sourceTree = "<group>"; };
 		423CC3BB48A4D88527FD61F4 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		46DEAAA9324AC86831B8B755 /* CategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTests.swift; sourceTree = "<group>"; };
 		57AD7ECD080FCCA91DE4DE79 /* JianDanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JianDanApp.swift; sourceTree = "<group>"; };
@@ -63,14 +75,20 @@
 		6435864290CE9E2ECFF7BF3D /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		653E826D7FEDD5AA9A1D0C4C /* FarewellRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellRecord.swift; sourceTree = "<group>"; };
 		6A8F4526A17982744B455D11 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		6D523E96697D04AEBCE06B44 /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
 		7AB68B3D4F4079460C6C4CA5 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		8219FA361E37E6D1FF2EAAE8 /* FarewellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellDetailView.swift; sourceTree = "<group>"; };
+		8C1244719ED29A3502A40DD4 /* ImageStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStoreTests.swift; sourceTree = "<group>"; };
 		8FBC91255D9A175AAB537393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		953BE81A83D14FA4885D6EC6 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		9B8FCD077678E9390B716892 /* FarewellCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellCardView.swift; sourceTree = "<group>"; };
 		A11D7BBF83F06584C9BB9C73 /* FarewellMethodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellMethodTests.swift; sourceTree = "<group>"; };
+		A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodPickerSection.swift; sourceTree = "<group>"; };
 		ABD68AE45BECFB8F4FC7856E /* JianDanTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JianDanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0F58F233837E8540A75220A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		B6C10B87A7A5D7AE535F63F9 /* AddFarewellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFarewellView.swift; sourceTree = "<group>"; };
 		EED5503F502A9155433A7FFD /* WisdomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomView.swift; sourceTree = "<group>"; };
+		F8291787AC78FDB5D852356D /* EmotionStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionStarsView.swift; sourceTree = "<group>"; };
 		F97A802DEEFF748A880F9068 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		FE769F5056A471E00722546A /* FarewellRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellRecordTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +131,7 @@
 		46A17699380AB35CAC48D4F9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6D523E96697D04AEBCE06B44 /* ImageStore.swift */,
 				F97A802DEEFF748A880F9068 /* ThemeManager.swift */,
 			);
 			path = Services;
@@ -145,9 +164,31 @@
 			isa = PBXGroup;
 			children = (
 				BBAAA294CC4F29FF2B766BEE /* Models */,
+				B09285E1E86D35EE91C2E8CE /* Services */,
 				37DBAB4D09BD28F5B73E404A /* Theme */,
 			);
 			path = JianDanTests;
+			sourceTree = "<group>";
+		};
+		60764F73DDAF2C9EF258B9CA /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				8219FA361E37E6D1FF2EAAE8 /* FarewellDetailView.swift */,
+				042C3A3CDD346236BEDE492E /* PhotoCarouselView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		6F04DCCF47916FEE30943D16 /* AddFarewell */ = {
+			isa = PBXGroup;
+			children = (
+				B6C10B87A7A5D7AE535F63F9 /* AddFarewellView.swift */,
+				3A6D987CB3C3B4637E5E6A47 /* CategoryPickerSection.swift */,
+				F8291787AC78FDB5D852356D /* EmotionStarsView.swift */,
+				A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */,
+				315FD98085A1654860A02556 /* PhotoPickerSection.swift */,
+			);
+			path = AddFarewell;
 			sourceTree = "<group>";
 		};
 		885583FB155AD5E50FA48F06 /* Theme */ = {
@@ -172,6 +213,8 @@
 		9CC00E670119B4ECA7DE1A04 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6F04DCCF47916FEE30943D16 /* AddFarewell */,
+				60764F73DDAF2C9EF258B9CA /* Detail */,
 				99DB7F771DB3E67DE4807066 /* Diary */,
 				3F74183BF154AE62D6E8755B /* Profile */,
 				AE13D62798100084D078A04C /* Root */,
@@ -206,6 +249,14 @@
 				B0F58F233837E8540A75220A /* RootTabView.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		B09285E1E86D35EE91C2E8CE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8C1244719ED29A3502A40DD4 /* ImageStoreTests.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		BBAAA294CC4F29FF2B766BEE /* Models */ = {
@@ -372,6 +423,7 @@
 				716E636EA0AE737EF6F735EA /* CategoryTests.swift in Sources */,
 				A99323A6869E5548100AD577 /* FarewellMethodTests.swift in Sources */,
 				BF2408695CE30C33BF0187C4 /* FarewellRecordTests.swift in Sources */,
+				67D2F73FA8126C3A36F09E6B /* ImageStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,15 +431,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D843F7E5CBFBDE631B11FB /* AddFarewellView.swift in Sources */,
 				343A8F732E1FA38AB7285DFA /* AppColors.swift in Sources */,
 				B460C927552FAB0105D5782C /* AppTheme.swift in Sources */,
 				DDB1D458B9EB2C168CF0B004 /* Category.swift in Sources */,
+				455D2A85DBC0841CB6D98863 /* CategoryPickerSection.swift in Sources */,
 				64D74FA47A484EDD32A0E8CA /* DiaryEmptyView.swift in Sources */,
 				A628BE259E83A85497C5946A /* DiaryView.swift in Sources */,
+				BFF7FC2643DE6ABE8BD23D7B /* EmotionStarsView.swift in Sources */,
 				2E508AC5FBF9E6A67D6A4574 /* FarewellCardView.swift in Sources */,
+				7C9C8DEE7BC5DBDD45FDB7C9 /* FarewellDetailView.swift in Sources */,
 				A6BBC88132F3CE115E5F343F /* FarewellMethod.swift in Sources */,
 				195CBA3717213D2C7C8435D6 /* FarewellRecord.swift in Sources */,
+				16D9C38B7AE96D0C586ED2F5 /* ImageStore.swift in Sources */,
 				6729CAE706D36D68AC690578 /* JianDanApp.swift in Sources */,
+				890FC4F0258F39243567F303 /* MethodPickerSection.swift in Sources */,
+				5E3EEC3B819F26C81EFDFE61 /* PhotoCarouselView.swift in Sources */,
+				129C3445F14098B47F0DFE41 /* PhotoPickerSection.swift in Sources */,
 				966EFDED469F08924E0B9D13 /* PhotoThumbView.swift in Sources */,
 				432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */,
 				C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */,

@@ -14,7 +14,8 @@ final class FarewellRecord {
     var purchasePrice: Double?
     var emotionValue: Int?
     var farewellLetter: String?
-    @Attribute(.externalStorage) var photoData: [Data]
+    /// 已存沙盒的图片文件名（UUID.jpg）；实际文件由 ImageStore 管理
+    var photoFilenames: [String]
     var createdAt: Date
     var updatedAt: Date
 
@@ -28,7 +29,7 @@ final class FarewellRecord {
         purchasePrice: Double? = nil,
         emotionValue: Int? = nil,
         farewellLetter: String? = nil,
-        photos: [Data] = []
+        photoFilenames: [String] = []
     ) {
         // 名称：trim 后非空 + 长度不超过 50
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -39,7 +40,7 @@ final class FarewellRecord {
         )
 
         // 照片：不超过 maxPhotos
-        precondition(photos.count <= Self.maxPhotos, "Too many photos (max \(Self.maxPhotos))")
+        precondition(photoFilenames.count <= Self.maxPhotos, "Too many photos (max \(Self.maxPhotos))")
 
         // 告别信：长度不超过 500
         if let letter = farewellLetter {
@@ -85,7 +86,7 @@ final class FarewellRecord {
         self.purchasePrice = purchasePrice
         self.emotionValue = emotionValue
         self.farewellLetter = farewellLetter
-        self.photoData = photos
+        self.photoFilenames = photoFilenames
         self.createdAt = .now
         self.updatedAt = .now
     }

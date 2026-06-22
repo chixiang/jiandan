@@ -8,7 +8,7 @@ struct FarewellCardView: View {
         HStack(alignment: .top, spacing: 16) {
             // 主照片
             PhotoThumbView(
-                data: record.photoData.first,
+                filename: record.photoFilenames.first,
                 category: record.category,
                 size: 88
             )

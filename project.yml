@@ -26,7 +26,7 @@ targets:
         CFBundleShortVersionString: "1.0"
         CFBundleVersion: "1"
         LSRequiresIPhoneOS: true
-        NSPhotoLibraryUsageDescription: 减单需要访问相册以添加告别物品的照片
+        NSPhotoLibraryUsageDescription: 减单需要访问相册以添加物品的照片
         NSPhotoLibraryAddUsageDescription: 减单需要保存照片到相册
         UILaunchScreen:
           UIColorName: ""
