@@ -1,0 +1,25 @@
+import Foundation
+
+/// 告别方式
+enum FarewellMethod: String, CaseIterable, Identifiable, Codable {
+    case gift = "送人"
+    case discard = "扔掉"
+    case donate = "捐赠"
+    case resell = "二手出售"
+    case store = "暂存"
+    case other = "其他"
+
+    var id: String { rawValue }
+
+    /// SF Symbol 图标
+    var icon: String {
+        switch self {
+        case .gift: return "gift"
+        case .discard: return "trash"
+        case .donate: return "heart"
+        case .resell: return "tag"
+        case .store: return "archivebox"
+        case .other: return "ellipsis.circle"
+        }
+    }
+}

@@ -1,0 +1,174 @@
+import XCTest
+import SwiftData
+@testable import JianDan
+
+@MainActor
+final class FarewellRecordTests: XCTestCase {
+    /// 内存测试容器：每个测试用独立 container 避免污染
+    func makeInMemoryContainer() throws -> ModelContainer {
+        let schema = Schema([FarewellRecord.self])
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        return try ModelContainer(for: schema, configurations: [config])
+    }
+
+    func testBasicInit() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let record = FarewellRecord(
+            name: "一件蓝色羊毛大衣",
+            category: .clothing,
+            method: .donate
+        )
+        context.insert(record)
+        try context.save()
+
+        XCTAssertEqual(record.name, "一件蓝色羊毛大衣")
+        XCTAssertEqual(record.category, .clothing)
+        XCTAssertEqual(record.method, .donate)
+        XCTAssertEqual(record.categoryRaw, "衣物")
+        XCTAssertEqual(record.methodRaw, "捐赠")
+        XCTAssertNotNil(record.id)
+        XCTAssertNotNil(record.createdAt)
+        XCTAssertNotNil(record.updatedAt)
+        XCTAssertTrue(record.photoData.isEmpty)
+    }
+
+    func testInitWithPhotos() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let photoData = Data([0x01, 0x02, 0x03])
+        let record = FarewellRecord(
+            name: "台灯",
+            category: .furniture,
+            method: .gift,
+            photos: [photoData, photoData]
+        )
+        context.insert(record)
+        XCTAssertEqual(record.photoData.count, 2)
+        XCTAssertEqual(record.photoData.first, photoData)
+    }
+
+    func testCompanionshipDays() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let purchase = Calendar.current.date(from: DateComponents(year: 2020, month: 1, day: 1))!
+        let farewell = Calendar.current.date(from: DateComponents(year: 2023, month: 1, day: 1))!
+        let record = FarewellRecord(
+            name: "旧电脑",
+            category: .electronics,
+            farewellDate: farewell,
+            method: .discard
+        )
+        record.purchaseDate = purchase
+        context.insert(record)
+
+        // 三年整 = 1096 或 1095 天（取决于闰年）；测试容差 ±1
+        let days = record.companionshipDays
+        XCTAssertNotNil(days)
+        XCTAssertEqual(days!, 1096, accuracy: 1)
+    }
+
+    func testCompanionshipDaysNilWhenNoPurchaseDate() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let record = FarewellRecord(
+            name: "某物",
+            category: .other,
+            method: .other
+        )
+        context.insert(record)
+        XCTAssertNil(record.companionshipDays)
+    }
+
+    func testCategoryRawRoundTrip() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let record = FarewellRecord(name: "X", category: .books, method: .other)
+        context.insert(record)
+
+        // 通过 rawValue 设置 + 读取 category getter
+        record.categoryRaw = "电子"
+        XCTAssertEqual(record.category, .electronics)
+
+        // 通过 category setter 设置
+        record.category = .furniture
+        XCTAssertEqual(record.categoryRaw, "家具")
+    }
+
+    func testMethodRawRoundTrip() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let record = FarewellRecord(name: "X", category: .other, method: .other)
+        context.insert(record)
+
+        record.methodRaw = "扔掉"
+        XCTAssertEqual(record.method, .discard)
+
+        record.method = .gift
+        XCTAssertEqual(record.methodRaw, "送人")
+    }
+
+    // MARK: - Precondition tests
+    //
+    // 真实的 precondition 捕获在零依赖前提下极难做到：
+    // - XCTest 本身不拦截 fatalError / precondition
+    // - 三方库（pointfreeco/xctest-dynamic-overlay 等）会引入外部依赖
+    // - POSIX signal handler 在 Swift 测试中并不可靠
+    //
+    // 因此 precondition 校验通过以下两点保证：
+    // 1. 文档化在 init 中存在的 precondition（见 FarewellRecord.swift）
+    // 2. 业务/UI 层在调用前预先校验（下一 Task 引入 Form 校验时）
+    //
+    // 当前 Task 范围内：跳过 precondition 用例，仅记录文档化意图。
+    // 失败示例（DEBUG 下会 crash 测试进程）：
+    //   let record = FarewellRecord(name: "", category: .other, method: .other)
+    //   let record = FarewellRecord(name: String(repeating: "一", count: 51), ...)
+    //   let record = FarewellRecord(name: "X", ..., photos: [Data(), Data(), Data(), Data()])
+
+    // MARK: - 完整 CRUD 流程测试
+
+    func testFullCRUDFlow() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+
+        // Create
+        let record = FarewellRecord(
+            name: "一套旧书",
+            category: .books,
+            method: .donate,
+            photos: [Data([0xAA])]
+        )
+        record.farewellLetter = "这些书陪我度过了大学时光"
+        record.purchasePrice = 120.0
+        record.emotionValue = 4
+        record.recipientDetail = "学校图书馆"
+        context.insert(record)
+        try context.save()
+
+        // Read
+        let descriptor = FetchDescriptor<FarewellRecord>(
+            predicate: #Predicate { $0.name == "一套旧书" }
+        )
+        let fetched = try context.fetch(descriptor)
+        XCTAssertEqual(fetched.count, 1)
+        let loaded = fetched[0]
+        XCTAssertEqual(loaded.category, .books)
+        XCTAssertEqual(loaded.method, .donate)
+        XCTAssertEqual(loaded.farewellLetter, "这些书陪我度过了大学时光")
+        XCTAssertEqual(loaded.purchasePrice, 120.0)
+        XCTAssertEqual(loaded.emotionValue, 4)
+        XCTAssertEqual(loaded.recipientDetail, "学校图书馆")
+        XCTAssertEqual(loaded.photoData.count, 1)
+
+        // Update
+        loaded.farewellLetter = "更新后的告别信"
+        try context.save()
+        XCTAssertEqual(loaded.farewellLetter, "更新后的告别信")
+
+        // Delete
+        context.delete(loaded)
+        try context.save()
+        let afterDelete = try context.fetch(descriptor)
+        XCTAssertTrue(afterDelete.isEmpty)
+    }
+}
