@@ -59,7 +59,9 @@ final class JianDanUITests: XCTestCase {
         nameField.typeText("UI测试减单-蓝色羊毛大衣")
 
         // 5. 点保存
-        app.buttons["保存"].tap()
+        let saveButton = app.buttons["保存"]
+        XCTAssertTrue(saveButton.waitForExistence(timeout: 2), "Save button should exist")
+        saveButton.tap()
 
         // 6. 期待 sheet 关闭
         XCTAssertTrue(
