@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -89,7 +89,7 @@
 		5B83D7B7B791AE9C727185CB /* WisdomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomCardView.swift; sourceTree = "<group>"; };
 		5CE3BF256622877B3CB2545B /* AppThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemeTests.swift; sourceTree = "<group>"; };
 		5EE1582002C5000B639F6EF8 /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
-		602A7458CAA4B431E49C9450 /* JianDan.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = JianDan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		602A7458CAA4B431E49C9450 /* JianDan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JianDan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6435864290CE9E2ECFF7BF3D /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		653E826D7FEDD5AA9A1D0C4C /* FarewellRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellRecord.swift; sourceTree = "<group>"; };
 		6A8F4526A17982744B455D11 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -419,7 +419,6 @@
 						TestTargetID = FAC99D824CA411E544335B6D;
 					};
 					FAC99D824CA411E544335B6D = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -715,6 +714,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 933VYF7A3B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = JianDan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -733,6 +733,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 933VYF7A3B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = JianDan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
