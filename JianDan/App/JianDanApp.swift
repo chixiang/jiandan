@@ -5,9 +5,14 @@ import SwiftData
 struct JianDanApp: App {
     @State private var themeManager = ThemeManager()
 
-    /// 启动时检测 launch arguments；UI 测试可通过 `-resetStore` 清空 SwiftData store。
+    /// 启动时检测 launch arguments；UI 测试可通过 `-resetStore` 清空 SwiftData store，
+    /// 或 `-resetUserDefaults` 清空 UserDefaults（包括主题选择等持久化状态）。
     private static func shouldResetStore() -> Bool {
         ProcessInfo.processInfo.arguments.contains("-resetStore")
+    }
+
+    private static func shouldResetUserDefaults() -> Bool {
+        ProcessInfo.processInfo.arguments.contains("-resetUserDefaults")
     }
 
     private static func resetStoreIfNeeded() {
@@ -26,6 +31,13 @@ struct JianDanApp: App {
         }
     }
 
+    private static func resetUserDefaultsIfNeeded() {
+        guard shouldResetUserDefaults() else { return }
+        // 测试阶段清空 standard suite；用 bundleIdentifier 隔离避免影响其它 app
+        let suiteName = Bundle.main.bundleIdentifier ?? "com.jiandan.app"
+        UserDefaults.standard.removePersistentDomain(forName: suiteName)
+    }
+
     var body: some Scene {
         WindowGroup {
             RootTabView()
@@ -37,5 +49,6 @@ struct JianDanApp: App {
 
     init() {
         Self.resetStoreIfNeeded()
+        Self.resetUserDefaultsIfNeeded()
     }
 }

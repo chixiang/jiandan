@@ -26,7 +26,7 @@ final class JianDanUITests: XCTestCase {
     func testAddFarewellAppearsInList() throws {
         let app = XCUIApplication()
         // 清空 SwiftData store，确保从空状态开始
-        app.launchArguments = ["-resetStore"]
+        app.launchArguments = ["-resetStore", "-resetUserDefaults"]
         app.launch()
 
         // 1. 已经在「减单」Tab；空状态显示「开始第一次减单」按钮
@@ -80,7 +80,7 @@ final class JianDanUITests: XCTestCase {
     /// Task 10 回归测试：「极简」Tab 显示金句列表，点击进入详情（task11 改用 JSON）
     func testWisdomTabShowsQuotes() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-resetStore"]
+        app.launchArguments = ["-resetStore", "-resetUserDefaults"]
         app.launch()
 
         // 1. 进「极简」Tab
@@ -132,7 +132,7 @@ final class JianDanUITests: XCTestCase {
     /// Task 12 回归测试：「我的」Tab 显示统计 + 主题设置
     func testProfileTabShowsStatsAndSettings() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-resetStore"]
+        app.launchArguments = ["-resetStore", "-resetUserDefaults"]
         app.launch()
 
         // 1. 进「我的」Tab
