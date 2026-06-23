@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "quotes": [
+    {
+      "id": "quote-001",
+      "text": "拥有得愈少，自由便愈多。",
+      "attribution": "断舍离·前言",
+      "category": "心境"
+    },
+    {
+      "id": "quote-002",
+      "text": "我们占有的东西，最终也在占有我们。",
+      "attribution": "亨利·戴维·梭罗",
+      "category": "觉醒"
+    },
+    {
+      "id": "quote-003",
+      "text": "把房间里多余的东西都送走，剩下的就是真正需要照料的自己。",
+      "attribution": "近藤麻理惠",
+      "category": "整理"
+    },
+    {
+      "id": "quote-004",
+      "text": "少买一件不必之物，便少一次日后的告别。",
+      "attribution": "未知",
+      "category": "取舍"
+    },
+    {
+      "id": "quote-005",
+      "text": "极简不是清空生活，而是为重要的事腾出空间。",
+      "attribution": "约书亚·贝克尔",
+      "category": "生活"
+    },
+    {
+      "id": "quote-006",
+      "text": "衣橱里悬挂的，应当是真正会被穿上的那一件。",
+      "attribution": "断舍离·衣物",
+      "category": "整理"
+    },
+    {
+      "id": "quote-007",
+      "text": "空间清爽了，心也就清爽了。",
+      "attribution": "未知",
+      "category": "心境"
+    },
+    {
+      "id": "quote-008",
+      "text": "若一件物品不能让你心动、不为你所用，便不必再为它停留。",
+      "attribution": "近藤麻理惠",
+      "category": "整理"
+    },
+    {
+      "id": "quote-009",
+      "text": "先断，再舍，后离——顺序不能颠倒。",
+      "attribution": "断舍离三步骤",
+      "category": "方法"
+    },
+    {
+      "id": "quote-010",
+      "text": "减物的过程，也是减念的过程。",
+      "attribution": "未知",
+      "category": "心境"
+    },
+    {
+      "id": "quote-011",
+      "text": "桌上的杂物越少，专注的时间就越长。",
+      "attribution": "极简主义者访谈",
+      "category": "专注"
+    },
+    {
+      "id": "quote-012",
+      "text": "留下，是因为每日要用；离开，是因为从此再无相干。",
+      "attribution": "未知",
+      "category": "取舍"
+    },
+    {
+      "id": "quote-013",
+      "text": "告别一件物品的最佳时机，是你真心为它找到下一个归宿的那一天。",
+      "attribution": "未知",
+      "category": "告别"
+    },
+    {
+      "id": "quote-014",
+      "text": "家，是容纳生活的容器，不是容纳物品的仓库。",
+      "attribution": "未知",
+      "category": "生活"
+    },
+    {
+      "id": "quote-015",
+      "text": "物质不是越多越好，而是越准越好。",
+      "attribution": "未知",
+      "category": "取舍"
+    },
+    {
+      "id": "quote-016",
+      "text": "让物品回到它本来的位置，是每日的小修行。",
+      "attribution": "未知",
+      "category": "日常"
+    },
+    {
+      "id": "quote-017",
+      "text": "极简不是终点，而是一种持续修整的能力。",
+      "attribution": "未知",
+      "category": "心境"
+    },
+    {
+      "id": "quote-018",
+      "text": "扔掉一件东西不难，难的是不再买回另一件替代。",
+      "attribution": "未知",
+      "category": "取舍"
+    },
+    {
+      "id": "quote-019",
+      "text": "目光所及，皆是所需；目光所及，皆是心绪。",
+      "attribution": "未知",
+      "category": "心境"
+    },
+    {
+      "id": "quote-020",
+      "text": "断舍离的本质，是与曾经的自己温柔告别。",
+      "attribution": "山下英子",
+      "category": "告别"
+    },
+    {
+      "id": "quote-021",
+      "text": "真正重要的东西，眼睛看不见。",
+      "attribution": "圣埃克苏佩里·《小王子》",
+      "category": "心境"
+    },
+    {
+      "id": "quote-022",
+      "text": "买之前问自己三遍：需要吗，喜欢吗，长期会用吗。",
+      "attribution": "极简采购清单",
+      "category": "方法"
+    },
+    {
+      "id": "quote-023",
+      "text": "把不需要的东西送走，是给真正需要的人留一席之地。",
+      "attribution": "未知",
+      "category": "取舍"
+    },
+    {
+      "id": "quote-024",
+      "text": "衣不如新，人不如故；可衣不必新，故人自长留。",
+      "attribution": "古典化用",
+      "category": "心境"
+    },
+    {
+      "id": "quote-025",
+      "text": "生活不必满，留白也是充实的一部分。",
+      "attribution": "未知",
+      "category": "生活"
+    },
+    {
+      "id": "quote-026",
+      "text": "扔掉它不是否定它，是承认它使命已尽。",
+      "attribution": "未知",
+      "category": "告别"
+    },
+    {
+      "id": "quote-027",
+      "text": "数字时代的极简，是为通知、邮件、订阅也设一道门。",
+      "attribution": "极简·数字",
+      "category": "数字"
+    },
+    {
+      "id": "quote-028",
+      "text": "一物一用，是秩序；一物多用，是将就。",
+      "attribution": "未知",
+      "category": "日常"
+    },
+    {
+      "id": "quote-029",
+      "text": "在能力之内简朴，在简朴之内自由。",
+      "attribution": "未知",
+      "category": "生活"
+    },
+    {
+      "id": "quote-030",
+      "text": "每一次告别，都是为下一次相遇腾出空间。",
+      "attribution": "未知",
+      "category": "告别"
+    }
+  ]
+}

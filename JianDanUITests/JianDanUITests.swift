@@ -75,7 +75,7 @@ final class JianDanUITests: XCTestCase {
         )
     }
 
-    /// Task 10 回归测试：「极简」Tab 显示金句列表，点击进入详情
+    /// Task 10 回归测试：「极简」Tab 显示金句列表，点击进入详情（task11 改用 JSON）
     func testWisdomTabShowsQuotes() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-resetStore"]
@@ -88,27 +88,39 @@ final class JianDanUITests: XCTestCase {
         )
         app.tabBars.buttons["极简"].tap()
 
-        // 2. 列表里至少看到一条内置金句（首条：王维）
+        // 2. 顶部「今日一句」卡片可见
         XCTAssertTrue(
-            app.staticTexts["行到水穷处，坐看云起时。"].waitForExistence(timeout: 5),
-            "First wisdom quote should appear in list"
+            app.staticTexts["今日一句"].waitForExistence(timeout: 5),
+            "Daily quote label should appear"
         )
-        // 验证出处标签
+
+        // 3. 列表标题可见
         XCTAssertTrue(
-            app.staticTexts["王维·《终南别业》"].exists,
+            app.staticTexts["全部短文"].exists,
+            "List section title should appear"
+        )
+
+        // 4. 列表里至少看到 JSON 第一条断舍离短文
+        XCTAssertTrue(
+            app.staticTexts["拥有得愈少，自由便愈多。"].waitForExistence(timeout: 5),
+            "First quote from JSON should appear in list"
+        )
+        // 验证出处
+        XCTAssertTrue(
+            app.staticTexts["断舍离·前言"].exists,
             "Attribution should appear in list"
         )
 
-        // 3. 点击进入详情（同一文本在列表和详情都出现，至少 1 个匹配即可）
-        app.staticTexts["行到水穷处，坐看云起时。"].tap()
+        // 5. 点击进入详情
+        app.staticTexts["拥有得愈少，自由便愈多。"].tap()
 
-        // 4. 详情页还能看到出处（详情页一定有完整出处）
+        // 6. 详情页能看到出处
         XCTAssertTrue(
-            app.staticTexts["王维·《终南别业》"].waitForExistence(timeout: 3),
+            app.staticTexts["断舍离·前言"].waitForExistence(timeout: 3),
             "Detail view should show attribution"
         )
 
-        // 5. 详情页能返回
+        // 7. 返回
         let backButton = app.navigationBars.buttons.firstMatch
         if backButton.exists {
             backButton.tap()

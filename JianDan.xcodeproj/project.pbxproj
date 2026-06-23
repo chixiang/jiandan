@@ -11,8 +11,10 @@
 		129C3445F14098B47F0DFE41 /* PhotoPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315FD98085A1654860A02556 /* PhotoPickerSection.swift */; };
 		16D9C38B7AE96D0C586ED2F5 /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D523E96697D04AEBCE06B44 /* ImageStore.swift */; };
 		195CBA3717213D2C7C8435D6 /* FarewellRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653E826D7FEDD5AA9A1D0C4C /* FarewellRecord.swift */; };
+		288710547798C8DF86143CCD /* QuoteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5707BFE98662FEDB681AC732 /* QuoteRepository.swift */; };
 		2E508AC5FBF9E6A67D6A4574 /* FarewellCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8FCD077678E9390B716892 /* FarewellCardView.swift */; };
 		343A8F732E1FA38AB7285DFA /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB68B3D4F4079460C6C4CA5 /* AppColors.swift */; };
+		3AE204AF3BD642F6E26321DA /* daily_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F751EEA74965384BB7428FF /* daily_quotes.json */; };
 		432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8F4526A17982744B455D11 /* ProfileView.swift */; };
 		43580C544DCB78AD64253EF5 /* WisdomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215CC86D5E1D25181A78747C /* WisdomTests.swift */; };
 		455D2A85DBC0841CB6D98863 /* CategoryPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6D987CB3C3B4637E5E6A47 /* CategoryPickerSection.swift */; };
@@ -34,6 +36,7 @@
 		A99323A6869E5548100AD577 /* FarewellMethodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11D7BBF83F06584C9BB9C73 /* FarewellMethodTests.swift */; };
 		AF55A8B0E2CC8B1CCF27388F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FBC91255D9A175AAB537393 /* Assets.xcassets */; };
 		B460C927552FAB0105D5782C /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423CC3BB48A4D88527FD61F4 /* AppTheme.swift */; };
+		B561953380C0A4EDABD10011 /* QuoteRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8488E941677635BC790A0B27 /* QuoteRepositoryTests.swift */; };
 		BF2408695CE30C33BF0187C4 /* FarewellRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE769F5056A471E00722546A /* FarewellRecordTests.swift */; };
 		BFF7FC2643DE6ABE8BD23D7B /* EmotionStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8291787AC78FDB5D852356D /* EmotionStarsView.swift */; };
 		C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F58F233837E8540A75220A /* RootTabView.swift */; };
@@ -41,6 +44,7 @@
 		F03414F169EF538A3D4E2974 /* WisdomDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6617529430C1C3FD62EA031 /* WisdomDetailView.swift */; };
 		F08B04C6C56711A13179F6CD /* AppThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3BF256622877B3CB2545B /* AppThemeTests.swift */; };
 		F3D843F7E5CBFBDE631B11FB /* AddFarewellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C10B87A7A5D7AE535F63F9 /* AddFarewellView.swift */; };
+		FA9E5155DF32BCDD6D6D66C9 /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE1582002C5000B639F6EF8 /* DailyQuoteView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,15 +72,18 @@
 		132E58443AB3251FA4F72E44 /* DiaryEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEmptyView.swift; sourceTree = "<group>"; };
 		215CC86D5E1D25181A78747C /* WisdomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomTests.swift; sourceTree = "<group>"; };
 		2784CD7FE36FCEA935CA5A40 /* JianDanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JianDanUITests.swift; sourceTree = "<group>"; };
+		2F751EEA74965384BB7428FF /* daily_quotes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_quotes.json; sourceTree = "<group>"; };
 		30F345B1EE86941AEF8FFDBE /* FarewellMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellMethod.swift; sourceTree = "<group>"; };
 		315FD98085A1654860A02556 /* PhotoPickerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerSection.swift; sourceTree = "<group>"; };
 		3A24425288C83B294986AB8E /* JianDanUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JianDanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6D987CB3C3B4637E5E6A47 /* CategoryPickerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerSection.swift; sourceTree = "<group>"; };
 		423CC3BB48A4D88527FD61F4 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		46DEAAA9324AC86831B8B755 /* CategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTests.swift; sourceTree = "<group>"; };
+		5707BFE98662FEDB681AC732 /* QuoteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteRepository.swift; sourceTree = "<group>"; };
 		57AD7ECD080FCCA91DE4DE79 /* JianDanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JianDanApp.swift; sourceTree = "<group>"; };
 		5B83D7B7B791AE9C727185CB /* WisdomCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomCardView.swift; sourceTree = "<group>"; };
 		5CE3BF256622877B3CB2545B /* AppThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemeTests.swift; sourceTree = "<group>"; };
+		5EE1582002C5000B639F6EF8 /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
 		602A7458CAA4B431E49C9450 /* JianDan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JianDan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6435864290CE9E2ECFF7BF3D /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		653E826D7FEDD5AA9A1D0C4C /* FarewellRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellRecord.swift; sourceTree = "<group>"; };
@@ -84,6 +91,7 @@
 		6D523E96697D04AEBCE06B44 /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
 		7AB68B3D4F4079460C6C4CA5 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		8219FA361E37E6D1FF2EAAE8 /* FarewellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellDetailView.swift; sourceTree = "<group>"; };
+		8488E941677635BC790A0B27 /* QuoteRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteRepositoryTests.swift; sourceTree = "<group>"; };
 		8C1244719ED29A3502A40DD4 /* ImageStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStoreTests.swift; sourceTree = "<group>"; };
 		8FBC91255D9A175AAB537393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		953BE81A83D14FA4885D6EC6 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -140,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				6D523E96697D04AEBCE06B44 /* ImageStore.swift */,
+				5707BFE98662FEDB681AC732 /* QuoteRepository.swift */,
 				F97A802DEEFF748A880F9068 /* ThemeManager.swift */,
 			);
 			path = Services;
@@ -148,6 +157,7 @@
 		46AD2EF531F5CC30CCCE52B7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5DB7B2485C868ACDD7E4D2D2 /* Quotes */,
 				8FBC91255D9A175AAB537393 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -166,6 +176,14 @@
 				0F6CFF80E0DA6229B03F4366 /* Info.plist */,
 			);
 			path = JianDan;
+			sourceTree = "<group>";
+		};
+		5DB7B2485C868ACDD7E4D2D2 /* Quotes */ = {
+			isa = PBXGroup;
+			children = (
+				2F751EEA74965384BB7428FF /* daily_quotes.json */,
+			);
+			path = Quotes;
 			sourceTree = "<group>";
 		};
 		5F9E9B29AC1A6176D37D6818 /* JianDanTests */ = {
@@ -263,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				8C1244719ED29A3502A40DD4 /* ImageStoreTests.swift */,
+				8488E941677635BC790A0B27 /* QuoteRepositoryTests.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -293,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				FA652B48A2C522FA798C77B7 /* Components */,
+				5EE1582002C5000B639F6EF8 /* DailyQuoteView.swift */,
 				EED5503F502A9155433A7FFD /* WisdomView.swift */,
 			);
 			path = Wisdom;
@@ -421,6 +441,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF55A8B0E2CC8B1CCF27388F /* Assets.xcassets in Resources */,
+				3AE204AF3BD642F6E26321DA /* daily_quotes.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +465,7 @@
 				A99323A6869E5548100AD577 /* FarewellMethodTests.swift in Sources */,
 				BF2408695CE30C33BF0187C4 /* FarewellRecordTests.swift in Sources */,
 				67D2F73FA8126C3A36F09E6B /* ImageStoreTests.swift in Sources */,
+				B561953380C0A4EDABD10011 /* QuoteRepositoryTests.swift in Sources */,
 				43580C544DCB78AD64253EF5 /* WisdomTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,6 +479,7 @@
 				B460C927552FAB0105D5782C /* AppTheme.swift in Sources */,
 				DDB1D458B9EB2C168CF0B004 /* Category.swift in Sources */,
 				455D2A85DBC0841CB6D98863 /* CategoryPickerSection.swift in Sources */,
+				FA9E5155DF32BCDD6D6D66C9 /* DailyQuoteView.swift in Sources */,
 				64D74FA47A484EDD32A0E8CA /* DiaryEmptyView.swift in Sources */,
 				A628BE259E83A85497C5946A /* DiaryView.swift in Sources */,
 				BFF7FC2643DE6ABE8BD23D7B /* EmotionStarsView.swift in Sources */,
@@ -471,6 +494,7 @@
 				129C3445F14098B47F0DFE41 /* PhotoPickerSection.swift in Sources */,
 				966EFDED469F08924E0B9D13 /* PhotoThumbView.swift in Sources */,
 				432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */,
+				288710547798C8DF86143CCD /* QuoteRepository.swift in Sources */,
 				C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */,
 				62E402B2A4F658262B879FA5 /* ThemeManager.swift in Sources */,
 				692147C796073FADE9305950 /* Typography.swift in Sources */,
