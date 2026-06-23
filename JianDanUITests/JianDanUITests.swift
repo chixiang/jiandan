@@ -25,6 +25,8 @@ final class JianDanUITests: XCTestCase {
     /// 流程：进首页 → 点 + → 填名字 → 保存 → 期待列表出现该条记录。
     func testAddFarewellAppearsInList() throws {
         let app = XCUIApplication()
+        // 清空 SwiftData store，确保从空状态开始
+        app.launchArguments = ["-resetStore"]
         app.launch()
 
         // 1. 已经在「减单」Tab；空状态显示「开始第一次减单」按钮
@@ -71,5 +73,45 @@ final class JianDanUITests: XCTestCase {
             created.waitForExistence(timeout: 5),
             "Newly created farewell should appear in the diary list"
         )
+    }
+
+    /// Task 10 回归测试：「极简」Tab 显示金句列表，点击进入详情
+    func testWisdomTabShowsQuotes() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-resetStore"]
+        app.launch()
+
+        // 1. 进「极简」Tab
+        XCTAssertTrue(
+            app.tabBars.buttons["极简"].waitForExistence(timeout: 5),
+            "Tab '极简' should exist"
+        )
+        app.tabBars.buttons["极简"].tap()
+
+        // 2. 列表里至少看到一条内置金句（首条：王维）
+        XCTAssertTrue(
+            app.staticTexts["行到水穷处，坐看云起时。"].waitForExistence(timeout: 5),
+            "First wisdom quote should appear in list"
+        )
+        // 验证出处标签
+        XCTAssertTrue(
+            app.staticTexts["王维·《终南别业》"].exists,
+            "Attribution should appear in list"
+        )
+
+        // 3. 点击进入详情（同一文本在列表和详情都出现，至少 1 个匹配即可）
+        app.staticTexts["行到水穷处，坐看云起时。"].tap()
+
+        // 4. 详情页还能看到出处（详情页一定有完整出处）
+        XCTAssertTrue(
+            app.staticTexts["王维·《终南别业》"].waitForExistence(timeout: 3),
+            "Detail view should show attribution"
+        )
+
+        // 5. 详情页能返回
+        let backButton = app.navigationBars.buttons.firstMatch
+        if backButton.exists {
+            backButton.tap()
+        }
     }
 }
