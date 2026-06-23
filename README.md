@@ -36,6 +36,19 @@ xcodegen generate
 open JianDan.xcodeproj
 ```
 
+## ⚠️ 从 task6 升级到 task9 的重要说明
+
+task9 将 `FarewellRecord` 的图片字段从 `@Attribute(.externalStorage) var photoData: [Data]`
+改为 `var photoFilenames: [String]`（图片外置到沙盒 `Documents/images/`）。
+这种结构性变更无法被 Core Data 自动迁移，会导致老 store 加载失败。
+
+**如果您的设备上装有 task6 之前的版本，请先卸载 App，再安装 task9**：
+
+1. 在真机/模拟器长按「减单」App 图标 → 删除
+2. 重新 build & run task9
+
+老数据将丢失（task6 时个人测试数据，损失可控）。Phase 1 范围内不写显式迁移方案。
+
 ## 构建
 
 ```bash

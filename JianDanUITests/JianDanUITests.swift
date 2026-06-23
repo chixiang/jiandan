@@ -20,4 +20,56 @@ final class JianDanUITests: XCTestCase {
             "Tab '我的' should exist after launch"
         )
     }
+
+    /// 回归测试：池老板反馈 task9 后新建一条减单在列表中看不到。
+    /// 流程：进首页 → 点 + → 填名字 → 保存 → 期待列表出现该条记录。
+    func testAddFarewellAppearsInList() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        // 1. 已经在「减单」Tab；空状态显示「开始第一次减单」按钮
+        XCTAssertTrue(
+            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            "Empty state should appear on first launch (or if store was empty)"
+        )
+
+        // 2. 点 + 按钮（导航栏右上角）
+        let addButton = app.navigationBars.buttons["添加减单记录"]
+        if !addButton.exists {
+            // 兜底：空状态中央也有一个 + 按钮
+            let emptyAdd = app.buttons["开始第一次减单"]
+            XCTAssertTrue(emptyAdd.waitForExistence(timeout: 3), "Should have a way to add")
+            emptyAdd.tap()
+        } else {
+            addButton.tap()
+        }
+
+        // 3. 等待 sheet 出现「新建减单」标题
+        XCTAssertTrue(
+            app.navigationBars["新建减单"].waitForExistence(timeout: 3),
+            "Add sheet should appear"
+        )
+
+        // 4. 填名称
+        let nameField = app.textFields["名称（如：一件蓝色羊毛大衣）"]
+        XCTAssertTrue(nameField.waitForExistence(timeout: 2), "Name field should exist")
+        nameField.tap()
+        nameField.typeText("UI测试减单-蓝色羊毛大衣")
+
+        // 5. 点保存
+        app.buttons["保存"].tap()
+
+        // 6. 期待 sheet 关闭
+        XCTAssertTrue(
+            app.navigationBars["新建减单"].waitForNonExistence(timeout: 5),
+            "Sheet should dismiss after save"
+        )
+
+        // 7. ★ 核心断言：列表里能看到这条记录
+        let created = app.staticTexts["UI测试减单-蓝色羊毛大衣"]
+        XCTAssertTrue(
+            created.waitForExistence(timeout: 5),
+            "Newly created farewell should appear in the diary list"
+        )
+    }
 }
