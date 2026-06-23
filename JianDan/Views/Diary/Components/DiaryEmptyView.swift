@@ -15,14 +15,14 @@ struct DiaryEmptyView: View {
             VStack(spacing: 8) {
                 Text("还没有减单")
                     .font(.title2)
-                Text("挑一件物品，为它记一笔")
+                Text("拥有的愈少，\n自由便愈多")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
 
             Button(action: onAddTapped) {
-                Label("开始第一次减单", systemImage: "plus.circle.fill")
+                Label("记下第一件", systemImage: "plus.circle.fill")
                     .font(.body)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 12)

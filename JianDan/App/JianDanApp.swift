@@ -33,9 +33,9 @@ struct JianDanApp: App {
 
     private static func resetUserDefaultsIfNeeded() {
         guard shouldResetUserDefaults() else { return }
-        // 测试阶段清空 standard suite；用 bundleIdentifier 隔离避免影响其它 app
-        let suiteName = Bundle.main.bundleIdentifier ?? "com.jiandan.app"
-        UserDefaults.standard.removePersistentDomain(forName: suiteName)
+        // 显式 set nil 比 removePersistentDomain 更可靠（模拟器上 remove 可能有缓存延迟）
+        // 同时 reset store 同名
+        UserDefaults.standard.set(nil, forKey: "app.themeMode")
     }
 
     var body: some Scene {
