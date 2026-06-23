@@ -126,4 +126,56 @@ final class JianDanUITests: XCTestCase {
             backButton.tap()
         }
     }
+
+    /// Task 12 回归测试：「我的」Tab 显示统计 + 主题设置
+    func testProfileTabShowsStatsAndSettings() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-resetStore"]
+        app.launch()
+
+        // 1. 进「我的」Tab
+        XCTAssertTrue(
+            app.tabBars.buttons["我的"].waitForExistence(timeout: 5),
+            "Tab '我的' should exist"
+        )
+        app.tabBars.buttons["我的"].tap()
+
+        // 2. 空态提示（清空 store 后无数据）
+        XCTAssertTrue(
+            app.staticTexts["还没有告别记录"].waitForExistence(timeout: 5),
+            "Empty state should appear"
+        )
+
+        // 3. 设置区始终可见：3 个主题选项
+        XCTAssertTrue(
+            app.staticTexts["外观"].exists,
+            "Settings section header should appear"
+        )
+        // ThemeOptionRow 用 accessibilityElement(children: .combine)，
+        // 因此每个 row 暴露为 button（label: "X主题" 或 "X主题，已选中"）。
+        // 用 predicate 模糊匹配（包含关系），避免 isSelected 状态拼接干扰。
+        let lightPredicate = NSPredicate(format: "label BEGINSWITH '浅色'")
+        let darkPredicate = NSPredicate(format: "label BEGINSWITH '深色'")
+        let inkPredicate = NSPredicate(format: "label BEGINSWITH '墨色'")
+
+        XCTAssertTrue(
+            app.buttons.matching(lightPredicate).firstMatch.waitForExistence(timeout: 2),
+            "Light theme button should appear"
+        )
+        XCTAssertTrue(
+            app.buttons.matching(darkPredicate).firstMatch.exists,
+            "Dark theme button should appear"
+        )
+        XCTAssertTrue(
+            app.buttons.matching(inkPredicate).firstMatch.exists,
+            "Ink theme button should appear"
+        )
+        // 默认是浅色，应被标记为已选中（label 包含 "已选中"）
+        let lightButton = app.buttons.matching(lightPredicate).firstMatch
+        let lightLabel = lightButton.label
+        XCTAssertTrue(
+            lightLabel.contains("已选中"),
+            "Light theme should be marked as selected (actual label: \(lightLabel))"
+        )
+    }
 }

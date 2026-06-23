@@ -1,16 +1,73 @@
 import SwiftUI
+import SwiftData
 
+/// 「我的」Tab：统计数据 + 设置
 struct ProfileView: View {
+    @Environment(\.appTheme) private var theme
+    @Environment(ThemeManager.self) private var themeManager
+    @Environment(\.modelContext) private var modelContext
+
+    @Query(sort: \FarewellRecord.farewellDate, order: .reverse) private var records: [FarewellRecord]
+
+    private var stats: FarewellStats {
+        StatsCalculator.compute(from: records)
+    }
+
     var body: some View {
         NavigationStack {
-            Text("我的\n（待 Task 12 实现）")
+            ScrollView {
+                VStack(spacing: 24) {
+                    if stats.isEmpty {
+                        // 空态：尚无数据
+                        ProfileEmptyView()
+                            .padding(.top, 40)
+                    } else {
+                        // 统计区
+                        StatsView(stats: stats)
+                    }
+
+                    // 设置区（始终显示）
+                    SettingsView()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+            }
+            .background(theme.background)
+            .navigationTitle("我的")
+        }
+    }
+}
+
+/// 空态组件
+private struct ProfileEmptyView: View {
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "leaf")
+                .font(.system(size: 48, weight: .ultraLight))
+                .foregroundStyle(theme.secondary)
+            Text("还没有告别记录")
+                .font(AppTypography.body)
+                .foregroundStyle(theme.secondary)
+            Text("在「减单」Tab 记下第一件物品，\n统计就会出现在这里")
+                .font(AppTypography.caption)
+                .foregroundStyle(theme.secondary)
                 .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
-                .navigationTitle("我的")
         }
     }
 }
 
 #Preview {
     ProfileView()
+        .environment(\.appTheme, AppTheme(mode: .light))
+        .environment(ThemeManager())
+        .modelContainer(for: FarewellRecord.self, inMemory: true)
+}
+
+#Preview("深色主题") {
+    ProfileView()
+        .environment(\.appTheme, AppTheme(mode: .dark))
+        .environment(ThemeManager())
+        .modelContainer(for: FarewellRecord.self, inMemory: true)
 }
