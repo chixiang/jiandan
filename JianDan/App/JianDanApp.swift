@@ -38,6 +38,19 @@ struct JianDanApp: App {
         UserDefaults.standard.set(nil, forKey: "app.themeMode")
     }
 
+    /// -seedTestData launch arg 触发：清空 store 后自动填充样本记录
+    /// 注意：internal 而非 private，供 RootTabView.onAppear 调用
+    static func seedTestDataIfNeeded(context: ModelContext) {
+        guard ProcessInfo.processInfo.arguments.contains("-seedTestData") else { return }
+        let importer = DataImporter(context: context)
+        let result = importer.importSampleRecords()
+        if let err = result.error {
+            print("[SeedData] 导入失败: \(err)")
+        } else {
+            print("[SeedData] 已导入 \(result.imported) 条，跳过 \(result.skipped) 条")
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
             RootTabView()

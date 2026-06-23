@@ -7,6 +7,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.appTheme) private var theme
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -42,12 +43,41 @@ struct SettingsView: View {
                     .strokeBorder(theme.divider, lineWidth: 0.5)
             )
 
-            // 预留：更多设置（占位）
-            Text("更多设置敬请期待")
-                .font(AppTypography.caption)
-                .foregroundStyle(theme.secondary)
-                .padding(.horizontal, 4)
-                .padding(.top, 8)
+            // 导入测试数据
+            VStack(alignment: .leading, spacing: 16) {
+                Text("数据")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.secondary)
+                    .tracking(2)
+                    .padding(.horizontal, 4)
+
+                Button(action: {
+                    let importer = DataImporter(context: modelContext)
+                    let result = importer.importSampleRecords()
+                    if let err = result.error {
+                        print("[DataImporter] \(err)")
+                    } else {
+                        print("[DataImporter] imported=\(result.imported) skipped=\(result.skipped)")
+                    }
+                }) {
+                    HStack(spacing: 12) {
+                        Image(systemName: "tray.and.arrow.down")
+                            .font(.subheadline)
+                            .foregroundStyle(theme.accent)
+                        Text("导入测试数据")
+                            .font(AppTypography.body)
+                            .foregroundStyle(theme.primaryText)
+                        Spacer()
+                        Text("8 条样本")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 14)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
         }
     }
 }

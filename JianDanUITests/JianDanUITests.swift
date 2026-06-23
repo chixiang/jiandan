@@ -175,5 +175,16 @@ final class JianDanUITests: XCTestCase {
             app.buttons.matching(inkPredicate).firstMatch.exists,
             "Ink theme button should appear"
         )
+
+        // 导入测试数据按钮可见
+        // 通过「8 条样本」副标题文字验证（左侧是「导入测试数据」按钮）
+        XCTAssertTrue(
+            app.staticTexts["8 条样本"].exists,
+            "Sample data import hint should appear"
+        )
+        XCTAssertTrue(
+            app.buttons.matching(NSPredicate(format: "label CONTAINS '导入'")).firstMatch.exists,
+            "Import test data button should appear"
+        )
     }
 }

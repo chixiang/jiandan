@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "name": "一件蓝色羊毛大衣",
+      "category": "衣物",
+      "farewellDate": "2026-01-15",
+      "method": "捐赠",
+      "purchaseDate": "2024-11-20",
+      "purchasePrice": 1280,
+      "emotionValue": 4,
+      "recipientDetail": "小区旧衣回收箱",
+      "farewellLetter": "你陪我过了两个冬天，暖意还在，只是衣橱该透气了。",
+      "photoFilenames": []
+    },
+    {
+      "name": "大学时代的小说",
+      "category": "书籍",
+      "farewellDate": "2025-12-28",
+      "method": "送人",
+      "purchaseDate": "2019-09-01",
+      "purchasePrice": 320,
+      "emotionValue": 5,
+      "recipientDetail": "学校图书馆漂流角",
+      "farewellLetter": "这些书陪我度过了无数个失眠的夜，是时候让它们去陪伴下一个人了。",
+      "photoFilenames": []
+    },
+    {
+      "name": "旧笔记本电脑",
+      "category": "电子",
+      "farewellDate": "2026-03-10",
+      "method": "二手出售",
+      "purchaseDate": "2021-06-15",
+      "purchasePrice": 5600,
+      "emotionValue": 3,
+      "recipientDetail": "闲鱼买家",
+      "farewellLetter": "键盘的字母都快磨光了，但你的使命还没有结束。",
+      "photoFilenames": []
+    },
+    {
+      "name": "木制书架",
+      "category": "家具",
+      "farewellDate": "2026-05-01",
+      "method": "送人",
+      "purchaseDate": "2022-01-20",
+      "purchasePrice": 780,
+      "emotionValue": 3,
+      "recipientDetail": "楼下邻居刚搬新家",
+      "farewellLetter": "书架还在，书已经散了。",
+      "photoFilenames": []
+    },
+    {
+      "name": "一箱旧明信片",
+      "category": "杂物",
+      "farewellDate": "2026-06-20",
+      "method": "扔掉",
+      "purchaseDate": null,
+      "purchasePrice": null,
+      "emotionValue": 5,
+      "recipientDetail": null,
+      "farewellLetter": "每一张都是一段路，但路不能一直背着走。",
+      "photoFilenames": []
+    },
+    {
+      "name": "三年前的电饭煲",
+      "category": "杂物",
+      "farewellDate": "2026-04-05",
+      "method": "捐赠",
+      "purchaseDate": "2023-03-01",
+      "purchasePrice": 399,
+      "emotionValue": 2,
+      "recipientDetail": "慈善义卖",
+      "farewellLetter": "煮过很多顿饭，但盖子已经合不上了。",
+      "photoFilenames": []
+    },
+    {
+      "name": "朋友送的陶瓷杯",
+      "category": "其他",
+      "farewellDate": "2026-02-14",
+      "method": "其他",
+      "purchaseDate": "2023-09-01",
+      "purchasePrice": null,
+      "emotionValue": 4,
+      "recipientDetail": "碎成了几片，留不住了。",
+      "farewellLetter": "摔碎的那一刻，你的使命已尽。",
+      "photoFilenames": []
+    },
+    {
+      "name": "冬天的厚被褥",
+      "category": "衣物",
+      "farewellDate": "2026-06-01",
+      "method": "捐赠",
+      "purchaseDate": "2024-01-10",
+      "purchasePrice": 450,
+      "emotionValue": 3,
+      "recipientDetail": "社区互助站",
+      "farewellLetter": "今年不再需要这么厚的被子了——不只是天气变暖了。",
+      "photoFilenames": []
+    }
+  ]
+}
