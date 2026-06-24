@@ -15,11 +15,6 @@ struct RootTabView: View {
                     Label("减单", systemImage: "leaf")
                 }
 
-            WisdomView()
-                .tabItem {
-                    Label("极简", systemImage: "book.closed")
-                }
-
             ProfileView()
                 .tabItem {
                     Label("我的", systemImage: "person")

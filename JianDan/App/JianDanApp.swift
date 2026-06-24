@@ -5,6 +5,13 @@ import SwiftData
 struct JianDanApp: App {
     @State private var themeManager = ThemeManager()
 
+    /// 开屏短文协调器：冷启动时随机选一条
+    ///
+    /// 仅在真冷启动时显示（`ScenePhase` 从 `.background` → `.active` 不算冷启动）。
+    /// 通过 `@State` 持有，进程生命周期内不变；从后台回前台时 coordinator 实例仍在，
+    /// 但 `isVisible` 已是 false（5s 内已自动淡出），不会重新展示。
+    @State private var splashCoordinator: SplashCoordinator?
+
     /// 启动时检测 launch arguments；UI 测试可通过 `-resetStore` 清空 SwiftData store，
     /// 或 `-resetUserDefaults` 清空 UserDefaults（包括主题选择等持久化状态）。
     private static func shouldResetStore() -> Bool {
@@ -51,11 +58,52 @@ struct JianDanApp: App {
         }
     }
 
+    /// UI 测试可注入短文：用 launch arg `-splashQuoteId <id>` 锁定指定 id 的短文
+    /// 测试可注入更短的自动淡出秒数：`-splashAutoDismiss <seconds>`
+    private static func makeSplashCoordinator() -> SplashCoordinator? {
+        // 测试 launch arg：完全关闭开屏
+        if ProcessInfo.processInfo.arguments.contains("-disableSplash") {
+            return nil
+        }
+        let repository = QuoteRepository()
+        let args = ProcessInfo.processInfo.arguments
+
+        let quote: Wisdom?
+        if let idIndex = args.firstIndex(of: "-splashQuoteId"),
+           idIndex + 1 < args.count {
+            let targetId = args[idIndex + 1]
+            quote = repository.all.first(where: { $0.id == targetId })
+        } else {
+            quote = repository.randomQuote()
+        }
+
+        guard let quote else { return nil }
+
+        // 测试 launch arg：注入更短的淡出秒数（默认 5s）
+        var autoDismiss: TimeInterval = 5.0
+        if let secIndex = args.firstIndex(of: "-splashAutoDismiss"),
+           secIndex + 1 < args.count,
+           let secs = Double(args[secIndex + 1]) {
+            autoDismiss = secs
+        }
+
+        return SplashCoordinator(quote: quote, autoDismissSeconds: autoDismiss)
+    }
+
     var body: some Scene {
         WindowGroup {
-            RootTabView()
-                .appTheme(themeManager.mode)
-                .environment(themeManager)
+            SplashContainer(coordinator: splashCoordinator) {
+                RootTabView()
+                    .appTheme(themeManager.mode)
+                    .environment(themeManager)
+            }
+            .onAppear {
+                // 冷启动时构造 coordinator（仅当之前未构造时）
+                // `onAppear` 在进程生命周期内只触发一次（在 iOS 17+ 的 WindowGroup 行为下）
+                if splashCoordinator == nil {
+                    splashCoordinator = Self.makeSplashCoordinator()
+                }
+            }
         }
         .modelContainer(for: FarewellRecord.self)
     }

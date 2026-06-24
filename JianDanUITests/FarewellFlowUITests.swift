@@ -9,9 +9,14 @@ final class FarewellFlowUITests: XCTestCase {
     // MARK: - 共享工具
 
     /// 启动 app 并清空 store（保证每个测试从空状态开始）
+    ///
+    /// 关键 flag：
+    /// - `-resetStore`：清空 SwiftData store（无老记录）
+    /// - `-resetUserDefaults`：清空主题/其他 UserDefaults 状态
+    /// - `-disableSplash`：跳过开屏短文（每次 5s 等待会让 UI test 慢 5x）
     private func launchFreshApp() -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-resetStore", "-resetUserDefaults"]
+        app.launchArguments = ["-resetStore", "-resetUserDefaults", "-disableSplash"]
         app.launch()
         return app
     }
@@ -89,49 +94,6 @@ final class FarewellFlowUITests: XCTestCase {
 
         // 11. 返回列表
         app.navigationBars.buttons.firstMatch.tap()
-    }
-
-    // MARK: - 流程 2：完整金句浏览
-
-    /// 完整金句浏览流程：极简 Tab → 看到今日一句 + 列表 → 点金句 → 详情 → 返回
-    func testFullWisdomBrowseFlow() throws {
-        let app = launchFreshApp()
-
-        // 1. 进极简 Tab
-        app.tabBars.buttons["极简"].tap()
-
-        // 2. 顶部今日一句可见
-        XCTAssertTrue(
-            app.staticTexts["今日一句"].waitForExistence(timeout: 5),
-            "Daily quote should appear"
-        )
-
-        // 3. 列表标题 + 第一条短文
-        XCTAssertTrue(app.staticTexts["全部短文"].exists)
-        let firstQuote = app.staticTexts["拥有得愈少，自由便愈多。"]
-        XCTAssertTrue(firstQuote.waitForExistence(timeout: 5))
-
-        // 4. 点击进入详情
-        firstQuote.tap()
-
-        // 5. 详情页能看到完整短文（大字体）和出处
-        XCTAssertTrue(
-            app.staticTexts["拥有得愈少，自由便愈多。"].waitForExistence(timeout: 3),
-            "Detail should show full quote"
-        )
-        XCTAssertTrue(
-            app.staticTexts["断舍离·前言"].exists,
-            "Detail should show attribution"
-        )
-
-        // 6. 返回
-        app.navigationBars.buttons.firstMatch.tap()
-
-        // 7. 仍在极简 Tab
-        XCTAssertTrue(
-            app.tabBars.buttons["极简"].isSelected,
-            "Should still be on Wisdom tab"
-        )
     }
 
     // MARK: - 流程 3：完整设置（主题切换）

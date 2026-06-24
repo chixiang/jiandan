@@ -39,6 +39,22 @@ final class QuoteRepository {
         return quotes[index]
     }
 
+    /// 冷启动随机一句：每次调用随机选一条（无放回机制，纯粹随机）
+    /// - Parameter randomSource: 随机源（默认系统 `Random`，测试可注入 `RandomStub`）
+    /// - Returns: 随机短文；若库为空则返回 nil
+    func randomQuote(using randomSource: inout RandomSource) -> Wisdom? {
+        let quotes = all
+        guard !quotes.isEmpty else { return nil }
+        let index = randomSource.nextInt(upperBound: quotes.count)
+        return quotes[index]
+    }
+
+    /// 无参便捷重载：使用系统随机源（生产环境调用此方法）
+    func randomQuote() -> Wisdom? {
+        var source: RandomSource = SystemRandomSource()
+        return randomQuote(using: &source)
+    }
+
     // MARK: - Private
 
     /// 从 bundle 加载 JSON 并解析为 [Wisdom]

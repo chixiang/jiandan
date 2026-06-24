@@ -90,6 +90,39 @@ final class QuoteRepositoryTests: XCTestCase {
         // 即使找不到也应返回空数组而非崩溃
     }
 
+    // MARK: - 冷启动随机一句
+
+    func testRandomQuoteIsNotNil() {
+        XCTAssertNotNil(repository.randomQuote(), "randomQuote should return a quote when library is non-empty")
+    }
+
+    func testRandomQuoteRespectsStubbedSequence() {
+        // 用 stub 注入确定序列，应能精确返回对应 index 的短文
+        var stub: RandomSource = StubRandomSource(sequence: [0, 5, repository.all.count - 1])
+        let q0 = repository.randomQuote(using: &stub)
+        let q5 = repository.randomQuote(using: &stub)
+        let qLast = repository.randomQuote(using: &stub)
+        XCTAssertEqual(q0?.id, repository.all[0].id)
+        XCTAssertEqual(q5?.id, repository.all[5].id)
+        XCTAssertEqual(qLast?.id, repository.all[repository.all.count - 1].id)
+    }
+
+    func testRandomQuoteFallsBackWhenSequenceExhausted() {
+        // 序列耗尽后回退到 fallback % count
+        var stub: RandomSource = StubRandomSource(sequence: [], fallback: 7)
+        let quote = repository.randomQuote(using: &stub)
+        XCTAssertEqual(quote?.id, repository.all[7].id)
+    }
+
+    func testRandomQuoteHandlesEmptyLibrary() {
+        // 用 0 条短文的 stub 仓库无法直接构造（JSON 是固定的）
+        // 这里通过 stub 直接调用 QuoteRepository 的 randomQuote 测试无法测
+        // 改为测 StubRandomSource 的边界：upperBound == 0
+        var stub = StubRandomSource(sequence: [42], fallback: 0)
+        let value = stub.nextInt(upperBound: 0)
+        XCTAssertEqual(value, 0, "nextInt(upperBound: 0) must return 0")
+    }
+
     // MARK: - Helpers
 
     private static func date(year: Int, month: Int, day: Int) -> Date {

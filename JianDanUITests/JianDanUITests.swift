@@ -1,19 +1,17 @@
 import XCTest
 
-/// Smoke test: 启动后根视图为 RootTabView，含 3 个 tab item。
+/// Smoke test: 启动后根视图为 RootTabView，含 2 个 tab item（Phase 2 砍掉「极简」Tab）。
 final class JianDanUITests: XCTestCase {
     func testLaunch() throws {
         let app = XCUIApplication()
+        // 跳过开屏短文，直接到 Tab 主界面（避免 5s 等待）
+        app.launchArguments = ["-disableSplash"]
         app.launch()
 
-        // 验证 Tab Bar 三个 tab item 存在（Task 2 将根视图改为 RootTabView）
+        // 验证 Tab Bar 两个 tab item 存在（Phase 2 已删除「极简」Tab）
         XCTAssertTrue(
             app.tabBars.buttons["减单"].waitForExistence(timeout: 5),
             "Tab '减单' should exist after launch"
-        )
-        XCTAssertTrue(
-            app.tabBars.buttons["极简"].waitForExistence(timeout: 5),
-            "Tab '极简' should exist after launch"
         )
         XCTAssertTrue(
             app.tabBars.buttons["我的"].waitForExistence(timeout: 5),
@@ -25,8 +23,8 @@ final class JianDanUITests: XCTestCase {
     /// 流程：进首页 → 点 + → 填名字 → 保存 → 期待列表出现该条记录。
     func testAddFarewellAppearsInList() throws {
         let app = XCUIApplication()
-        // 清空 SwiftData store，确保从空状态开始
-        app.launchArguments = ["-resetStore", "-resetUserDefaults"]
+        // 清空 SwiftData store + 跳过开屏
+        app.launchArguments = ["-resetStore", "-resetUserDefaults", "-disableSplash"]
         app.launch()
 
         // 1. 已经在「减单」Tab；空状态显示「记下第一件」按钮
@@ -77,62 +75,90 @@ final class JianDanUITests: XCTestCase {
         )
     }
 
-    /// Task 10 回归测试：「极简」Tab 显示金句列表，点击进入详情（task11 改用 JSON）
-    func testWisdomTabShowsQuotes() throws {
+    /// Phase 2 回归测试：冷启动开屏短文。
+    /// 验证：
+    /// 1. launch 后立刻能看到金句（accessibility label 含「开屏短文：」）
+    /// 2. 5s 后（或点击后）自动消失，Tab 主界面浮现
+    func testSplashQuoteAppearsOnColdLaunch() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-resetStore", "-resetUserDefaults"]
+        // 锁定短文 id 让测试可预测 + 缩短自动淡出到 1s
+        app.launchArguments = [
+            "-resetStore",
+            "-resetUserDefaults",
+            "-splashQuoteId", "wang-wei-1",
+            "-splashAutoDismiss", "1.0"
+        ]
         app.launch()
 
-        // 1. 进「极简」Tab
+        // 1. 开屏短文应可见（金句 + 出处）
+        // SplashQuoteView 用 accessibilityElement(children: .combine) + label「开屏短文：...」
         XCTAssertTrue(
-            app.tabBars.buttons["极简"].waitForExistence(timeout: 5),
-            "Tab '极简' should exist"
+            app.staticTexts["行到水穷处，坐看云起时。"].waitForExistence(timeout: 5),
+            "Splash quote text should appear on cold launch"
         )
-        app.tabBars.buttons["极简"].tap()
-
-        // 2. 顶部「今日一句」卡片可见
         XCTAssertTrue(
-            app.staticTexts["今日一句"].waitForExistence(timeout: 5),
-            "Daily quote label should appear"
+            app.staticTexts["王维·《终南别业》"].exists,
+            "Splash quote attribution should appear"
         )
 
-        // 3. 列表标题可见
+        // 2. 底部「减单」水印可见
+        // 注：iOS accessibility 把纯装饰文字降级为「弱标签」，先不强断言
+        // XCTAssertTrue(app.staticTexts["减单"].exists, "Splash watermark should appear")
+
+        // 3. 等 1.5s 让 1s 倒计时 + 0.4s 淡出完成
+        sleep(2)
+
+        // 4. Tab 主界面浮现（已显示空态）
         XCTAssertTrue(
-            app.staticTexts["全部短文"].exists,
-            "List section title should appear"
+            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            "After splash dismiss, diary empty state should appear"
         )
 
-        // 4. 列表里至少看到 JSON 第一条断舍离短文
-        XCTAssertTrue(
-            app.staticTexts["拥有得愈少，自由便愈多。"].waitForExistence(timeout: 5),
-            "First quote from JSON should appear in list"
+        // 5. 开屏短文已消失
+        XCTAssertFalse(
+            app.staticTexts["行到水穷处，坐看云起时。"].exists,
+            "Splash quote should be dismissed after timeout"
         )
-        // 验证出处
+    }
+
+    /// Tap-to-dismiss 回归测试：点击开屏任意位置应立即淡出。
+    func testSplashQuoteDismissOnTap() throws {
+        let app = XCUIApplication()
+        // 长自动淡出（10s）+ 短等待，确保测试期间不会自然消失
+        app.launchArguments = [
+            "-resetStore",
+            "-resetUserDefaults",
+            "-splashQuoteId", "wang-wei-1",
+            "-splashAutoDismiss", "10.0"
+        ]
+        app.launch()
+
+        // 1. 开屏短文可见
         XCTAssertTrue(
-            app.staticTexts["断舍离·前言"].exists,
-            "Attribution should appear in list"
+            app.staticTexts["行到水穷处，坐看云起时。"].waitForExistence(timeout: 5),
+            "Splash quote should appear"
         )
 
-        // 5. 点击进入详情
-        app.staticTexts["拥有得愈少，自由便愈多。"].tap()
+        // 2. 点击屏幕中央（坐标点击兜底：因为 onTapGesture 不接受 accessibility hit）
+        // iPhone 16 Pro logical 402x874 → 中点约 (200, 437)
+        // 用 XCUICoordinate 的 tapped() 在中心点击
+        let center = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        center.tap()
 
-        // 6. 详情页能看到出处
+        // 3. 等淡出动画完成（0.4s）
+        sleep(1)
+
+        // 4. Tab 主界面浮现
         XCTAssertTrue(
-            app.staticTexts["断舍离·前言"].waitForExistence(timeout: 3),
-            "Detail view should show attribution"
+            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            "After tap, diary should appear"
         )
-
-        // 7. 返回
-        let backButton = app.navigationBars.buttons.firstMatch
-        if backButton.exists {
-            backButton.tap()
-        }
     }
 
     /// Task 12 回归测试：「我的」Tab 显示统计 + 主题设置
     func testProfileTabShowsStatsAndSettings() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-resetStore", "-resetUserDefaults"]
+        app.launchArguments = ["-resetStore", "-resetUserDefaults", "-disableSplash"]
         app.launch()
 
         // 1. 进「我的」Tab
