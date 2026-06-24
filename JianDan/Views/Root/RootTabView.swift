@@ -15,6 +15,11 @@ struct RootTabView: View {
                     Label("减单", systemImage: "leaf")
                 }
 
+            RemembranceView()
+                .tabItem {
+                    Label("怀念", systemImage: "heart")
+                }
+
             ProfileView()
                 .tabItem {
                     Label("我的", systemImage: "person")

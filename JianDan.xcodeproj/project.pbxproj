@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -50,6 +50,7 @@
 		B460C927552FAB0105D5782C /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423CC3BB48A4D88527FD61F4 /* AppTheme.swift */; };
 		B561953380C0A4EDABD10011 /* QuoteRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8488E941677635BC790A0B27 /* QuoteRepositoryTests.swift */; };
 		B6F5BF0A413029B2880415E8 /* RandomSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641D28CD7043ECADF9EF4F9 /* RandomSource.swift */; };
+		BB7A51F8D22CA1D74EB558AF /* RemembranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E339859651E8BA11B85D94FE /* RemembranceView.swift */; };
 		BF2408695CE30C33BF0187C4 /* FarewellRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE769F5056A471E00722546A /* FarewellRecordTests.swift */; };
 		BFF7FC2643DE6ABE8BD23D7B /* EmotionStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8291787AC78FDB5D852356D /* EmotionStarsView.swift */; };
 		C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F58F233837E8540A75220A /* RootTabView.swift */; };
@@ -102,7 +103,7 @@
 		57AD7ECD080FCCA91DE4DE79 /* JianDanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JianDanApp.swift; sourceTree = "<group>"; };
 		5C6DD2FFBF32B06E4BB63605 /* NewCategorySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategorySheet.swift; sourceTree = "<group>"; };
 		5CE3BF256622877B3CB2545B /* AppThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemeTests.swift; sourceTree = "<group>"; };
-		602A7458CAA4B431E49C9450 /* JianDan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JianDan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		602A7458CAA4B431E49C9450 /* JianDan.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = JianDan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6435864290CE9E2ECFF7BF3D /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		653E826D7FEDD5AA9A1D0C4C /* FarewellRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellRecord.swift; sourceTree = "<group>"; };
 		6A8F4526A17982744B455D11 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		B0F58F233837E8540A75220A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		B1FB613C2AFE0B247060A974 /* Wisdom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wisdom.swift; sourceTree = "<group>"; };
 		B6C10B87A7A5D7AE535F63F9 /* AddFarewellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFarewellView.swift; sourceTree = "<group>"; };
+		E339859651E8BA11B85D94FE /* RemembranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemembranceView.swift; sourceTree = "<group>"; };
 		E421DB8D35799B304A11870A /* SplashCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashCoordinator.swift; sourceTree = "<group>"; };
 		F572DC358EF97BE079D35690 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		F5B7C90D71E57A2B5ACC382A /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
@@ -134,6 +136,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		0558E9C8E894B552E4AB059F /* Remembrance */ = {
+			isa = PBXGroup;
+			children = (
+				E339859651E8BA11B85D94FE /* RemembranceView.swift */,
+			);
+			path = Remembrance;
+			sourceTree = "<group>";
+		};
 		32C6FC4C98E0B9E17A222CEE /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +293,7 @@
 				60764F73DDAF2C9EF258B9CA /* Detail */,
 				99DB7F771DB3E67DE4807066 /* Diary */,
 				3F74183BF154AE62D6E8755B /* Profile */,
+				0558E9C8E894B552E4AB059F /* Remembrance */,
 				AE13D62798100084D078A04C /* Root */,
 				3624BDFF611047C32092F048 /* Splash */,
 			);
@@ -440,6 +451,7 @@
 						TestTargetID = FAC99D824CA411E544335B6D;
 					};
 					FAC99D824CA411E544335B6D = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -532,6 +544,7 @@
 				432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */,
 				288710547798C8DF86143CCD /* QuoteRepository.swift in Sources */,
 				B6F5BF0A413029B2880415E8 /* RandomSource.swift in Sources */,
+				BB7A51F8D22CA1D74EB558AF /* RemembranceView.swift in Sources */,
 				C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */,
 				F3830D3298699FA078DF7D85 /* SettingsView.swift in Sources */,
 				ABF18B5080D84A0730A97178 /* SplashCoordinator.swift in Sources */,
@@ -742,7 +755,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 933VYF7A3B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = JianDan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -761,7 +773,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 933VYF7A3B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = JianDan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
