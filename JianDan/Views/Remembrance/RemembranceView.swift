@@ -3,8 +3,7 @@ import SwiftData
 
 /// 怀念 · 减单
 ///
-/// 随机展示一件已告别物品的详情，风格简洁高级。
-/// 每次进入或点击 shuffle 按钮随机抽取一件。
+/// 随机展示一件已告别物品的详情，居中排版、简洁高级。
 struct RemembranceView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.modelContext) private var modelContext
@@ -19,7 +18,7 @@ struct RemembranceView: View {
                 if records.isEmpty {
                     emptyView
                 } else if let record {
-                    detailScroll(record)
+                    detailView(record)
                 } else {
                     emptyView
                 }
@@ -37,19 +36,13 @@ struct RemembranceView: View {
                 }
             }
             .onAppear {
-                if record == nil, !records.isEmpty {
-                    pickRandom()
-                }
+                if record == nil, !records.isEmpty { pickRandom() }
             }
             .onChange(of: records.count) { _, _ in
-                if record == nil, !records.isEmpty {
-                    pickRandom()
-                }
+                if record == nil, !records.isEmpty { pickRandom() }
             }
         }
     }
-
-    // MARK: - 随机抽取
 
     private func pickRandom() {
         guard !records.isEmpty else { return }
@@ -58,127 +51,102 @@ struct RemembranceView: View {
 
     // MARK: - 详情
 
-    private func detailScroll(_ item: FarewellRecord) -> some View {
+    private func detailView(_ item: FarewellRecord) -> some View {
         ScrollView {
             VStack(spacing: 0) {
-                // 照片（hero）
+                // 照片 hero（固定高度 260）
                 if let firstPhoto = item.photoFilenames.first,
                    let uiImage = ImageStore.loadImage(filename: firstPhoto) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 280)
+                        .frame(height: 260)
                         .clipped()
-                        .overlay(alignment: .bottom) {
-                            LinearGradient(
-                                colors: [.clear, theme.background],
-                                startPoint: .top, endPoint: .bottom
-                            )
-                            .frame(height: 80)
-                        }
                 }
 
-                VStack(alignment: .leading, spacing: 24) {
-                    // 名称
+                VStack(spacing: 24) {
+                    // 名称（居中）
                     Text(item.name)
-                        .font(.system(size: 28, weight: .regular, design: .serif))
+                        .font(.system(size: 26, weight: .regular, design: .serif))
                         .foregroundStyle(theme.primaryText)
-                        .padding(.top, item.photoFilenames.isEmpty ? 8 : 0)
+                        .multilineTextAlignment(.center)
+                        .lineSpacing(4)
+                        .padding(.horizontal, 32)
+                        .padding(.top, item.photoFilenames.isEmpty ? 24 : 28)
 
-                    // 日期与陪伴
-                    HStack(spacing: 16) {
-                        Label(
-                            item.farewellDate.formatted(.dateTime.year().month().day()),
-                            systemImage: "calendar"
-                        )
+                    // 装饰分隔线
+                    Rectangle()
+                        .fill(theme.divider)
+                        .frame(width: 32, height: 0.5)
+
+                    // 日期 + 陪伴天数（居中）
+                    HStack(spacing: 8) {
+                        Text(item.farewellDate.formatted(.dateTime.year().month().day()))
+                            .font(.caption)
                         if let days = item.companionshipDays {
-                            Text("陪伴了 \(days) 天")
+                            Text("·")
+                            Text("陪伴 \(days) 天")
+                                .font(.caption)
                         }
                     }
-                    .font(.subheadline)
                     .foregroundStyle(theme.secondary)
 
-                    // 分类 + 方式（浅色 chip）
+                    // 分类 · 方式 · 价格（居中）
                     HStack(spacing: 8) {
                         pill(item.category.displayName, icon: item.category.iconName)
                         pill(item.method.rawValue, icon: item.method.icon)
-                        Spacer(minLength: 0)
-                    }
-
-                    // 购入信息（如果有）
-                    if let price = item.purchasePrice, price > 0 {
-                        infoRow(icon: "yensign", text: "¥\(String(format: "%.0f", price))")
-                    }
-                    if let detail = item.recipientDetail, !detail.isEmpty {
-                        infoRow(icon: "arrow.right", text: detail)
-                    }
-
-                    // 减单一言
-                    if let letter = item.farewellLetter, !letter.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Divider()
-                                .overlay(theme.divider)
-
-                            Text(letter)
-                                .font(.system(size: 17, design: .serif))
-                                .italic()
-                                .foregroundStyle(theme.primaryText)
-                                .lineSpacing(8)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-
-                            Divider()
-                                .overlay(theme.divider)
+                        if let price = item.purchasePrice, price > 0 {
+                            pill("¥\(String(format: "%.0f", price))", icon: "yensign")
                         }
+                    }
+
+                    // 去向详情
+                    if let detail = item.recipientDetail, !detail.isEmpty {
+                        Label(detail, systemImage: "arrow.right")
+                            .font(.caption)
+                            .foregroundStyle(theme.secondary)
                     }
 
                     // 当时心情
                     if let emotion = item.emotionValue {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("当时心情")
-                                .font(AppTypography.caption)
-                                .foregroundStyle(theme.secondary)
-                            HStack(spacing: 8) {
-                                ForEach(1...5, id: \.self) { i in
-                                    Circle()
-                                        .fill(i <= emotion ? theme.accent : theme.divider)
-                                        .frame(width: 10, height: 10)
-                                }
-                                Text(emotionLabel(emotion))
-                                    .font(.subheadline)
-                                    .foregroundStyle(theme.primaryText)
-                                    .padding(.leading, 4)
+                        HStack(spacing: 8) {
+                            ForEach(1...5, id: \.self) { i in
+                                Circle()
+                                    .fill(i <= emotion ? theme.accent : theme.divider)
+                                    .frame(width: 8, height: 8)
                             }
+                            Text(emotionLabel(emotion))
+                                .font(.caption)
+                                .foregroundStyle(theme.secondary)
+                                .padding(.leading, 4)
                         }
                     }
 
-                    // 底部分隔
-                    Spacer(minLength: 60)
+                    // 减单一言
+                    if let letter = item.farewellLetter, !letter.isEmpty {
+                        VStack(spacing: 16) {
+                            Rectangle()
+                                .fill(theme.divider)
+                                .frame(width: 24, height: 0.5)
 
-                    // shuffle 按钮
-                    HStack {
-                        Spacer()
-                        Button(action: pickRandom) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "shuffle")
-                                Text("换一件")
-                            }
-                            .font(.subheadline)
-                            .foregroundStyle(theme.accent)
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 10)
-                            .background(theme.cardBackground)
-                            .clipShape(Capsule())
-                            .overlay(
-                                Capsule()
-                                    .strokeBorder(theme.divider, lineWidth: 0.5)
-                            )
+                            Text("“\(letter)”")
+                                .font(.system(size: 16, design: .serif))
+                                .italic()
+                                .foregroundStyle(theme.primaryText)
+                                .lineSpacing(8)
+                                .frame(maxWidth: 300)
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
+
+                            Rectangle()
+                                .fill(theme.divider)
+                                .frame(width: 24, height: 0.5)
                         }
-                        .buttonStyle(.plain)
-                        Spacer()
                     }
                 }
+                .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24)
-                .padding(.top, item.photoFilenames.isEmpty ? 0 : -8)
+                .padding(.bottom, 40)
             }
         }
         .scrollIndicators(.hidden)
@@ -189,9 +157,10 @@ struct RemembranceView: View {
     private func pill(_ text: String, icon: String) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
+                .font(.caption2)
             Text(text)
+                .font(.caption)
         }
-        .font(.caption)
         .foregroundStyle(theme.secondary)
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
@@ -201,17 +170,6 @@ struct RemembranceView: View {
             Capsule()
                 .strokeBorder(theme.divider, lineWidth: 0.5)
         )
-    }
-
-    private func infoRow(icon: String, text: String) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: icon)
-                .font(.caption)
-                .foregroundStyle(theme.secondary)
-            Text(text)
-                .font(.subheadline)
-                .foregroundStyle(theme.primaryText)
-        }
     }
 
     private func emotionLabel(_ value: Int) -> String {
