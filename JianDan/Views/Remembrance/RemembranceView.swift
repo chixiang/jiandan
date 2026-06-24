@@ -60,7 +60,7 @@ struct RemembranceView: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 320)
+                        .frame(maxHeight: 260)
                         .clipped()
                 }
 
