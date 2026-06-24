@@ -1,5 +1,4 @@
 import Foundation
-import SwiftData
 
 /// 物品分类（内置 enum）
 ///
@@ -41,26 +40,33 @@ enum Category: String, CaseIterable, Identifiable, Codable {
     }
 }
 
+/// 自定义分类存储 ID 前缀
+private let customPrefix = "__custom__|"
+
 // MARK: - 统一表达
 
 /// 分类的统一表达：内置枚举 OR 用户自定义
 ///
-/// 在 UI / 统计 / 持久化读写处使用此枚举，避免散落的 `if category is ...` 判断。
+/// 自定义分类存盘时把名称和图标名嵌入 storageID（`__custom__|name|iconName`），
+/// 读盘时无需查询 UserCategory 表即可还原。这保证了：
+/// 1. `FarewellRecord` 的 category 计算属性不需要 ModelContext
+/// 2. 记录保留"告别时的分类名"——用户后来重命名不会追溯旧记录
 enum AnyCategory: Hashable {
     case builtin(Category)
-    case custom(UserCategory)
+    /// name 和 iconName 编码在 storageID 中，查询时无需 ModelContext
+    case custom(name: String, iconName: String)
 
     var displayName: String {
         switch self {
         case .builtin(let c): return c.rawValue
-        case .custom(let u): return u.name
+        case .custom(let name, _): return name
         }
     }
 
     var iconName: String {
         switch self {
         case .builtin(let c): return c.icon
-        case .custom(let u): return u.iconName
+        case .custom(_, let icon): return icon
         }
     }
 
@@ -70,28 +76,36 @@ enum AnyCategory: Hashable {
         return false
     }
 
-    /// 持久化字符串 ID：内置用 rawValue，自定义用 UUID
+    /// 持久化字符串 ID：内置用 rawValue，自定义用 `__custom__|name|iconName`
     var storageID: String {
         switch self {
         case .builtin(let c): return c.rawValue
-        case .custom(let u): return u.id.uuidString
+        case .custom(let name, let icon): return "\(customPrefix)\(name)|\(icon)"
         }
     }
 
-    /// 从持久化 ID 解析；若 context 传 nil，则只尝试 builtin（custom 总是 fallback 到 other）
-    static func resolve(storageID: String, context: ModelContext? = nil) -> AnyCategory {
+    /// 从持久化 ID 解析，不需要 ModelContext
+    static func resolve(storageID: String) -> AnyCategory {
         if let builtin = Category(rawValue: storageID) {
             return .builtin(builtin)
         }
-        // 自定义 UUID 形式：尝试从 context 查
-        if let context, let uuid = UUID(uuidString: storageID) {
-            let descriptor = FetchDescriptor<UserCategory>(
-                predicate: #Predicate { $0.id == uuid }
-            )
-            if let match = try? context.fetch(descriptor).first {
-                return .custom(match)
+        if storageID.hasPrefix(customPrefix) {
+            let body = storageID.dropFirst(customPrefix.count)
+            let parts = body.split(separator: "|", maxSplits: 1, omittingEmptySubsequences: false)
+            if parts.count == 2 {
+                return .custom(name: String(parts[0]), iconName: String(parts[1]))
             }
         }
         return .builtin(.other)
+    }
+
+    /// 从 `UserCategory` 实例构造 AnyCategory（仅 UI 层用于 picker selection，不用于存盘）
+    static func from(userCategory: UserCategory) -> AnyCategory {
+        .custom(name: userCategory.name, iconName: userCategory.iconName)
+    }
+
+    /// 构造一个用于`#Predicate`匹配的 storageID（删除自定义分类时找出所有引用记录）
+    static func storageIDForDelete(userCategory: UserCategory) -> String {
+        "\(customPrefix)\(userCategory.name)|\(userCategory.iconName)"
     }
 }

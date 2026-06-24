@@ -44,17 +44,17 @@ final class UserCategory {
 
 // MARK: - 改写引用
 
-/// 把所有 `categoryID == fromCategoryID` 的记录改写为 `toCategoryID`。
+/// 把所有 `categoryRaw == fromCategoryCompoundID` 的记录改写为 `toCategoryID`。
 /// 用于"删除自定义分类时把引用记录归入'其他'"。
 enum UserCategoryReassignService {
     @MainActor
     static func reassign(
-        fromCategoryID: String,
+        fromCategoryCompoundID: String,
         toCategoryID: String,
         in context: ModelContext
     ) {
         let descriptor = FetchDescriptor<FarewellRecord>(
-            predicate: #Predicate { $0.categoryRaw == fromCategoryID }
+            predicate: #Predicate { $0.categoryRaw == fromCategoryCompoundID }
         )
         guard let records = try? context.fetch(descriptor) else { return }
         for record in records {

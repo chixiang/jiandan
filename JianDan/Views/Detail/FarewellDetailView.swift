@@ -9,7 +9,7 @@ struct FarewellDetailView: View {
 
     @State private var showingDeleteConfirm = false
     @State private var showingEdit = false
-    @State private var deleteCustomCategoryAlert: AnyCategory? = nil
+    @State private var deleteCustomCategoryAlert: UserCategory? = nil
 
     var body: some View {
         ScrollView {
@@ -164,7 +164,6 @@ struct FarewellDetailView: View {
             Text("「\(record.name)」将被永久删除，相关照片也会一并清理。")
         }
         .sheet(isPresented: $showingEdit) {
-            // 编辑复用 EditFarewellView（Phase 1 暂不支持 photo 修改）
             EditFarewellView(record: record)
         }
         .alert(
@@ -180,15 +179,11 @@ struct FarewellDetailView: View {
             }
             Button("取消", role: .cancel) {}
         } message: { cat in
-            if case .custom(let userCat) = cat {
-                let count = referencingRecordCount(for: userCat.id.uuidString)
-                if count > 0 {
-                    Text("「\(userCat.name)」关联了 \(count) 条记录，删除后将归入「其他」。")
-                } else {
-                    Text("「\(userCat.name)」将被删除。")
-                }
+            let count = referencingRecordCount(for: AnyCategory.storageIDForDelete(userCategory: cat))
+            if count > 0 {
+                Text("「\(cat.name)」关联了 \(count) 条记录，删除后将归入「其他」。")
             } else {
-                Text("无法删除内置分类。")
+                Text("「\(cat.name)」将被删除。")
             }
         }
     }
@@ -205,18 +200,12 @@ struct FarewellDetailView: View {
     }
 
     private func deleteRecord() {
-        // 1. 删除关联照片
         try? ImageStore.delete(filenames: record.photoFilenames)
-
-        // 2. 删除 SwiftData 记录
         modelContext.delete(record)
         try? modelContext.save()
-
-        // 3. 返回列表
         dismiss()
     }
 
-    /// 统计引用某个分类 ID 的记录数
     private func referencingRecordCount(for categoryID: String) -> Int {
         let descriptor = FetchDescriptor<FarewellRecord>(
             predicate: #Predicate { $0.categoryRaw == categoryID }
@@ -224,15 +213,13 @@ struct FarewellDetailView: View {
         return (try? modelContext.fetch(descriptor).count) ?? 0
     }
 
-    /// 执行删除自定义分类：先把引用记录改写到"其他"，再删 UserCategory
-    private func performDeleteCustomCategory(_ cat: AnyCategory) {
-        guard case .custom(let userCat) = cat else { return }
+    private func performDeleteCustomCategory(_ cat: UserCategory) {
         UserCategoryReassignService.reassign(
-            fromCategoryID: userCat.id.uuidString,
+            fromCategoryCompoundID: AnyCategory.storageIDForDelete(userCategory: cat),
             toCategoryID: Category.other.rawValue,
             in: modelContext
         )
-        modelContext.delete(userCat)
+        modelContext.delete(cat)
         try? modelContext.save()
     }
 }
@@ -260,12 +247,16 @@ private struct DetailRow: View {
     }
 }
 
+// MARK: - 编辑页
+
 /// 编辑页（Phase 1 简化版：仅编辑文本字段，不支持修改照片）
 struct EditFarewellView: View {
     @Bindable var record: FarewellRecord
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @State private var deleteCustomCategoryAlert: AnyCategory? = nil
+
+    @State private var deleteCustomCategoryAlert: UserCategory? = nil
+    @Query(sort: \UserCategory.sortOrder, order: .forward) private var customCategories: [UserCategory]
 
     var body: some View {
         NavigationStack {
@@ -290,7 +281,10 @@ struct EditFarewellView: View {
                             set: { newValue in record.categoryID = newValue.storageID }
                         ),
                         onRequestDelete: { cat in
-                            deleteCustomCategoryAlert = cat
+                            if case .custom(let name, _) = cat {
+                                let found = customCategories.first(where: { $0.name == name })
+                                deleteCustomCategoryAlert = found
+                            }
                         }
                     )
                 }
@@ -350,15 +344,11 @@ struct EditFarewellView: View {
                 }
                 Button("取消", role: .cancel) {}
             } message: { cat in
-                if case .custom(let userCat) = cat {
-                    let count = referencingRecordCount(for: userCat.id.uuidString)
-                    if count > 0 {
-                        Text("「\(userCat.name)」关联了 \(count) 条记录，删除后将归入「其他」。")
-                    } else {
-                        Text("「\(userCat.name)」将被删除。")
-                    }
+                let count = referencingRecordCount(for: AnyCategory.storageIDForDelete(userCategory: cat))
+                if count > 0 {
+                    Text("「\(cat.name)」关联了 \(count) 条记录，删除后将归入「其他」。")
                 } else {
-                    Text("无法删除内置分类。")
+                    Text("「\(cat.name)」将被删除。")
                 }
             }
         }
@@ -371,14 +361,13 @@ struct EditFarewellView: View {
         return (try? modelContext.fetch(descriptor).count) ?? 0
     }
 
-    private func performDeleteCustomCategory(_ cat: AnyCategory) {
-        guard case .custom(let userCat) = cat else { return }
+    private func performDeleteCustomCategory(_ cat: UserCategory) {
         UserCategoryReassignService.reassign(
-            fromCategoryID: userCat.id.uuidString,
+            fromCategoryCompoundID: AnyCategory.storageIDForDelete(userCategory: cat),
             toCategoryID: Category.other.rawValue,
             in: modelContext
         )
-        modelContext.delete(userCat)
+        modelContext.delete(cat)
         try? modelContext.save()
     }
 

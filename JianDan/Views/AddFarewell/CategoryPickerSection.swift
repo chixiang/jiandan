@@ -49,10 +49,10 @@ struct CategoryPickerSection: View {
                         CategoryChip(
                             label: custom.name,
                             iconName: custom.iconName,
-                            isSelected: selection == .custom(custom),
+                            isSelected: selection == AnyCategory.from(userCategory: custom),
                             isDeletable: true,
-                            onTap: { selection = .custom(custom) },
-                            onLongPress: { onRequestDelete?(.custom(custom)) }
+                            onTap: { selection = AnyCategory.from(userCategory: custom) },
+                            onLongPress: { onRequestDelete?(AnyCategory.from(userCategory: custom)) }
                         )
                     }
 

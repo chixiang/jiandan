@@ -92,7 +92,6 @@ final class FarewellRecord {
     }
 
     /// 分类便捷访问（解析为 AnyCategory；找不到时 fallback 到 .other）
-    /// 需要 ModelContext 来解析自定义分类 UUID
     var category: AnyCategory {
         AnyCategory.resolve(storageID: categoryRaw)
     }

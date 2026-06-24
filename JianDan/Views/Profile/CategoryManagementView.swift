@@ -106,7 +106,7 @@ struct CategoryManagementView: View {
 
     private func performDelete(_ cat: UserCategory) {
         UserCategoryReassignService.reassign(
-            fromCategoryID: cat.id.uuidString,
+            fromCategoryCompoundID: AnyCategory.storageIDForDelete(userCategory: cat),
             toCategoryID: Category.other.rawValue,
             in: modelContext
         )

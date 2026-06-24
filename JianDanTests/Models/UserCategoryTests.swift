@@ -117,19 +117,20 @@ final class UserCategoryTests: XCTestCase {
 
         let cat = UserCategory(name: "待删", iconName: "tag", sortOrder: 0)
         context.insert(cat)
+        let compoundID = AnyCategory.storageIDForDelete(userCategory: cat)
 
         let r1 = FarewellRecord(
             name: "item1",
             category: .builtin(.other),  // 先建出来再改
             method: .donate
         )
-        r1.categoryID = cat.id.uuidString
+        r1.categoryRaw = compoundID
         let r2 = FarewellRecord(
             name: "item2",
             category: .builtin(.other),
             method: .donate
         )
-        r2.categoryID = cat.id.uuidString
+        r2.categoryRaw = compoundID
         let r3 = FarewellRecord(
             name: "item3",
             category: .builtin(.clothing),  // 不引用待删分类
@@ -140,14 +141,14 @@ final class UserCategoryTests: XCTestCase {
 
         // 执行重写
         UserCategoryReassignService.reassign(
-            fromCategoryID: cat.id.uuidString,
+            fromCategoryCompoundID: AnyCategory.storageIDForDelete(userCategory: cat),
             toCategoryID: Category.other.rawValue,
             in: context
         )
         try context.save()
 
-        XCTAssertEqual(r1.categoryID, Category.other.rawValue)
-        XCTAssertEqual(r2.categoryID, Category.other.rawValue)
-        XCTAssertEqual(r3.categoryID, Category.clothing.rawValue, "未引用的记录不应被改写")
+        XCTAssertEqual(r1.categoryRaw, Category.other.rawValue)
+        XCTAssertEqual(r2.categoryRaw, Category.other.rawValue)
+        XCTAssertEqual(r3.categoryRaw, Category.clothing.rawValue, "未引用的记录不应被改写")
     }
 }
