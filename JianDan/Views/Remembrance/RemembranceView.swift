@@ -3,7 +3,8 @@ import SwiftData
 
 /// 怀念 · 减单
 ///
-/// 随机展示一件已告别物品的详情，居中排版、简洁高级。
+/// 杂志感居中排版，图片作为卡片嵌入内容区而非通栏 hero，
+/// 兼顾横竖图兼容与紧凑布局。
 struct RemembranceView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.modelContext) private var modelContext
@@ -53,101 +54,105 @@ struct RemembranceView: View {
 
     private func detailView(_ item: FarewellRecord) -> some View {
         ScrollView {
-            VStack(spacing: 0) {
-                // 照片 hero（固定高度 260）
+            VStack(spacing: 20) {
+                // ---- 图片卡片（嵌入内容区） ----
                 if let firstPhoto = item.photoFilenames.first,
                    let uiImage = ImageStore.loadImage(filename: firstPhoto) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 260)
-                        .clipped()
+                        .frame(maxHeight: 220)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
+                        .padding(.horizontal, 16)
+                        .padding(.top, item.photoFilenames.isEmpty ? 0 : 16)
                 }
 
-                VStack(spacing: 24) {
-                    // 名称（居中）
-                    Text(item.name)
-                        .font(.system(size: 26, weight: .regular, design: .serif))
-                        .foregroundStyle(theme.primaryText)
-                        .multilineTextAlignment(.center)
-                        .lineSpacing(4)
-                        .padding(.horizontal, 32)
-                        .padding(.top, item.photoFilenames.isEmpty ? 24 : 28)
+                // ---- 名称 ----
+                Text(item.name)
+                    .font(.system(size: 26, weight: .regular, design: .serif))
+                    .foregroundStyle(theme.primaryText)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4)
+                    .padding(.horizontal, 32)
+                    .padding(.top, item.photoFilenames.isEmpty ? 28 : 4)
 
-                    // 装饰分隔线
-                    Rectangle()
-                        .fill(theme.divider)
-                        .frame(width: 32, height: 0.5)
+                // ---- 装饰分隔 ----
+                Rectangle()
+                    .fill(theme.divider)
+                    .frame(width: 32, height: 0.5)
 
-                    // 日期 + 陪伴天数（居中）
-                    HStack(spacing: 8) {
-                        Text(item.farewellDate.formatted(.dateTime.year().month().day()))
+                // ---- 日期 + 陪伴天数 ----
+                HStack(spacing: 8) {
+                    Text(item.farewellDate, format: .dateTime.year().month().day())
+                        .font(.caption)
+                    if let days = item.companionshipDays {
+                        Text("·")
+                        Text("陪伴 \(days) 天")
                             .font(.caption)
-                        if let days = item.companionshipDays {
-                            Text("·")
-                            Text("陪伴 \(days) 天")
-                                .font(.caption)
-                        }
                     }
-                    .foregroundStyle(theme.secondary)
+                }
+                .foregroundStyle(theme.secondary)
 
-                    // 分类 · 方式 · 价格（居中）
+                // ---- 分类 · 方式 · 价格 ----
+                HStack(spacing: 8) {
+                    pill(item.category.displayName, icon: item.category.iconName)
+                    pill(item.method.rawValue, icon: item.method.icon)
+                    if let price = item.purchasePrice, price > 0 {
+                        pill("¥\(String(format: "%.0f", price))", icon: "yensign")
+                    }
+                }
+
+                // ---- 去向详情 ----
+                if let detail = item.recipientDetail, !detail.isEmpty {
+                    Label(detail, systemImage: "arrow.right")
+                        .font(.caption)
+                        .foregroundStyle(theme.secondary)
+                }
+
+                // ---- 当时心情 ----
+                if let emotion = item.emotionValue {
                     HStack(spacing: 8) {
-                        pill(item.category.displayName, icon: item.category.iconName)
-                        pill(item.method.rawValue, icon: item.method.icon)
-                        if let price = item.purchasePrice, price > 0 {
-                            pill("¥\(String(format: "%.0f", price))", icon: "yensign")
+                        ForEach(1...5, id: \.self) { i in
+                            Circle()
+                                .fill(i <= emotion ? theme.accent : theme.divider)
+                                .frame(width: 8, height: 8)
                         }
-                    }
-
-                    // 去向详情
-                    if let detail = item.recipientDetail, !detail.isEmpty {
-                        Label(detail, systemImage: "arrow.right")
+                        Text(emotionLabel(emotion))
                             .font(.caption)
                             .foregroundStyle(theme.secondary)
-                    }
-
-                    // 当时心情
-                    if let emotion = item.emotionValue {
-                        HStack(spacing: 8) {
-                            ForEach(1...5, id: \.self) { i in
-                                Circle()
-                                    .fill(i <= emotion ? theme.accent : theme.divider)
-                                    .frame(width: 8, height: 8)
-                            }
-                            Text(emotionLabel(emotion))
-                                .font(.caption)
-                                .foregroundStyle(theme.secondary)
-                                .padding(.leading, 4)
-                        }
-                    }
-
-                    // 减单一言
-                    if let letter = item.farewellLetter, !letter.isEmpty {
-                        VStack(spacing: 16) {
-                            Rectangle()
-                                .fill(theme.divider)
-                                .frame(width: 24, height: 0.5)
-
-                            Text("“\(letter)”")
-                                .font(.system(size: 16, design: .serif))
-                                .italic()
-                                .foregroundStyle(theme.primaryText)
-                                .lineSpacing(8)
-                                .frame(maxWidth: 300)
-                                .multilineTextAlignment(.center)
-                                .fixedSize(horizontal: false, vertical: true)
-
-                            Rectangle()
-                                .fill(theme.divider)
-                                .frame(width: 24, height: 0.5)
-                        }
+                            .padding(.leading, 4)
                     }
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 40)
+
+                // ---- 减单一言（pull-quote） ----
+                if let letter = item.farewellLetter, !letter.isEmpty {
+                    VStack(spacing: 16) {
+                        Rectangle()
+                            .fill(theme.divider)
+                            .frame(width: 24, height: 0.5)
+
+                        Text("“\(letter)”")
+                            .font(.system(size: 16, design: .serif))
+                            .italic()
+                            .foregroundStyle(theme.primaryText)
+                            .lineSpacing(8)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: 300)
+                            .fixedSize(horizontal: false, vertical: true)
+
+                        Rectangle()
+                            .fill(theme.divider)
+                            .frame(width: 24, height: 0.5)
+                    }
+                }
+
+                // 底部留白
+                Color.clear
+                    .frame(height: 8)
             }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 24)
         }
         .scrollIndicators(.hidden)
     }
@@ -182,8 +187,6 @@ struct RemembranceView: View {
         default: return ""
         }
     }
-
-    // MARK: - 空态
 
     private var emptyView: some View {
         VStack(spacing: 16) {
