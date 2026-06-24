@@ -71,6 +71,12 @@ struct SplashContainer<Content: View>: View {
                 if let coordinator, coordinator.isVisible {
                     SplashQuoteView(quote: coordinator.quote)
                         .transition(.opacity)
+                        // 点击 splash 时立即 dismiss；只有 splash 可见时拦截 tap
+                        // —— splash 不可见后不再挂 .onTapGesture，让 NavigationLink
+                        // 等内层 hit test 正常命中。
+                        .onTapGesture {
+                            coordinator.dismiss()
+                        }
                         .task(id: ObjectIdentifier(coordinator)) {
                             // 每个 coordinator 实例只跑一次倒计时
                             // ObjectIdentifier 保证：coordinator 不变就不会重启 task
@@ -83,9 +89,6 @@ struct SplashContainer<Content: View>: View {
                 }
             }
             .animation(.easeInOut(duration: 0.4), value: coordinator?.isVisible)
-            .onTapGesture {
-                coordinator?.dismiss()
-            }
     }
 }
 

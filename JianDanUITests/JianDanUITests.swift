@@ -155,6 +155,38 @@ final class JianDanUITests: XCTestCase {
         )
     }
 
+    /// Phase 2 回归：splash 淡出后点击列表项必须能进入详情页
+    ///
+    /// 背景：之前 `.onTapGesture` 挂在 SplashContainer 外层，splash 不可见后仍拦截
+    /// hit test，导致 NavigationLink 无法响应点击。这个测试锁住「splash 不挡点击」。
+    func testDiaryCardTappableAfterSplashDismiss() throws {
+        let app = XCUIApplication()
+        // 用 -seedTestData 自动填充 8 条样本数据，避免手动新建
+        app.launchArguments = [
+            "-resetStore",
+            "-resetUserDefaults",
+            "-seedTestData",
+            "-disableSplash"
+        ]
+        app.launch()
+
+        // 1. 列表里出现样本记录（DataImporter 已注入 8 条，按 farewellDate 倒序）
+        let firstCard = app.staticTexts["一箱旧明信片"]
+        XCTAssertTrue(
+            firstCard.waitForExistence(timeout: 5),
+            "Sample record should appear in diary list"
+        )
+
+        // 2. 点击卡片应进入详情页（关键回归断言）
+        firstCard.tap()
+
+        // 3. 详情页 navigationBar 出现，title 为该条记录的名称
+        XCTAssertTrue(
+            app.navigationBars["一箱旧明信片"].waitForExistence(timeout: 5),
+            "Tapping diary card should navigate to detail view (this catches splash overlay blocking hit-tests)"
+        )
+    }
+
     /// Task 12 回归测试：「我的」Tab 显示统计 + 主题设置
     func testProfileTabShowsStatsAndSettings() throws {
         let app = XCUIApplication()
