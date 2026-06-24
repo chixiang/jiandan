@@ -4,7 +4,7 @@ import SwiftUI
 /// 通过 ImageStore 从沙盒加载图片
 struct PhotoThumbView: View {
     let filename: String?
-    let category: Category
+    let category: AnyCategory
     var size: CGFloat = 80
 
     var body: some View {
@@ -18,7 +18,7 @@ struct PhotoThumbView: View {
                 ZStack {
                     Rectangle()
                         .fill(.tertiary.opacity(0.3))
-                    Image(systemName: category.icon)
+                    Image(systemName: category.iconName)
                         .font(.system(size: size * 0.4))
                         .foregroundStyle(.secondary)
                 }
@@ -31,7 +31,7 @@ struct PhotoThumbView: View {
 
 #Preview {
     HStack {
-        PhotoThumbView(filename: nil, category: .clothing)
-        PhotoThumbView(filename: "missing.jpg", category: .books)
+        PhotoThumbView(filename: nil, category: .builtin(.clothing))
+        PhotoThumbView(filename: "missing.jpg", category: .builtin(.books))
     }
 }

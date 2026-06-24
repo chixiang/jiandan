@@ -58,7 +58,7 @@ struct FarewellStats: Equatable {
 /// 分类计数（用于分类分布列表）
 /// 拆出独立 struct 是为了让 `FarewellStats` 可自动合成 Equatable（Swift 元组数组不支持 Equatable）。
 struct CategoryCount: Equatable, Hashable {
-    let category: Category
+    let category: AnyCategory
     let count: Int
 }
 
@@ -99,7 +99,7 @@ enum StatsCalculator {
         let totalPurchasePrice = filtered.compactMap { $0.purchasePrice }.reduce(0, +)
 
         // 4. 分类分布
-        var categoryMap: [Category: Int] = [:]
+        var categoryMap: [AnyCategory: Int] = [:]
         for record in filtered {
             categoryMap[record.category, default: 0] += 1
         }

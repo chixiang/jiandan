@@ -21,7 +21,7 @@ struct FarewellCardView: View {
 
                 // 分类 + 方式
                 HStack(spacing: 8) {
-                    Label(record.category.rawValue, systemImage: record.category.icon)
+                    Label(record.category.displayName, systemImage: record.category.iconName)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     Label(record.method.rawValue, systemImage: record.method.icon)
@@ -68,7 +68,7 @@ struct EmotionDotsView: View {
         // 用临时 record（Task 3 的模型接受基础 init）
         let record = FarewellRecord(
             name: "一件蓝色羊毛大衣",
-            category: .clothing,
+            category: .builtin(.clothing),
             method: .donate
         )
         FarewellCardView(record: record)

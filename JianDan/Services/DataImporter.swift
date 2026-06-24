@@ -62,7 +62,7 @@ final class DataImporter {
 
                 let record = FarewellRecord(
                     name: dto.name,
-                    category: Category(rawValue: dto.category) ?? .other,
+                    category: .builtin(Category(rawValue: dto.category) ?? .other),
                     farewellDate: dto.farewellDate,
                     method: FarewellMethod(rawValue: dto.method) ?? .other,
                     purchaseDate: dto.purchaseDate,

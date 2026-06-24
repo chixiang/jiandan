@@ -18,7 +18,7 @@ final class StatsCalculatorTests: XCTestCase {
     ) -> FarewellRecord {
         let record = FarewellRecord(
             name: name,
-            category: category,
+            category: .builtin(category),
             farewellDate: farewellDate,
             method: .donate,
             purchaseDate: purchaseDate,
@@ -142,10 +142,10 @@ final class StatsCalculatorTests: XCTestCase {
         ]
         let breakdown = StatsCalculator.compute(from: records).categoryBreakdown
         XCTAssertEqual(breakdown.count, 3)
-        XCTAssertEqual(breakdown[0].category, .electronics)
+        XCTAssertEqual(breakdown[0].category, .builtin(.electronics))
         XCTAssertEqual(breakdown[0].count, 3)
-        XCTAssertEqual(breakdown[1].category, .clothing)
-        XCTAssertEqual(breakdown[2].category, .books)
+        XCTAssertEqual(breakdown[1].category, .builtin(.clothing))
+        XCTAssertEqual(breakdown[2].category, .builtin(.books))
     }
 
     func testFarewellStatsEquatable() {
@@ -154,7 +154,7 @@ final class StatsCalculatorTests: XCTestCase {
             totalCompanionshipDays: 10,
             longestCompanionshipDays: 5,
             totalPurchasePrice: 100,
-            categoryBreakdown: [CategoryCount(category: FarewellCategory.books, count: 3)],
+            categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
             averageEmotion: 4.0,
             monthLabel: "2026 年 6 月"
         )
@@ -163,7 +163,7 @@ final class StatsCalculatorTests: XCTestCase {
             totalCompanionshipDays: 10,
             longestCompanionshipDays: 5,
             totalPurchasePrice: 100,
-            categoryBreakdown: [CategoryCount(category: FarewellCategory.books, count: 3)],
+            categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
             averageEmotion: 4.0,
             monthLabel: "2026 年 6 月"
         )
@@ -215,8 +215,8 @@ final class StatsCalculatorTests: XCTestCase {
         )
         XCTAssertEqual(stats.totalCount, 2, "6 月只计入 2 条")
         XCTAssertEqual(stats.categoryBreakdown.count, 2)
-        XCTAssertEqual(stats.categoryBreakdown.map(\.category).sorted { $0.rawValue < $1.rawValue },
-                       [FarewellCategory.books, FarewellCategory.clothing])
+        XCTAssertEqual(stats.categoryBreakdown.map(\.category).sorted { $0.displayName < $1.displayName },
+                       [AnyCategory.builtin(FarewellCategory.books), AnyCategory.builtin(FarewellCategory.clothing)])
         XCTAssertEqual(stats.monthLabel, "2026 年 6 月")
     }
 

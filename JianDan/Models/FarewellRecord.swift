@@ -21,7 +21,7 @@ final class FarewellRecord {
 
     init(
         name: String,
-        category: Category,
+        category: AnyCategory,
         farewellDate: Date = .now,
         method: FarewellMethod,
         purchaseDate: Date? = nil,
@@ -78,7 +78,7 @@ final class FarewellRecord {
 
         self.id = UUID()
         self.name = trimmedName
-        self.categoryRaw = category.rawValue
+        self.categoryRaw = category.storageID
         self.farewellDate = farewellDate
         self.methodRaw = method.rawValue
         self.purchaseDate = purchaseDate
@@ -91,10 +91,16 @@ final class FarewellRecord {
         self.updatedAt = .now
     }
 
-    /// 分类便捷访问
-    var category: Category {
-        get { Category(rawValue: categoryRaw) ?? .other }
-        set { categoryRaw = newValue.rawValue }
+    /// 分类便捷访问（解析为 AnyCategory；找不到时 fallback 到 .other）
+    /// 需要 ModelContext 来解析自定义分类 UUID
+    var category: AnyCategory {
+        AnyCategory.resolve(storageID: categoryRaw)
+    }
+
+    /// 分类 ID（AnyCategory.storageID 等价）
+    var categoryID: String {
+        get { categoryRaw }
+        set { categoryRaw = newValue }
     }
 
     /// 告别方式便捷访问

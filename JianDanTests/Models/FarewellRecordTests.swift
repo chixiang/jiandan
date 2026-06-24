@@ -16,14 +16,14 @@ final class FarewellRecordTests: XCTestCase {
         let context = ModelContext(container)
         let record = FarewellRecord(
             name: "一件蓝色羊毛大衣",
-            category: .clothing,
+            category: .builtin(.clothing),
             method: .donate
         )
         context.insert(record)
         try context.save()
 
         XCTAssertEqual(record.name, "一件蓝色羊毛大衣")
-        XCTAssertEqual(record.category, .clothing)
+        XCTAssertEqual(record.category, .builtin(.clothing))
         XCTAssertEqual(record.method, .donate)
         XCTAssertEqual(record.categoryRaw, "衣物")
         XCTAssertEqual(record.methodRaw, "捐赠")
@@ -39,7 +39,7 @@ final class FarewellRecordTests: XCTestCase {
         let filenames = ["a.jpg", "b.jpg"]
         let record = FarewellRecord(
             name: "台灯",
-            category: .furniture,
+            category: .builtin(.furniture),
             method: .gift,
             photoFilenames: filenames
         )
@@ -55,7 +55,7 @@ final class FarewellRecordTests: XCTestCase {
         let farewell = Calendar.current.date(from: DateComponents(year: 2023, month: 1, day: 1))!
         let record = FarewellRecord(
             name: "旧电脑",
-            category: .electronics,
+            category: .builtin(.electronics),
             farewellDate: farewell,
             method: .discard
         )
@@ -73,7 +73,7 @@ final class FarewellRecordTests: XCTestCase {
         let context = ModelContext(container)
         let record = FarewellRecord(
             name: "某物",
-            category: .other,
+            category: .builtin(.other),
             method: .other
         )
         context.insert(record)
@@ -83,22 +83,22 @@ final class FarewellRecordTests: XCTestCase {
     func testCategoryRawRoundTrip() throws {
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
-        let record = FarewellRecord(name: "X", category: .books, method: .other)
+        let record = FarewellRecord(name: "X", category: .builtin(.books), method: .other)
         context.insert(record)
 
         // 通过 rawValue 设置 + 读取 category getter
         record.categoryRaw = "电子"
-        XCTAssertEqual(record.category, .electronics)
+        XCTAssertEqual(record.category, .builtin(.electronics))
 
-        // 通过 category setter 设置
-        record.category = .furniture
+        // 通过 categoryID setter 设置（category 改为 get-only）
+        record.categoryID = AnyCategory.builtin(.furniture).storageID
         XCTAssertEqual(record.categoryRaw, "家具")
     }
 
     func testMethodRawRoundTrip() throws {
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
-        let record = FarewellRecord(name: "X", category: .other, method: .other)
+        let record = FarewellRecord(name: "X", category: .builtin(.other), method: .other)
         context.insert(record)
 
         record.methodRaw = "扔掉"
@@ -121,7 +121,7 @@ final class FarewellRecordTests: XCTestCase {
     //
     // 当前 Task 范围内：跳过 precondition 用例，仅记录文档化意图。
     // 失败示例（DEBUG 下会 crash 测试进程）：
-    //   let record = FarewellRecord(name: "", category: .other, method: .other)
+    //   let record = FarewellRecord(name: "", category: .builtin(.other), method: .other)
     //   let record = FarewellRecord(name: String(repeating: "一", count: 51), ...)
     //   let record = FarewellRecord(name: "X", ..., photoFilenames: ["a","b","c","d"])
 
@@ -134,7 +134,7 @@ final class FarewellRecordTests: XCTestCase {
         // Create
         let record = FarewellRecord(
             name: "一套旧书",
-            category: .books,
+            category: .builtin(.books),
             method: .donate,
             photoFilenames: ["test.jpg"]
         )
@@ -152,7 +152,7 @@ final class FarewellRecordTests: XCTestCase {
         let fetched = try context.fetch(descriptor)
         XCTAssertEqual(fetched.count, 1)
         let loaded = fetched[0]
-        XCTAssertEqual(loaded.category, .books)
+        XCTAssertEqual(loaded.category, .builtin(.books))
         XCTAssertEqual(loaded.method, .donate)
         XCTAssertEqual(loaded.farewellLetter, "这些书陪我度过了大学时光")
         XCTAssertEqual(loaded.purchasePrice, 120.0)

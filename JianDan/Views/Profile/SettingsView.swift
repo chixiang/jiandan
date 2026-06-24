@@ -9,6 +9,8 @@ struct SettingsView: View {
     @Environment(ThemeManager.self) private var themeManager
     @Environment(\.modelContext) private var modelContext
 
+    @State private var showingCategoryManagement = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // 分组标题
@@ -42,6 +44,40 @@ struct SettingsView: View {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
                     .strokeBorder(theme.divider, lineWidth: 0.5)
             )
+
+            // 分类管理
+            VStack(alignment: .leading, spacing: 12) {
+                Text("分类")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.secondary)
+                    .tracking(2)
+                    .padding(.horizontal, 4)
+
+                Button(action: { showingCategoryManagement = true }) {
+                    HStack(spacing: 12) {
+                        Image(systemName: "tag")
+                            .font(.subheadline)
+                            .foregroundStyle(theme.accent)
+                        Text("管理自定义分类")
+                            .font(AppTypography.body)
+                            .foregroundStyle(theme.primaryText)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(theme.secondary)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 14)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .background(theme.cardBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .strokeBorder(theme.divider, lineWidth: 0.5)
+                )
+            }
 
             // 导入测试数据
             VStack(alignment: .leading, spacing: 16) {
@@ -78,6 +114,9 @@ struct SettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
+        }
+        .sheet(isPresented: $showingCategoryManagement) {
+            CategoryManagementView()
         }
     }
 }

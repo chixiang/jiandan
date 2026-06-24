@@ -138,7 +138,7 @@ private struct CategoryBreakdownView: View {
             // 横向柱状
             ForEach(items, id: \.category) { item in
                 HStack(spacing: 12) {
-                    Label(item.category.rawValue, systemImage: item.category.icon)
+                    Label(item.category.displayName, systemImage: item.category.iconName)
                         .font(AppTypography.caption)
                         .foregroundStyle(theme.primaryText)
                         .frame(width: 80, alignment: .leading)
@@ -182,10 +182,10 @@ private struct CategoryBreakdownView: View {
         longestCompanionshipDays: 365,
         totalPurchasePrice: 1280,
         categoryBreakdown: [
-            CategoryCount(category: .clothing, count: 5),
-            CategoryCount(category: .books, count: 3),
-            CategoryCount(category: .electronics, count: 2),
-            CategoryCount(category: .other, count: 2),
+            CategoryCount(category: .builtin(.clothing), count: 5),
+            CategoryCount(category: .builtin(.books), count: 3),
+            CategoryCount(category: .builtin(.electronics), count: 2),
+            CategoryCount(category: .builtin(.other), count: 2),
         ],
         averageEmotion: 3.8,
         monthLabel: nil
@@ -206,8 +206,8 @@ private struct CategoryBreakdownView: View {
         longestCompanionshipDays: 90,
         totalPurchasePrice: 480,
         categoryBreakdown: [
-            CategoryCount(category: .clothing, count: 2),
-            CategoryCount(category: .books, count: 1),
+            CategoryCount(category: .builtin(.clothing), count: 2),
+            CategoryCount(category: .builtin(.books), count: 1),
         ],
         averageEmotion: 4.0,
         monthLabel: "2026 年 6 月"

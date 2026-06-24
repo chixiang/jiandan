@@ -7,7 +7,7 @@ struct AddFarewellView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var name: String = ""
-    @State private var category: Category = .clothing
+    @State private var category: AnyCategory = .builtin(.clothing)
     @State private var method: FarewellMethod = .donate
     @State private var farewellDate: Date = .now
     @State private var purchaseDate: Date? = nil
