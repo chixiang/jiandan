@@ -26,6 +26,7 @@ struct MethodPickerSection: View {
 }
 
 private struct MethodChip: View {
+    @Environment(\.appTheme) private var theme
     let method: FarewellMethod
     let isSelected: Bool
     let onTap: () -> Void
@@ -39,12 +40,12 @@ private struct MethodChip: View {
             .font(.subheadline)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
-            .background(isSelected ? Color.accentColor.opacity(0.2) : Color.secondary.opacity(0.1))
-            .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
+            .background(isSelected ? theme.accent.opacity(0.2) : theme.divider.opacity(0.3))
+            .foregroundStyle(isSelected ? theme.accent : theme.primaryText)
             .clipShape(Capsule())
             .overlay(
                 Capsule()
-                    .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1)
+                    .strokeBorder(isSelected ? theme.accent : Color.clear, lineWidth: 1)
             )
         }
         .buttonStyle(.plain)
@@ -55,4 +56,5 @@ private struct MethodChip: View {
     @Previewable @State var selection: FarewellMethod = .donate
     return MethodPickerSection(selection: $selection)
         .padding()
+        .environment(\.appTheme, AppTheme(mode: .light))
 }

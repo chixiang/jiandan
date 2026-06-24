@@ -49,7 +49,7 @@ struct NewCategorySheet: View {
                 Section("预览") {
                     HStack {
                         Image(systemName: selectedIcon)
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(.primary)
                         Text(previewName)
                             .foregroundStyle(.primary)
                     }
@@ -88,6 +88,7 @@ struct NewCategorySheet: View {
 
 /// 图标选择按钮
 private struct IconChoiceButton: View {
+    @Environment(\.appTheme) private var theme
     let iconName: String
     let isSelected: Bool
     let onTap: () -> Void
@@ -98,13 +99,13 @@ private struct IconChoiceButton: View {
                 .font(.title3)
                 .frame(width: 44, height: 44)
                 .background(
-                    isSelected ? Color.accentColor.opacity(0.2) : Color.secondary.opacity(0.08)
+                    isSelected ? theme.accent.opacity(0.2) : Color(.systemGray6)
                 )
-                .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
+                .foregroundStyle(isSelected ? theme.accent : theme.primaryText)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1.5)
+                        .strokeBorder(isSelected ? theme.accent : Color.clear, lineWidth: 1.5)
                 )
         }
         .buttonStyle(.plain)

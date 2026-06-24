@@ -72,6 +72,7 @@ struct CategoryPickerSection: View {
 
 /// 单个分类 chip
 private struct CategoryChip: View {
+    @Environment(\.appTheme) private var theme
     let label: String
     let iconName: String
     let isSelected: Bool
@@ -88,12 +89,12 @@ private struct CategoryChip: View {
             .font(.subheadline)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
-            .background(isSelected ? Color.accentColor.opacity(0.2) : Color.secondary.opacity(0.1))
-            .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
+            .background(isSelected ? theme.accent.opacity(0.2) : theme.divider.opacity(0.3))
+            .foregroundStyle(isSelected ? theme.accent : theme.primaryText)
             .clipShape(Capsule())
             .overlay(
                 Capsule()
-                    .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1)
+                    .strokeBorder(isSelected ? theme.accent : Color.clear, lineWidth: 1)
             )
         }
         .buttonStyle(.plain)
@@ -105,6 +106,7 @@ private struct CategoryChip: View {
 
 /// 「+」chip
 private struct NewCategoryChip: View {
+    @Environment(\.appTheme) private var theme
     let action: () -> Void
 
     var body: some View {
@@ -117,10 +119,10 @@ private struct NewCategoryChip: View {
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(Color.clear)
-            .foregroundStyle(Color.accentColor)
+            .foregroundStyle(theme.accent)
             .overlay(
                 Capsule()
-                    .strokeBorder(Color.accentColor.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+                    .strokeBorder(theme.accent.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
             )
         }
         .buttonStyle(.plain)
