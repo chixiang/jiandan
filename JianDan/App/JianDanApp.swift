@@ -105,7 +105,7 @@ struct JianDanApp: App {
                 }
             }
         }
-        .modelContainer(for: FarewellRecord.self)
+        .modelContainer(for: [FarewellRecord.self, UserCategory.self])
     }
 
     init() {
