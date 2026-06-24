@@ -307,6 +307,48 @@ struct EditFarewellView: View {
                     }
                 }
 
+                Section("更多") {
+                    Toggle("记录购入日期", isOn: Binding(
+                        get: { record.purchaseDate != nil },
+                        set: { newValue in
+                            if newValue {
+                                record.purchaseDate = record.farewellDate.addingTimeInterval(-365 * 86400)
+                            } else {
+                                record.purchaseDate = nil
+                            }
+                        }
+                    ))
+
+                    if record.purchaseDate != nil {
+                        DatePicker("购入日期", selection: Binding(
+                            get: { record.purchaseDate ?? Date.now.addingTimeInterval(-365 * 86400) },
+                            set: { record.purchaseDate = $0 }
+                        ), in: ...record.farewellDate, displayedComponents: .date)
+                    }
+
+                    TextField("购入价格（选填）", text: Binding(
+                        get: {
+                            if let price = record.purchasePrice, price > 0 {
+                                return String(format: "%.0f", price)
+                            }
+                            return ""
+                        },
+                        set: { newValue in
+                            if let price = Double(newValue), price > 0 {
+                                record.purchasePrice = price
+                            } else {
+                                record.purchasePrice = nil
+                            }
+                        }
+                    ))
+                    .keyboardType(.decimalPad)
+
+                    EmotionStarsView(value: Binding(
+                        get: { record.emotionValue },
+                        set: { record.emotionValue = $0 }
+                    ))
+                }
+
                 Section("减单一言") {
                     TextField("写一段话给它", text: Binding(
                         get: { record.farewellLetter ?? "" },
