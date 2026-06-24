@@ -165,9 +165,9 @@ final class FarewellFlowUITests: XCTestCase {
             "Stats section should appear"
         )
 
-        // 5. 「总告别数」标签可见
+        // 5. 「告别数」标签可见
         XCTAssertTrue(
-            app.staticTexts["总告别数"].exists,
+            app.staticTexts["告别数"].exists,
             "'Total farewells' label should appear"
         )
     }
