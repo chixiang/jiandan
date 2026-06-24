@@ -63,7 +63,7 @@ struct RemembranceView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(maxHeight: 220)
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                        .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
+                        .shadow(color: theme.needsShadow ? .black.opacity(0.06) : .clear, radius: 8, y: 2)
                         .padding(.horizontal, 16)
                         .padding(.top, item.photoFilenames.isEmpty ? 0 : 16)
                 }

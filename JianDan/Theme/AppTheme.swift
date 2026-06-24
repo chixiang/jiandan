@@ -61,6 +61,11 @@ struct AppTheme {
         case .ink: return AppColors.Ink.divider
         }
     }
+
+    /// 浅色主题需要阴影；深色/墨色用干净平面更好
+    var needsShadow: Bool {
+        mode == .light
+    }
 }
 
 /// SwiftUI Environment Key
