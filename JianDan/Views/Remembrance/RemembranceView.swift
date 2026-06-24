@@ -59,8 +59,8 @@ struct RemembranceView: View {
                    let uiImage = ImageStore.loadImage(filename: firstPhoto) {
                     Image(uiImage: uiImage)
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 260)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: 320)
                         .clipped()
                 }
 
