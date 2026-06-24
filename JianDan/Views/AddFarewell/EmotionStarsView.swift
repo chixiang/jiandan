@@ -6,7 +6,7 @@ struct EmotionStarsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("当时心情")
+            Text("心情")
                 .font(.headline)
 
             HStack(spacing: 12) {
