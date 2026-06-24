@@ -3,9 +3,8 @@ import SwiftData
 
 /// 「我的」Tab：统计数据 + 设置
 ///
-/// 支持按月切片查看统计：
-/// - 顶部 picker 切换"累计 / 某月"
-/// - 切换月份时统计重算，分类分布与陪伴/总价都按月
+/// 月份选择放在导航栏 toolbar 中，以 Menu 形式展开。
+/// 默认「累计」，可选任意有数据的月份。
 struct ProfileView: View {
     @Environment(\.appTheme) private var theme
     @Environment(ThemeManager.self) private var themeManager
@@ -26,18 +25,18 @@ struct ProfileView: View {
         StatsCalculator.compute(from: records, scope: scope)
     }
 
+    /// 当前选择在 Menu 中的显示文字
+    private var scopeLabel: String {
+        switch scope {
+        case .allTime: return "累计"
+        case .month(let ym): return "\(ym.year) 年 \(ym.month) 月"
+        }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    // 月份选择器（仅在有数据时显示）
-                    if !availableMonths.isEmpty {
-                        MonthScopePicker(
-                            scope: $scope,
-                            availableMonths: availableMonths
-                        )
-                    }
-
                     // 统计区
                     if stats.isEmpty {
                         emptyStateView
@@ -53,13 +52,29 @@ struct ProfileView: View {
             }
             .background(theme.background)
             .navigationTitle("我的")
-        }
-        .onAppear {
-            // 首次进入：默认累计
-            if case .month = scope {
-                // 保持上次选择
-            } else if scope == .allTime {
-                // 默认
+            .toolbar {
+                // 月份选择菜单（仅在有数据时显示）
+                if !availableMonths.isEmpty {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Picker("统计范围", selection: $scope) {
+                                Text("累计").tag(StatsScope.allTime)
+                                ForEach(availableMonths, id: \.self) { ym in
+                                    Text("\(ym.year) 年 \(ym.month) 月")
+                                        .tag(StatsScope.month(ym))
+                                }
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text(scopeLabel)
+                                    .font(.subheadline)
+                                Image(systemName: "chevron.up.chevron.down")
+                                    .font(.caption2)
+                            }
+                            .foregroundStyle(theme.accent)
+                        }
+                    }
+                }
             }
         }
     }
@@ -92,73 +107,10 @@ struct ProfileView: View {
     private var emptySubtitle: String {
         switch scope {
         case .allTime:
-            return "在「减单」Tab 记下第一件物品，\n统计就会出现在这里"
+            return "在「减单」Tab 记下第一件物品，\\n统计就会出现在这里"
         case .month:
-            return "换个月份看看，或\n回到「减单」Tab 记下当月的告别"
+            return "换个月份看看，或\\n回到「减单」Tab 记下当月的告别"
         }
-    }
-}
-
-/// 月份范围选择器
-///
-/// 布局：
-/// - 累计 tab + 各月 tab（按时间倒序）
-/// - 横向滚动避免挤压
-private struct MonthScopePicker: View {
-    @Environment(\.appTheme) private var theme
-    @Binding var scope: StatsScope
-    let availableMonths: [YearMonth]
-
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                // 「累计」tab
-                ScopeChip(
-                    label: "累计",
-                    isSelected: scope == .allTime
-                ) {
-                    scope = .allTime
-                }
-
-                // 各月 tab
-                ForEach(availableMonths, id: \.self) { ym in
-                    ScopeChip(
-                        label: "\(ym.year) 年 \(ym.month) 月",
-                        isSelected: scope == .month(ym)
-                    ) {
-                        scope = .month(ym)
-                    }
-                }
-            }
-            .padding(.horizontal, 4)
-        }
-    }
-}
-
-/// 单个 chip
-private struct ScopeChip: View {
-    @Environment(\.appTheme) private var theme
-    let label: String
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(label)
-                .font(AppTypography.caption)
-                .foregroundStyle(isSelected ? Color.white : theme.primaryText)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule()
-                        .fill(isSelected ? theme.accent : theme.cardBackground)
-                )
-                .overlay(
-                    Capsule()
-                        .strokeBorder(theme.divider, lineWidth: isSelected ? 0 : 0.5)
-                )
-        }
-        .buttonStyle(.plain)
     }
 }
 

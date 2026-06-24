@@ -22,7 +22,7 @@ struct YearMonth: Equatable, Hashable, Comparable {
 ///
 /// - `.allTime` —— 全期累计（默认）
 /// - `.month(ym)` —— 仅看指定年月的告别
-enum StatsScope: Equatable {
+enum StatsScope: Equatable, Hashable {
     case allTime
     case month(YearMonth)
 }
