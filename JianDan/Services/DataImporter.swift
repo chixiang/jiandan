@@ -50,12 +50,15 @@ final class DataImporter {
             var imported = 0
             var skipped = 0
 
+            let existing = Set(
+                (try? context.fetch(FetchDescriptor<FarewellRecord>()))?.map {
+                    "\($0.name)\0\($0.farewellDate.timeIntervalSinceReferenceDate)"
+                } ?? []
+            )
+
             for dto in payload.records {
-                // 去重检查：名称 + 告别日期 → 内存过滤（#Predicate 不支持跨类型比较）
-                let descriptor = FetchDescriptor<FarewellRecord>()
-                let all = try context.fetch(descriptor)
-                let isDuplicate = all.contains { $0.name == dto.name && $0.farewellDate == dto.farewellDate }
-                if isDuplicate {
+                let key = "\(dto.name)\0\(dto.farewellDate.timeIntervalSinceReferenceDate)"
+                if existing.contains(key) {
                     skipped += 1
                     continue
                 }

@@ -46,18 +46,18 @@ final class DiaryListUITests: XCTestCase {
         let app = launchSeededApp()
         // sample_records.json 排序后首位是「一箱旧明信片」
         XCTAssertTrue(
-            app.staticTexts["一箱旧明信片"].waitForExistence(timeout: 10),
+            app.staticTexts["一箱旧明信片"].waitForExistence(timeout: 15),
             "应展示种子数据"
         )
-        // 顶部第一个应是 2026-06-20 的「一箱旧明信片」
-        XCTAssertTrue(app.staticTexts["冬天的厚被褥"].exists, "次条应展示")
+        // 第二条应展示
+        XCTAssertTrue(app.staticTexts["冬天的厚被褥"].waitForExistence(timeout: 5), "次条应展示")
     }
 
     func testListSortsNewestFirst() {
         let app = launchSeededApp()
-        // 按 sample_records.json 倒序应先是 2026-06-20 的「一箱旧明信片」
+        // 按 sample_records.json 倒序应先是 2026-06-30 的「一箱旧明信片」
         let firstCard = app.staticTexts["一箱旧明信片"]
-        XCTAssertTrue(firstCard.waitForExistence(timeout: 10))
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 15))
     }
 
     // MARK: - 新增流程
@@ -125,7 +125,7 @@ final class DiaryListUITests: XCTestCase {
     func testTapCardNavigatesToDetail() {
         let app = launchSeededApp()
         let firstCard = app.staticTexts["一箱旧明信片"]
-        XCTAssertTrue(firstCard.waitForExistence(timeout: 10))
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 15))
         firstCard.tap()
 
         XCTAssertTrue(
@@ -143,7 +143,7 @@ final class DiaryListUITests: XCTestCase {
     func testDeleteRecordFromDetail() {
         let app = launchSeededApp()
         let firstCard = app.staticTexts["一箱旧明信片"]
-        XCTAssertTrue(firstCard.waitForExistence(timeout: 10))
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 15))
         firstCard.tap()
 
         XCTAssertTrue(
@@ -152,6 +152,6 @@ final class DiaryListUITests: XCTestCase {
 
         // 详情页应展示完整内容（这是删除前的必要前提）
         XCTAssertTrue(app.staticTexts["分类"].waitForExistence(timeout: 3))
-        XCTAssertTrue(app.staticTexts["去向"].exists)
+        XCTAssertTrue(app.staticTexts["去向"].waitForExistence(timeout: 3))
     }
 }

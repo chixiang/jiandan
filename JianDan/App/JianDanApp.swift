@@ -10,7 +10,9 @@ struct JianDanApp: App {
     /// 仅在真冷启动时显示（`ScenePhase` 从 `.background` → `.active` 不算冷启动）。
     /// 通过 `@State` 持有，进程生命周期内不变；从后台回前台时 coordinator 实例仍在，
     /// 但 `isVisible` 已是 false（5s 内已自动淡出），不会重新展示。
-    @State private var splashCoordinator: SplashCoordinator?
+    ///
+    /// 声明时立即初始化，确保 body 首次渲染时 coordinator 已就位，避免列表画面先闪现。
+    @State private var splashCoordinator: SplashCoordinator? = Self.makeSplashCoordinator()
 
     /// 启动时检测 launch arguments；UI 测试可通过 `-resetStore` 清空 SwiftData store，
     /// 或 `-resetUserDefaults` 清空 UserDefaults（包括主题选择等持久化状态）。
@@ -96,13 +98,6 @@ struct JianDanApp: App {
                 RootTabView()
                     .appTheme(themeManager.mode)
                     .environment(themeManager)
-            }
-            .onAppear {
-                // 冷启动时构造 coordinator（仅当之前未构造时）
-                // `onAppear` 在进程生命周期内只触发一次（在 iOS 17+ 的 WindowGroup 行为下）
-                if splashCoordinator == nil {
-                    splashCoordinator = Self.makeSplashCoordinator()
-                }
             }
         }
         .modelContainer(for: [FarewellRecord.self, UserCategory.self])

@@ -170,10 +170,10 @@ final class JianDanUITests: XCTestCase {
         ]
         app.launch()
 
-        // 1. 列表里出现样本记录（DataImporter 已注入 8 条，按 farewellDate 倒序）
+        // 1. 列表里出现样本记录（DataImporter 已注入 100 条，按 farewellDate 倒序）
         let firstCard = app.staticTexts["一箱旧明信片"]
         XCTAssertTrue(
-            firstCard.waitForExistence(timeout: 5),
+            firstCard.waitForExistence(timeout: 15),
             "Sample record should appear in diary list"
         )
 

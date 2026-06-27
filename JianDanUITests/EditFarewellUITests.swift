@@ -28,7 +28,7 @@ final class EditFarewellUITests: XCTestCase {
     func testOpenDetailShowsAllFields() {
         let app = launchSeededApp()
         let firstCard = app.staticTexts["一箱旧明信片"]
-        XCTAssertTrue(firstCard.waitForExistence(timeout: 10))
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 15))
         firstCard.tap()
 
         // 详情页 navigationBar 应展示记录名
@@ -47,7 +47,7 @@ final class EditFarewellUITests: XCTestCase {
         let app = launchSeededApp()
         // 选择有 farewellLetter 的记录：「冬天的厚被褥」
         let card = app.staticTexts["冬天的厚被褥"]
-        XCTAssertTrue(card.waitForExistence(timeout: 10))
+        XCTAssertTrue(card.waitForExistence(timeout: 15))
         card.tap()
 
         XCTAssertTrue(
@@ -63,9 +63,9 @@ final class EditFarewellUITests: XCTestCase {
     /// 「陪伴了 X 天」在有购入日期时展示
     func testDetailShowsCompanionshipDays() {
         let app = launchSeededApp()
-        // 「冬天的厚被褥」购入 2024-01-10，告别 2026-06-01，约 507 天
+        // 「冬天的厚被褥」购入 2024-01-10，告别 2026-06-29，约 536 天
         let card = app.staticTexts["冬天的厚被褥"]
-        XCTAssertTrue(card.waitForExistence(timeout: 10))
+        XCTAssertTrue(card.waitForExistence(timeout: 15))
         card.tap()
 
         XCTAssertTrue(
