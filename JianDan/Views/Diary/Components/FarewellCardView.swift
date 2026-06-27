@@ -30,14 +30,18 @@ struct FarewellCardView: View {
                     .lineLimit(2)
 
                 // 分类 + 方式
-                HStack(spacing: 8) {
-                    Label(record.category.displayName, systemImage: record.category.iconName)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Label(record.method.rawValue, systemImage: record.method.icon)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    HStack(spacing: 2) {
+                        Image(systemName: record.category.iconName)
+                        Text(record.category.displayName)
+                    }
+                    HStack(spacing: 2) {
+                        Image(systemName: record.method.icon)
+                        Text(record.method.rawValue)
+                    }
                 }
+                .font(.caption)
+                .foregroundStyle(.secondary)
 
                 // 日期：购入 ~ 减单
                 HStack(spacing: 4) {
