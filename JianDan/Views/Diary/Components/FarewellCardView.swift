@@ -4,6 +4,16 @@ import SwiftUI
 struct FarewellCardView: View {
     let record: FarewellRecord
 
+    private static let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy/M/d"
+        return f
+    }()
+
+    private static func dateString(from date: Date) -> String {
+        dateFormatter.string(from: date)
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             // 主照片
@@ -29,15 +39,15 @@ struct FarewellCardView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                // 日期：购入 → 减单
+                // 日期：购入 ~ 减单
                 HStack(spacing: 4) {
                     if let purchase = record.purchaseDate {
-                        Text(purchase, format: .dateTime.year().month().day())
+                        Text(Self.dateString(from: purchase))
                     } else {
                         Text("某天")
                     }
                     Text("~")
-                    Text(record.farewellDate, format: .dateTime.year().month().day())
+                    Text(Self.dateString(from: record.farewellDate))
                 }
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
