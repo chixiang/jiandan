@@ -90,46 +90,4 @@ final class StatsUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["分类分布"].exists)
     }
 
-    // MARK: - 月份选择器
-
-    func testMonthScopeSelectorExists() {
-        let app = launchSeededApp()
-        openProfile(app)
-
-        // 顶部 Menu 标签：默认「累计」
-        let scopeLabel = app.buttons.matching(
-            NSPredicate(format: "label CONTAINS '累计'")
-        ).firstMatch
-        XCTAssertTrue(
-            scopeLabel.waitForExistence(timeout: 3),
-            "应展示「累计」scope 标签"
-        )
-    }
-
-    func testMonthScopeFiltering() {
-        let app = launchSeededApp()
-        openProfile(app)
-
-        // 点 scope 标签展开 menu
-        let scopeLabel = app.buttons.matching(
-            NSPredicate(format: "label CONTAINS '累计'")
-        ).firstMatch
-        XCTAssertTrue(scopeLabel.waitForExistence(timeout: 3))
-        scopeLabel.tap()
-
-        // 应至少有一个月份可选项（"年 X 月"）
-        let monthOption = app.buttons.matching(
-            NSPredicate(format: "label CONTAINS '年' AND label CONTAINS '月'")
-        ).firstMatch
-        if monthOption.waitForExistence(timeout: 3) {
-            monthOption.tap()
-            // 标题应更新（变成具体月份）
-            XCTAssertTrue(
-                app.staticTexts.matching(
-                    NSPredicate(format: "label CONTAINS '年' AND label CONTAINS '月'")
-                ).firstMatch.waitForExistence(timeout: 3),
-                "选择月份后标题应更新"
-            )
-        }
-    }
 }

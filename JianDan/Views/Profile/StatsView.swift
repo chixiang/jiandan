@@ -2,33 +2,20 @@ import SwiftUI
 
 /// 告别统计卡片网格
 ///
-/// 展示告别数 / 陪伴累计 / 总价等关键指标。
-/// 数据由 `StatsCalculator.compute(from:scope:)` 提供；本 View 只负责渲染。
-///
-/// 当 `stats.monthLabel` 非 nil 时（即按月切片），顶部显示副标题。
+/// 展示告别数 / 平均陪伴 / 最长陪伴 / 总价等关键指标。
+/// 数据由 `StatsCalculator.compute(from:)` 提供；本 View 只负责渲染。
 struct StatsView: View {
     @Environment(\.appTheme) private var theme
     let stats: FarewellStats
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // 标题
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("统计")
-                    .font(AppTypography.caption)
-                    .foregroundStyle(theme.secondary)
-                    .tracking(2)
+            Text("统计")
+                .font(AppTypography.caption)
+                .foregroundStyle(theme.secondary)
+                .tracking(2)
+                .padding(.horizontal, 4)
 
-                if let monthLabel = stats.monthLabel {
-                    Text(monthLabel)
-                        .font(AppTypography.caption)
-                        .foregroundStyle(theme.secondary)
-                        .opacity(0.7)
-                }
-            }
-            .padding(.horizontal, 4)
-
-            // 第一行：告别数 / 陪伴天数
             HStack(spacing: 12) {
                 StatCard(
                     value: "\(stats.totalCount)",
@@ -36,13 +23,12 @@ struct StatsView: View {
                     icon: "leaf.fill"
                 )
                 StatCard(
-                    value: "\(stats.totalCompanionshipDays)",
-                    label: "陪伴天数",
+                    value: stats.averageCompanionshipDays.map { String(format: "%.1f", $0) } ?? "—",
+                    label: "平均陪伴",
                     icon: "heart.fill"
                 )
             }
 
-            // 第二行：最长陪伴 / 总价
             HStack(spacing: 12) {
                 StatCard(
                     value: "\(stats.longestCompanionshipDays)",
@@ -56,7 +42,6 @@ struct StatsView: View {
                 )
             }
 
-            // 第三行：情感均值（仅在有数据时显示）
             if let avg = stats.averageEmotion {
                 HStack(spacing: 12) {
                     StatCard(
@@ -64,13 +49,11 @@ struct StatsView: View {
                         label: "情感均值",
                         icon: "star.fill"
                     )
-                    // 占位让布局保持 2 列
                     Color.clear
                         .frame(maxWidth: .infinity)
                 }
             }
 
-            // 分类分布
             if !stats.categoryBreakdown.isEmpty {
                 CategoryBreakdownView(items: stats.categoryBreakdown)
             }
@@ -88,7 +71,6 @@ struct StatsView: View {
     }
 }
 
-/// 单个统计卡片
 private struct StatCard: View {
     @Environment(\.appTheme) private var theme
     let value: String
@@ -123,7 +105,6 @@ private struct StatCard: View {
     }
 }
 
-/// 分类分布
 private struct CategoryBreakdownView: View {
     @Environment(\.appTheme) private var theme
     let items: [CategoryCount]
@@ -135,7 +116,6 @@ private struct CategoryBreakdownView: View {
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
 
-            // 横向柱状
             ForEach(items, id: \.category) { item in
                 HStack(spacing: 12) {
                     Label(item.category.displayName, systemImage: item.category.iconName)
@@ -143,7 +123,6 @@ private struct CategoryBreakdownView: View {
                         .foregroundStyle(theme.primaryText)
                         .frame(width: 80, alignment: .leading)
 
-                    // 进度条（相对于分类中最多的那个）
                     GeometryReader { proxy in
                         let maxCount = items.first?.count ?? 1
                         let ratio = maxCount > 0 ? Double(item.count) / Double(maxCount) : 0
@@ -178,7 +157,7 @@ private struct CategoryBreakdownView: View {
     let theme = AppTheme(mode: .light)
     let stats = FarewellStats(
         totalCount: 12,
-        totalCompanionshipDays: 845,
+        averageCompanionshipDays: 70.4,
         longestCompanionshipDays: 365,
         totalPurchasePrice: 1280,
         categoryBreakdown: [
@@ -187,30 +166,7 @@ private struct CategoryBreakdownView: View {
             CategoryCount(category: .builtin(.electronics), count: 2),
             CategoryCount(category: .builtin(.other), count: 2),
         ],
-        averageEmotion: 3.8,
-        monthLabel: nil
-    )
-    return ScrollView {
-        StatsView(stats: stats)
-            .padding()
-    }
-    .background(theme.background)
-    .environment(\.appTheme, theme)
-}
-
-#Preview("按月") {
-    let theme = AppTheme(mode: .light)
-    let stats = FarewellStats(
-        totalCount: 3,
-        totalCompanionshipDays: 120,
-        longestCompanionshipDays: 90,
-        totalPurchasePrice: 480,
-        categoryBreakdown: [
-            CategoryCount(category: .builtin(.clothing), count: 2),
-            CategoryCount(category: .builtin(.books), count: 1),
-        ],
-        averageEmotion: 4.0,
-        monthLabel: "2026 年 6 月"
+        averageEmotion: 3.8
     )
     return ScrollView {
         StatsView(stats: stats)
@@ -225,30 +181,11 @@ private struct CategoryBreakdownView: View {
     return ScrollView {
         StatsView(stats: FarewellStats(
             totalCount: 0,
-            totalCompanionshipDays: 0,
+            averageCompanionshipDays: nil,
             longestCompanionshipDays: 0,
             totalPurchasePrice: 0,
             categoryBreakdown: [],
-            averageEmotion: nil,
-            monthLabel: nil
-        ))
-        .padding()
-    }
-    .background(theme.background)
-    .environment(\.appTheme, theme)
-}
-
-#Preview("空月份") {
-    let theme = AppTheme(mode: .light)
-    return ScrollView {
-        StatsView(stats: FarewellStats(
-            totalCount: 0,
-            totalCompanionshipDays: 0,
-            longestCompanionshipDays: 0,
-            totalPurchasePrice: 0,
-            categoryBreakdown: [],
-            averageEmotion: nil,
-            monthLabel: "2025 年 3 月"
+            averageEmotion: nil
         ))
         .padding()
     }
