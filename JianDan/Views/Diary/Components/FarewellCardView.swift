@@ -29,10 +29,18 @@ struct FarewellCardView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                // 日期
-                Text(record.farewellDate, format: .dateTime.year().month().day())
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
+                // 日期：购入 → 减单
+                HStack(spacing: 4) {
+                    if let purchase = record.purchaseDate {
+                        Text(purchase, format: .dateTime.year().month().day())
+                    } else {
+                        Text("某天")
+                    }
+                    Text("~")
+                    Text(record.farewellDate, format: .dateTime.year().month().day())
+                }
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
 
                 // 情感值（可选）
                 if let emotion = record.emotionValue {

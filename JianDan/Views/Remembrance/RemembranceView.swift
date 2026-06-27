@@ -84,8 +84,16 @@ struct RemembranceView: View {
 
                 // ---- 日期 + 陪伴天数 ----
                 HStack(spacing: 8) {
-                    Text(item.farewellDate, format: .dateTime.year().month().day())
-                        .font(.caption)
+                    HStack(spacing: 4) {
+                        if let purchase = item.purchaseDate {
+                            Text(purchase, format: .dateTime.year().month().day())
+                        } else {
+                            Text("某天")
+                        }
+                        Text("~")
+                        Text(item.farewellDate, format: .dateTime.year().month().day())
+                    }
+                    .font(.caption)
                     if let days = item.companionshipDays {
                         Text("·")
                         Text("陪伴 \(days) 天")
