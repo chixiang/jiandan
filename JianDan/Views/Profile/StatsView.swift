@@ -3,7 +3,7 @@ import SwiftUI
 /// 告别统计卡片网格
 ///
 /// 展示告别数 / 平均陪伴 / 最长陪伴 / 总价等关键指标。
-/// 数据由 `StatsCalculator.compute(from:)` 提供；本 View 只负责渲染。
+/// 下方依次展示分类分布、分类总价、去向分布、情感分布。
 struct StatsView: View {
     @Environment(\.appTheme) private var theme
     let stats: FarewellStats
@@ -42,33 +42,60 @@ struct StatsView: View {
                 )
             }
 
-            if stats.averageEmotion != nil || stats.topMethod != nil {
-                HStack(spacing: 12) {
-                    if let avg = stats.averageEmotion {
-                        StatCard(
-                            value: String(format: "%.1f", avg),
-                            label: "情感均值",
-                            icon: "star.fill"
+            if !stats.categoryBreakdown.isEmpty {
+                BreakdownCard(title: "分类分布") {
+                    ForEach(stats.categoryBreakdown, id: \.category) { item in
+                        BreakdownRow(
+                            icon: item.category.iconName,
+                            label: item.category.displayName,
+                            value: "\(item.count)",
+                            count: item.count,
+                            maxCount: stats.categoryBreakdown.first?.count ?? 1
                         )
-                    } else {
-                        Color.clear
-                            .frame(maxWidth: .infinity)
-                    }
-                    if let top = stats.topMethod {
-                        StatCard(
-                            value: top.name,
-                            label: "最常去向",
-                            icon: "arrow.right"
-                        )
-                    } else {
-                        Color.clear
-                            .frame(maxWidth: .infinity)
                     }
                 }
             }
 
-            if !stats.categoryBreakdown.isEmpty {
-                CategoryBreakdownView(items: stats.categoryBreakdown)
+            if !stats.categoryPriceBreakdown.isEmpty {
+                BreakdownCard(title: "分类总价") {
+                    ForEach(stats.categoryPriceBreakdown, id: \.category) { item in
+                        BreakdownRow(
+                            icon: item.category.iconName,
+                            label: item.category.displayName,
+                            value: priceString(item.totalPrice),
+                            count: Int(item.totalPrice),
+                            maxCount: Int(stats.categoryPriceBreakdown.first?.totalPrice ?? 0)
+                        )
+                    }
+                }
+            }
+
+            if !stats.methodBreakdown.isEmpty {
+                BreakdownCard(title: "去向分布") {
+                    ForEach(Array(stats.methodBreakdown.enumerated()), id: \.offset) { _, item in
+                        BreakdownRow(
+                            icon: item.icon,
+                            label: item.name,
+                            value: "\(item.count)",
+                            count: item.count,
+                            maxCount: stats.methodBreakdown.first?.count ?? 1
+                        )
+                    }
+                }
+            }
+
+            if !stats.emotionBreakdown.isEmpty {
+                BreakdownCard(title: "情感分布") {
+                    ForEach(stats.emotionBreakdown, id: \.stars) { item in
+                        BreakdownRow(
+                            icon: nil,
+                            label: item.name,
+                            value: "\(item.count)",
+                            count: item.count,
+                            maxCount: stats.emotionBreakdown.first?.count ?? 1
+                        )
+                    }
+                }
             }
         }
     }
@@ -83,6 +110,8 @@ struct StatsView: View {
         return String(format: "%.0f", price)
     }
 }
+
+// MARK: - 组件
 
 private struct StatCard: View {
     @Environment(\.appTheme) private var theme
@@ -118,45 +147,20 @@ private struct StatCard: View {
     }
 }
 
-private struct CategoryBreakdownView: View {
-    @Environment(\.appTheme) private var theme
-    let items: [CategoryCount]
+private struct BreakdownCard<Content: View>: View {
+    let title: String
+    @ViewBuilder let content: Content
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("分类分布")
+            Text(title)
                 .font(AppTypography.caption)
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
-
-            ForEach(items, id: \.category) { item in
-                HStack(spacing: 12) {
-                    Label(item.category.displayName, systemImage: item.category.iconName)
-                        .font(AppTypography.caption)
-                        .foregroundStyle(theme.primaryText)
-                        .frame(width: 80, alignment: .leading)
-
-                    GeometryReader { proxy in
-                        let maxCount = items.first?.count ?? 1
-                        let ratio = maxCount > 0 ? Double(item.count) / Double(maxCount) : 0
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(theme.divider)
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(theme.accent)
-                                .frame(width: proxy.size.width * ratio)
-                        }
-                    }
-                    .frame(height: 6)
-
-                    Text("\(item.count)")
-                        .font(AppTypography.caption)
-                        .foregroundStyle(theme.secondary)
-                        .frame(width: 28, alignment: .trailing)
-                }
-            }
+            content
         }
         .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(theme.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(
@@ -164,7 +168,53 @@ private struct CategoryBreakdownView: View {
                 .strokeBorder(theme.divider, lineWidth: 0.5)
         )
     }
+
+    @Environment(\.appTheme) private var theme
 }
+
+private struct BreakdownRow: View {
+    @Environment(\.appTheme) private var theme
+    let icon: String?
+    let label: String
+    let value: String
+    let count: Int
+    let maxCount: Int
+
+    var body: some View {
+        HStack(spacing: 12) {
+            if let iconName = icon {
+                Label(label, systemImage: iconName)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.primaryText)
+                    .frame(width: 80, alignment: .leading)
+            } else {
+                Text(label)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.primaryText)
+                    .frame(width: 80, alignment: .leading)
+            }
+
+            GeometryReader { proxy in
+                let ratio = maxCount > 0 ? Double(count) / Double(maxCount) : 0
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(theme.divider)
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(theme.accent)
+                        .frame(width: proxy.size.width * ratio)
+                }
+            }
+            .frame(height: 6)
+
+            Text(value)
+                .font(AppTypography.caption)
+                .foregroundStyle(theme.secondary)
+                .frame(width: 64, alignment: .trailing)
+        }
+    }
+}
+
+// MARK: - Previews
 
 #Preview("累计") {
     let theme = AppTheme(mode: .light)
@@ -179,8 +229,20 @@ private struct CategoryBreakdownView: View {
             CategoryCount(category: .builtin(.electronics), count: 2),
             CategoryCount(category: .builtin(.other), count: 2),
         ],
-        averageEmotion: 3.8,
-        topMethod: TopMethodInfo(name: "捐赠", count: 5)
+        categoryPriceBreakdown: [
+            CategoryPriceCount(category: .builtin(.clothing), totalPrice: 6400),
+            CategoryPriceCount(category: .builtin(.electronics), totalPrice: 3200),
+        ],
+        methodBreakdown: [
+            MethodCount(name: "捐赠", icon: "heart", count: 4),
+            MethodCount(name: "送人", icon: "gift", count: 3),
+            MethodCount(name: "扔掉", icon: "trash", count: 2),
+        ],
+        emotionBreakdown: [
+            EmotionCount(stars: 2, name: "不舍", count: 5),
+            EmotionCount(stars: 3, name: "复杂", count: 3),
+            EmotionCount(stars: 1, name: "平静", count: 1),
+        ]
     )
     return ScrollView {
         StatsView(stats: stats)
@@ -199,8 +261,9 @@ private struct CategoryBreakdownView: View {
             longestCompanionshipDays: 0,
             totalPurchasePrice: 0,
             categoryBreakdown: [],
-            averageEmotion: nil,
-            topMethod: nil
+            categoryPriceBreakdown: [],
+            methodBreakdown: [],
+            emotionBreakdown: []
         ))
         .padding()
     }

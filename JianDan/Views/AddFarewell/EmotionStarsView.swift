@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 情感值选择（1-5，圆点 + 标签，可重选为未选）
+/// 情感值选择（1-3，圆点 + 标签，可重选为未选）
 struct EmotionStarsView: View {
     @Binding var value: Int?  // nil 表示未选
 
@@ -10,7 +10,7 @@ struct EmotionStarsView: View {
                 .font(.headline)
 
             HStack(spacing: 12) {
-                ForEach(1...5, id: \.self) { i in
+                ForEach(1...3, id: \.self) { i in
                     Button {
                         value = (value == i) ? nil : i
                     } label: {
@@ -37,18 +37,16 @@ struct EmotionStarsView: View {
 
     private func label(for value: Int) -> String {
         switch value {
-        case 1: return "轻松"
-        case 2: return "释然"
-        case 3: return "平静"
-        case 4: return "复杂"
-        case 5: return "不舍"
+        case 1: return "平静"
+        case 2: return "不舍"
+        case 3: return "复杂"
         default: return ""
         }
     }
 }
 
 #Preview {
-    @Previewable @State var value: Int? = 3
+    @Previewable @State var value: Int? = 2
     return EmotionStarsView(value: $value)
         .padding()
 }

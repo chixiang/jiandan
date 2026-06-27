@@ -11,6 +11,7 @@ final class StatsCalculatorTests: XCTestCase {
         name: String = "x",
         category: FarewellCategory = .other,
         farewellDate: Date = .now,
+        method: FarewellMethod = .donate,
         purchaseDate: Date? = nil,
         purchasePrice: Double? = nil,
         emotionValue: Int? = nil
@@ -19,7 +20,7 @@ final class StatsCalculatorTests: XCTestCase {
             name: name,
             category: .builtin(category),
             farewellDate: farewellDate,
-            method: .donate,
+            method: method,
             purchaseDate: purchaseDate,
             purchasePrice: purchasePrice,
             emotionValue: emotionValue
@@ -43,8 +44,10 @@ final class StatsCalculatorTests: XCTestCase {
         XCTAssertEqual(stats.longestCompanionshipDays, 0)
         XCTAssertEqual(stats.totalPurchasePrice, 0)
         XCTAssertTrue(stats.categoryBreakdown.isEmpty)
-        XCTAssertNil(stats.averageEmotion)
-        XCTAssertNil(stats.topMethod)
+        XCTAssertTrue(stats.categoryPriceBreakdown.isEmpty)
+        XCTAssertTrue(stats.methodBreakdown.isEmpty)
+        XCTAssertEqual(stats.emotionBreakdown.count, 3)
+        XCTAssertTrue(stats.emotionBreakdown.allSatisfy { $0.count == 0 })
         XCTAssertTrue(stats.isEmpty)
     }
 
@@ -124,76 +127,90 @@ final class StatsCalculatorTests: XCTestCase {
         XCTAssertEqual(breakdown[2].category, .builtin(.books))
     }
 
-    func testFarewellStatsEquatable() {
-        let a = FarewellStats(
-            totalCount: 3,
-            averageCompanionshipDays: 3.3,
-            longestCompanionshipDays: 5,
-            totalPurchasePrice: 100,
-            categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
-            averageEmotion: 4.0,
-            topMethod: TopMethodInfo(name: "捐赠", count: 2)
-        )
-        let b = FarewellStats(
-            totalCount: 3,
-            averageCompanionshipDays: 3.3,
-            longestCompanionshipDays: 5,
-            totalPurchasePrice: 100,
-            categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
-            averageEmotion: 4.0,
-            topMethod: TopMethodInfo(name: "捐赠", count: 2)
-        )
-        XCTAssertEqual(a, b, "FarewellStats 应可比较相等")
+    // MARK: - 分类总价
+
+    func testCategoryPriceBreakdownIsSortedByPriceDescending() {
+        let records = [
+            makeRecord(category: FarewellCategory.clothing, purchasePrice: 500),
+            makeRecord(category: FarewellCategory.clothing, purchasePrice: 300),
+            makeRecord(category: FarewellCategory.books, purchasePrice: 100),
+            makeRecord(category: FarewellCategory.electronics, purchasePrice: 1200),
+        ]
+        let breakdown = StatsCalculator.compute(from: records).categoryPriceBreakdown
+        XCTAssertEqual(breakdown.count, 3)
+        XCTAssertEqual(breakdown[0].category, .builtin(.electronics))
+        XCTAssertEqual(breakdown[0].totalPrice, 1200)
+        XCTAssertEqual(breakdown[1].category, .builtin(.clothing))
+        XCTAssertEqual(breakdown[1].totalPrice, 800)
+        XCTAssertEqual(breakdown[2].category, .builtin(.books))
+        XCTAssertEqual(breakdown[2].totalPrice, 100)
     }
 
-    // MARK: - 情感均值
+    func testCategoryPriceSkipsNilPrices() {
+        let records = [
+            makeRecord(category: FarewellCategory.clothing, purchasePrice: nil),
+            makeRecord(category: FarewellCategory.clothing, purchasePrice: nil),
+        ]
+        XCTAssertTrue(StatsCalculator.compute(from: records).categoryPriceBreakdown.isEmpty)
+    }
 
-    func testAverageEmotion() {
+    // MARK: - 去向分布
+
+    func testMethodBreakdownContainsAllUsedMethods() {
+        let records = [
+            makeRecord(method: .gift),
+            makeRecord(method: .gift),
+            makeRecord(method: .donate),
+        ]
+        let breakdown = StatsCalculator.compute(from: records).methodBreakdown
+        XCTAssertEqual(breakdown.count, 2)
+        XCTAssertEqual(breakdown[0].name, "送人")
+        XCTAssertEqual(breakdown[0].count, 2)
+        XCTAssertEqual(breakdown[1].name, "捐赠")
+        XCTAssertEqual(breakdown[1].count, 1)
+    }
+
+    func testMethodBreakdownExcludesUnusedMethods() {
+        let records = [
+            makeRecord(method: .gift),
+        ]
+        let breakdown = StatsCalculator.compute(from: records).methodBreakdown
+        XCTAssertEqual(breakdown.count, 1)
+        XCTAssertEqual(breakdown[0].name, "送人")
+    }
+
+    // MARK: - 情感分布
+
+    func testEmotionBreakdownHasThreeValuesSortedByCount() {
         let records = [
             makeRecord(emotionValue: 3),
-            makeRecord(emotionValue: 5),
-            makeRecord(emotionValue: nil),
+            makeRecord(emotionValue: 2),
+            makeRecord(emotionValue: 2),
         ]
-        let stats = StatsCalculator.compute(from: records)
-        XCTAssertNotNil(stats.averageEmotion)
-        XCTAssertEqual(stats.averageEmotion!, 4.0, accuracy: 0.01)
+        let breakdown = StatsCalculator.compute(from: records).emotionBreakdown
+        XCTAssertEqual(breakdown.count, 3)
+        // 按 count 降序：不舍(2) > 复杂(1) > 平静(0)
+        XCTAssertEqual(breakdown[0].stars, 2)
+        XCTAssertEqual(breakdown[0].count, 2)
+        XCTAssertEqual(breakdown[0].name, "不舍")
+        XCTAssertEqual(breakdown[1].stars, 3)
+        XCTAssertEqual(breakdown[1].count, 1)
+        XCTAssertEqual(breakdown[1].name, "复杂")
+        XCTAssertEqual(breakdown[2].stars, 1)
+        XCTAssertEqual(breakdown[2].count, 0)
+        XCTAssertEqual(breakdown[2].name, "平静")
     }
 
-    func testAverageEmotionNilWhenNoEmotionValues() {
+    func testEmotionBreakdownAllZeroWhenNoEmotionValues() {
         let records = [
             makeRecord(emotionValue: nil),
             makeRecord(emotionValue: nil),
         ]
-        XCTAssertNil(StatsCalculator.compute(from: records).averageEmotion)
-    }
-
-    // MARK: - 最常去向
-
-    func testTopMethodPicksMostFrequent() {
-        let records = [
-            makeRecord(name: "a"),
-            makeRecord(name: "b"),
-            makeRecord(name: "c"),
-        ]
-        // makeRecord 默认 method = .donate（捐赠），所以 3 条都是捐赠
-        let stats = StatsCalculator.compute(from: records)
-        XCTAssertEqual(stats.topMethod?.name, "捐赠")
-        XCTAssertEqual(stats.topMethod?.count, 3)
-    }
-
-    func testTopMethodNilWhenNoRecords() {
-        let stats = StatsCalculator.compute(from: [])
-        XCTAssertNil(stats.topMethod)
-    }
-
-    func testTopMethodWithMultipleMethods() {
-        let r1 = FarewellRecord(name: "a", category: .builtin(.other), farewellDate: .now, method: .gift)
-        let r2 = FarewellRecord(name: "b", category: .builtin(.other), farewellDate: .now, method: .gift)
-        let r3 = FarewellRecord(name: "c", category: .builtin(.other), farewellDate: .now, method: .donate)
-        let r4 = FarewellRecord(name: "d", category: .builtin(.other), farewellDate: .now, method: .discard)
-        let stats = StatsCalculator.compute(from: [r1, r2, r3, r4])
-        XCTAssertEqual(stats.topMethod?.name, "送人")
-        XCTAssertEqual(stats.topMethod?.count, 2)
+        let breakdown = StatsCalculator.compute(from: records).emotionBreakdown
+        XCTAssertEqual(breakdown.count, 3)
+        XCTAssertTrue(breakdown.allSatisfy { $0.count == 0 })
+        XCTAssertEqual(breakdown[0].name, "平静")
+        XCTAssertEqual(breakdown[2].name, "复杂")
     }
 
     // MARK: - 集成
@@ -251,6 +268,32 @@ final class StatsCalculatorTests: XCTestCase {
         let stats = StatsCalculator.compute(from: [r1, r2, r3])
         XCTAssertEqual(stats.categoryBreakdown.count, 2)
         XCTAssertEqual(stats.categoryBreakdown.first?.count, 2, "数码 应有 2 条")
+    }
+
+    // MARK: - Equatable
+
+    func testFarewellStatsEquatable() {
+        let a = FarewellStats(
+            totalCount: 3,
+            averageCompanionshipDays: 3.3,
+            longestCompanionshipDays: 5,
+            totalPurchasePrice: 100,
+            categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
+            categoryPriceBreakdown: [CategoryPriceCount(category: .builtin(FarewellCategory.books), totalPrice: 300)],
+            methodBreakdown: [MethodCount(name: "捐赠", icon: "heart", count: 2)],
+            emotionBreakdown: [EmotionCount(stars: 3, name: "平静", count: 1)]
+        )
+        let b = FarewellStats(
+            totalCount: 3,
+            averageCompanionshipDays: 3.3,
+            longestCompanionshipDays: 5,
+            totalPurchasePrice: 100,
+            categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
+            categoryPriceBreakdown: [CategoryPriceCount(category: .builtin(FarewellCategory.books), totalPrice: 300)],
+            methodBreakdown: [MethodCount(name: "捐赠", icon: "heart", count: 2)],
+            emotionBreakdown: [EmotionCount(stars: 3, name: "平静", count: 1)]
+        )
+        XCTAssertEqual(a, b, "FarewellStats 应可比较相等")
     }
 
     // MARK: - 辅助

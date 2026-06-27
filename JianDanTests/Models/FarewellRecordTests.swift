@@ -140,7 +140,7 @@ final class FarewellRecordTests: XCTestCase {
         )
         record.farewellLetter = "这些书陪我度过了大学时光"
         record.purchasePrice = 120.0
-        record.emotionValue = 4
+        record.emotionValue = 3
         record.recipientDetail = "学校图书馆"
         context.insert(record)
         try context.save()
@@ -156,7 +156,7 @@ final class FarewellRecordTests: XCTestCase {
         XCTAssertEqual(loaded.method, .donate)
         XCTAssertEqual(loaded.farewellLetter, "这些书陪我度过了大学时光")
         XCTAssertEqual(loaded.purchasePrice, 120.0)
-        XCTAssertEqual(loaded.emotionValue, 4)
+        XCTAssertEqual(loaded.emotionValue, 3)
         XCTAssertEqual(loaded.recipientDetail, "学校图书馆")
         XCTAssertEqual(loaded.photoFilenames.count, 1)
         XCTAssertEqual(loaded.photoFilenames, ["test.jpg"])

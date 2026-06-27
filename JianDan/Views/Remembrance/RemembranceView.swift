@@ -179,11 +179,9 @@ struct RemembranceView: View {
 
     private func emotionLabel(_ value: Int) -> String {
         switch value {
-        case 1: return "轻松"
-        case 2: return "释然"
-        case 3: return "平静"
-        case 4: return "复杂"
-        case 5: return "不舍"
+        case 1: return "平静"
+        case 2: return "不舍"
+        case 3: return "复杂"
         default: return ""
         }
     }

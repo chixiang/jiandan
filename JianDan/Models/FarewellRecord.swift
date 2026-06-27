@@ -60,7 +60,7 @@ final class FarewellRecord {
 
         // 情感价值：1...5（约定俗成）
         if let value = emotionValue {
-            precondition((1...5).contains(value), "emotionValue out of range (1...5)")
+            precondition((1...3).contains(value), "emotionValue out of range (1...3)")
         }
 
         // 购入价：>= 0

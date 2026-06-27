@@ -8,7 +8,7 @@
       "method": "捐赠",
       "purchaseDate": "2019-08-28",
       "purchasePrice": 741.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -20,7 +20,7 @@
       "method": "二手出售",
       "purchaseDate": "2021-01-01",
       "purchasePrice": 4567.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "社区互助站",
       "farewellLetter": "让更合适的人拥有你吧。",
       "photoFilenames": []
@@ -44,7 +44,7 @@
       "method": "其他",
       "purchaseDate": "2023-04-12",
       "purchasePrice": 2217.0,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -56,7 +56,7 @@
       "method": "二手出售",
       "purchaseDate": "2020-12-29",
       "purchasePrice": 4639.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "慈善义卖",
       "farewellLetter": null,
       "photoFilenames": []
@@ -68,7 +68,7 @@
       "method": "其他",
       "purchaseDate": "2024-01-26",
       "purchasePrice": 351.0,
-      "emotionValue": 4,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -80,7 +80,7 @@
       "method": "捐赠",
       "purchaseDate": "2024-07-01",
       "purchasePrice": 4622.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -92,7 +92,7 @@
       "method": "二手出售",
       "purchaseDate": "2020-08-27",
       "purchasePrice": null,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": []
@@ -104,7 +104,7 @@
       "method": "二手出售",
       "purchaseDate": "2021-03-18",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": "慈善义卖",
       "farewellLetter": null,
       "photoFilenames": []
@@ -116,7 +116,7 @@
       "method": "捐赠",
       "purchaseDate": "2025-04-18",
       "purchasePrice": 4043.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -128,7 +128,7 @@
       "method": "送人",
       "purchaseDate": "2021-03-24",
       "purchasePrice": 1765.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "虽然不舍，但放手也是一种爱。",
       "photoFilenames": []
@@ -140,7 +140,7 @@
       "method": "二手出售",
       "purchaseDate": "2024-08-22",
       "purchasePrice": 3140.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -152,12 +152,12 @@
       "method": "送人",
       "purchaseDate": "2021-01-17",
       "purchasePrice": 4466.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "断舍离的第一步，从你开始。",
       "photoFilenames": [
-        "F744A661.jpg",
-        "2B9A0F97.jpg"
+        "54CBFCD3.jpg",
+        "9B76D247.jpg"
       ]
     },
     {
@@ -167,7 +167,7 @@
       "method": "送人",
       "purchaseDate": "2025-06-01",
       "purchasePrice": 1454.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "学校漂流角",
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": []
@@ -179,7 +179,7 @@
       "method": "二手出售",
       "purchaseDate": null,
       "purchasePrice": 3050.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "同事",
       "farewellLetter": "清空的不只是空间，还有心。",
       "photoFilenames": []
@@ -191,7 +191,7 @@
       "method": "捐赠",
       "purchaseDate": "2021-10-23",
       "purchasePrice": 915.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "闲鱼买家",
       "farewellLetter": "清空的不只是空间，还有心。",
       "photoFilenames": []
@@ -203,7 +203,7 @@
       "method": "捐赠",
       "purchaseDate": "2018-10-30",
       "purchasePrice": 1734.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "告别过去，才能拥抱未来。",
       "photoFilenames": []
@@ -215,7 +215,7 @@
       "method": "捐赠",
       "purchaseDate": null,
       "purchasePrice": 4709.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "小区回收站",
       "farewellLetter": "感谢陪伴，不念过往。",
       "photoFilenames": []
@@ -227,7 +227,7 @@
       "method": "送人",
       "purchaseDate": "2019-07-05",
       "purchasePrice": 4450.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "慈善义卖",
       "farewellLetter": null,
       "photoFilenames": []
@@ -239,7 +239,7 @@
       "method": "送人",
       "purchaseDate": "2022-07-08",
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "社区互助站",
       "farewellLetter": "拥有过就足够，不必强留。",
       "photoFilenames": []
@@ -251,11 +251,11 @@
       "method": "捐赠",
       "purchaseDate": "2021-01-30",
       "purchasePrice": 1766.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "朋友",
       "farewellLetter": null,
       "photoFilenames": [
-        "D4792CCE.jpg"
+        "FBB17E91.jpg"
       ]
     },
     {
@@ -277,7 +277,7 @@
       "method": "其他",
       "purchaseDate": "2021-02-19",
       "purchasePrice": 1859.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": []
@@ -289,7 +289,7 @@
       "method": "送人",
       "purchaseDate": null,
       "purchasePrice": 1212.0,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": "告别过去，才能拥抱未来。",
       "photoFilenames": []
@@ -301,7 +301,7 @@
       "method": "二手出售",
       "purchaseDate": "2020-05-17",
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": []
@@ -313,7 +313,7 @@
       "method": "捐赠",
       "purchaseDate": "2022-04-13",
       "purchasePrice": 2346.0,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -325,7 +325,7 @@
       "method": "捐赠",
       "purchaseDate": "2024-05-20",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "同事",
       "farewellLetter": null,
       "photoFilenames": []
@@ -337,7 +337,7 @@
       "method": "送人",
       "purchaseDate": "2020-08-12",
       "purchasePrice": 746.0,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": "拥有过就足够，不必强留。",
       "photoFilenames": []
@@ -349,7 +349,7 @@
       "method": "其他",
       "purchaseDate": "2021-04-26",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "感谢陪伴，不念过往。",
       "photoFilenames": []
@@ -361,13 +361,13 @@
       "method": "二手出售",
       "purchaseDate": "2022-10-24",
       "purchasePrice": null,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": [
-        "9AD231AE.jpg",
-        "CD24E31A.jpg",
-        "5C0F2D0E.jpg"
+        "E2283010.jpg",
+        "787E9BD2.jpg",
+        "02DFABB0.jpg"
       ]
     },
     {
@@ -377,7 +377,7 @@
       "method": "二手出售",
       "purchaseDate": null,
       "purchasePrice": 2435.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "让更合适的人拥有你吧。",
       "photoFilenames": []
@@ -389,7 +389,7 @@
       "method": "暂存",
       "purchaseDate": "2024-04-16",
       "purchasePrice": 385.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -401,7 +401,7 @@
       "method": "其他",
       "purchaseDate": "2025-04-25",
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -413,7 +413,7 @@
       "method": "扔掉",
       "purchaseDate": "2019-10-14",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "学校漂流角",
       "farewellLetter": null,
       "photoFilenames": []
@@ -425,7 +425,7 @@
       "method": "其他",
       "purchaseDate": "2024-07-22",
       "purchasePrice": 2922.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "社区互助站",
       "farewellLetter": "谢谢你陪我走过的日子，该说再见了。",
       "photoFilenames": []
@@ -437,7 +437,7 @@
       "method": "二手出售",
       "purchaseDate": null,
       "purchasePrice": 3603.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -449,7 +449,7 @@
       "method": "扔掉",
       "purchaseDate": "2021-11-30",
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "学校漂流角",
       "farewellLetter": null,
       "photoFilenames": []
@@ -461,11 +461,11 @@
       "method": "送人",
       "purchaseDate": null,
       "purchasePrice": 4827.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "让更合适的人拥有你吧。",
       "photoFilenames": [
-        "7266E286.jpg"
+        "47CE6D84.jpg"
       ]
     },
     {
@@ -475,7 +475,7 @@
       "method": "送人",
       "purchaseDate": "2018-02-20",
       "purchasePrice": 2352.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "社区互助站",
       "farewellLetter": "虽然不舍，但放手也是一种爱。",
       "photoFilenames": []
@@ -487,12 +487,12 @@
       "method": "捐赠",
       "purchaseDate": "2022-08-24",
       "purchasePrice": 3777.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "社区互助站",
       "farewellLetter": "告别过去，才能拥抱未来。",
       "photoFilenames": [
-        "85DEECF8.jpg",
-        "DEFE3CFF.jpg"
+        "FBE9DD4F.jpg",
+        "1670B029.jpg"
       ]
     },
     {
@@ -502,7 +502,7 @@
       "method": "二手出售",
       "purchaseDate": "2024-03-07",
       "purchasePrice": 961.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "小区回收站",
       "farewellLetter": "回忆不会因为物品的离开而消失。",
       "photoFilenames": []
@@ -514,12 +514,12 @@
       "method": "暂存",
       "purchaseDate": null,
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": [
-        "A23619BC.jpg",
-        "4627D183.jpg"
+        "531BE805.jpg",
+        "4FFD3098.jpg"
       ]
     },
     {
@@ -529,7 +529,7 @@
       "method": "扔掉",
       "purchaseDate": "2025-07-16",
       "purchasePrice": 1911.0,
-      "emotionValue": 4,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "感谢陪伴，不念过往。",
       "photoFilenames": []
@@ -541,7 +541,7 @@
       "method": "捐赠",
       "purchaseDate": "2024-08-07",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -553,7 +553,7 @@
       "method": "暂存",
       "purchaseDate": "2024-10-08",
       "purchasePrice": 466.0,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -565,7 +565,7 @@
       "method": "二手出售",
       "purchaseDate": "2018-10-10",
       "purchasePrice": 1713.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "朋友",
       "farewellLetter": null,
       "photoFilenames": []
@@ -577,7 +577,7 @@
       "method": "送人",
       "purchaseDate": "2024-08-10",
       "purchasePrice": 4348.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": "断舍离的第一步，从你开始。",
       "photoFilenames": []
@@ -589,7 +589,7 @@
       "method": "捐赠",
       "purchaseDate": "2024-02-15",
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "社区互助站",
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": []
@@ -601,7 +601,7 @@
       "method": "捐赠",
       "purchaseDate": "2018-01-02",
       "purchasePrice": 1059.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "社区互助站",
       "farewellLetter": "断舍离的第一步，从你开始。",
       "photoFilenames": []
@@ -613,7 +613,7 @@
       "method": "扔掉",
       "purchaseDate": "2021-06-08",
       "purchasePrice": 1851.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -625,7 +625,7 @@
       "method": "送人",
       "purchaseDate": "2019-03-19",
       "purchasePrice": 4549.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "告别过去，才能拥抱未来。",
       "photoFilenames": []
@@ -637,7 +637,7 @@
       "method": "捐赠",
       "purchaseDate": "2025-07-09",
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -649,7 +649,7 @@
       "method": "二手出售",
       "purchaseDate": null,
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "断舍离的第一步，从你开始。",
       "photoFilenames": []
@@ -661,7 +661,7 @@
       "method": "二手出售",
       "purchaseDate": "2023-02-06",
       "purchasePrice": 3809.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "虽然不舍，但放手也是一种爱。",
       "photoFilenames": []
@@ -673,7 +673,7 @@
       "method": "送人",
       "purchaseDate": null,
       "purchasePrice": 2274.0,
-      "emotionValue": 4,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -685,11 +685,11 @@
       "method": "送人",
       "purchaseDate": "2021-08-21",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "楼下邻居",
       "farewellLetter": null,
       "photoFilenames": [
-        "8E3394EC.jpg"
+        "8A9E8303.jpg"
       ]
     },
     {
@@ -699,7 +699,7 @@
       "method": "暂存",
       "purchaseDate": null,
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "慈善义卖",
       "farewellLetter": null,
       "photoFilenames": []
@@ -711,7 +711,7 @@
       "method": "二手出售",
       "purchaseDate": "2021-01-21",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -723,7 +723,7 @@
       "method": "送人",
       "purchaseDate": "2024-10-08",
       "purchasePrice": 227.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "告别过去，才能拥抱未来。",
       "photoFilenames": []
@@ -735,7 +735,7 @@
       "method": "二手出售",
       "purchaseDate": "2022-11-16",
       "purchasePrice": 26.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -747,7 +747,7 @@
       "method": "其他",
       "purchaseDate": "2019-10-21",
       "purchasePrice": 3471.0,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -759,7 +759,7 @@
       "method": "扔掉",
       "purchaseDate": "2024-06-06",
       "purchasePrice": 3204.0,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "感谢陪伴，不念过往。",
       "photoFilenames": []
@@ -771,7 +771,7 @@
       "method": "送人",
       "purchaseDate": "2025-02-05",
       "purchasePrice": 476.0,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": "慈善义卖",
       "farewellLetter": "谢谢你陪我走过的日子，该说再见了。",
       "photoFilenames": []
@@ -783,7 +783,7 @@
       "method": "捐赠",
       "purchaseDate": "2024-08-01",
       "purchasePrice": 3303.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": "清空的不只是空间，还有心。",
       "photoFilenames": []
@@ -795,7 +795,7 @@
       "method": "捐赠",
       "purchaseDate": null,
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -807,7 +807,7 @@
       "method": "送人",
       "purchaseDate": "2025-01-04",
       "purchasePrice": 4021.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "楼下邻居",
       "farewellLetter": null,
       "photoFilenames": []
@@ -819,7 +819,7 @@
       "method": "二手出售",
       "purchaseDate": "2020-12-23",
       "purchasePrice": 2987.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -831,7 +831,7 @@
       "method": "二手出售",
       "purchaseDate": "2019-11-19",
       "purchasePrice": 4819.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "学校漂流角",
       "farewellLetter": "谢谢你陪我走过的日子，该说再见了。",
       "photoFilenames": []
@@ -843,7 +843,7 @@
       "method": "捐赠",
       "purchaseDate": null,
       "purchasePrice": null,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "闲鱼买家",
       "farewellLetter": "拥有过就足够，不必强留。",
       "photoFilenames": []
@@ -855,11 +855,11 @@
       "method": "捐赠",
       "purchaseDate": "2019-02-24",
       "purchasePrice": 4462.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": "慈善义卖",
       "farewellLetter": "感谢陪伴，不念过往。",
       "photoFilenames": [
-        "55043B1F.jpg"
+        "3FE62671.jpg"
       ]
     },
     {
@@ -881,7 +881,7 @@
       "method": "扔掉",
       "purchaseDate": "2022-06-29",
       "purchasePrice": 1985.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "楼下邻居",
       "farewellLetter": "虽然不舍，但放手也是一种爱。",
       "photoFilenames": []
@@ -893,7 +893,7 @@
       "method": "二手出售",
       "purchaseDate": "2019-06-21",
       "purchasePrice": 1507.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "社区互助站",
       "farewellLetter": null,
       "photoFilenames": []
@@ -905,7 +905,7 @@
       "method": "扔掉",
       "purchaseDate": "2020-08-14",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -917,7 +917,7 @@
       "method": "二手出售",
       "purchaseDate": "2020-02-28",
       "purchasePrice": 3717.0,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": "社区互助站",
       "farewellLetter": "感谢陪伴，不念过往。",
       "photoFilenames": []
@@ -929,7 +929,7 @@
       "method": "暂存",
       "purchaseDate": "2025-04-23",
       "purchasePrice": 165.0,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "让更合适的人拥有你吧。",
       "photoFilenames": []
@@ -941,7 +941,7 @@
       "method": "送人",
       "purchaseDate": null,
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "告别过去，才能拥抱未来。",
       "photoFilenames": []
@@ -953,7 +953,7 @@
       "method": "扔掉",
       "purchaseDate": "2025-02-15",
       "purchasePrice": null,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": "谢谢你陪我走过的日子，该说再见了。",
       "photoFilenames": []
@@ -965,7 +965,7 @@
       "method": "二手出售",
       "purchaseDate": "2020-07-24",
       "purchasePrice": 4139.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "朋友",
       "farewellLetter": null,
       "photoFilenames": []
@@ -977,7 +977,7 @@
       "method": "扔掉",
       "purchaseDate": "2024-05-27",
       "purchasePrice": 1223.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "同事",
       "farewellLetter": "回忆不会因为物品的离开而消失。",
       "photoFilenames": []
@@ -989,13 +989,13 @@
       "method": "捐赠",
       "purchaseDate": "2020-11-12",
       "purchasePrice": 609.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "慈善义卖",
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": [
-        "CB0123F4.jpg",
-        "25A09B17.jpg",
-        "8B981C56.jpg"
+        "B3977AAD.jpg",
+        "26E23189.jpg",
+        "38619797.jpg"
       ]
     },
     {
@@ -1005,7 +1005,7 @@
       "method": "扔掉",
       "purchaseDate": "2022-01-18",
       "purchasePrice": 81.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -1017,7 +1017,7 @@
       "method": "送人",
       "purchaseDate": null,
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": "闲鱼买家",
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": []
@@ -1029,7 +1029,7 @@
       "method": "捐赠",
       "purchaseDate": "2024-03-10",
       "purchasePrice": 23.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "慈善义卖",
       "farewellLetter": "告别过去，才能拥抱未来。",
       "photoFilenames": []
@@ -1041,7 +1041,7 @@
       "method": "送人",
       "purchaseDate": "2019-10-24",
       "purchasePrice": 3895.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "闲鱼买家",
       "farewellLetter": "你很好，只是我不再需要你了。",
       "photoFilenames": []
@@ -1053,7 +1053,7 @@
       "method": "送人",
       "purchaseDate": "2020-09-01",
       "purchasePrice": 89.0,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "虽然不舍，但放手也是一种爱。",
       "photoFilenames": []
@@ -1065,7 +1065,7 @@
       "method": "二手出售",
       "purchaseDate": "2021-05-15",
       "purchasePrice": 3338.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "回忆不会因为物品的离开而消失。",
       "photoFilenames": []
@@ -1089,7 +1089,7 @@
       "method": "送人",
       "purchaseDate": "2025-10-13",
       "purchasePrice": 154.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "断舍离的第一步，从你开始。",
       "photoFilenames": []
@@ -1101,7 +1101,7 @@
       "method": "捐赠",
       "purchaseDate": "2022-03-07",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": "虽然不舍，但放手也是一种爱。",
       "photoFilenames": []
@@ -1113,7 +1113,7 @@
       "method": "暂存",
       "purchaseDate": "2020-12-21",
       "purchasePrice": 3467.0,
-      "emotionValue": 4,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -1125,7 +1125,7 @@
       "method": "其他",
       "purchaseDate": "2020-07-13",
       "purchasePrice": null,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -1137,7 +1137,7 @@
       "method": "扔掉",
       "purchaseDate": "2025-01-23",
       "purchasePrice": 3595.0,
-      "emotionValue": 3,
+      "emotionValue": 2,
       "recipientDetail": "闲鱼买家",
       "farewellLetter": null,
       "photoFilenames": []
@@ -1161,7 +1161,7 @@
       "method": "二手出售",
       "purchaseDate": "2018-01-09",
       "purchasePrice": null,
-      "emotionValue": 3,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "清空的不只是空间，还有心。",
       "photoFilenames": []
@@ -1173,7 +1173,7 @@
       "method": "送人",
       "purchaseDate": "2022-09-17",
       "purchasePrice": 3851.0,
-      "emotionValue": 5,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -1185,7 +1185,7 @@
       "method": "捐赠",
       "purchaseDate": "2024-01-30",
       "purchasePrice": 1575.0,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "谢谢你陪我走过的日子，该说再见了。",
       "photoFilenames": []
@@ -1197,7 +1197,7 @@
       "method": "送人",
       "purchaseDate": "2024-04-24",
       "purchasePrice": null,
-      "emotionValue": 2,
+      "emotionValue": 1,
       "recipientDetail": null,
       "farewellLetter": "感谢陪伴，不念过往。",
       "photoFilenames": []
@@ -1209,7 +1209,7 @@
       "method": "其他",
       "purchaseDate": "2019-05-13",
       "purchasePrice": 4009.0,
-      "emotionValue": 4,
+      "emotionValue": 2,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
@@ -1221,7 +1221,7 @@
       "method": "送人",
       "purchaseDate": "2024-01-15",
       "purchasePrice": 4702.0,
-      "emotionValue": 4,
+      "emotionValue": 3,
       "recipientDetail": null,
       "farewellLetter": null,
       "photoFilenames": []
