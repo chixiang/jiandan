@@ -17,11 +17,19 @@ struct FarewellStats: Equatable {
     let categoryBreakdown: [CategoryCount]
     /// 情感均值（1...5，所有有 emotionValue 的记录的平均；无记录则 nil）
     let averageEmotion: Double?
+    /// 最常去向（告别方式中出现次数最多的；无记录则 nil）
+    let topMethod: TopMethodInfo?
 
     /// 是否完全为空（所有指标都为 0 / 空）
     var isEmpty: Bool {
         totalCount == 0
     }
+}
+
+/// 最常去向信息
+struct TopMethodInfo: Equatable {
+    let name: String
+    let count: Int
 }
 
 /// 分类计数（用于分类分布列表）
@@ -61,13 +69,22 @@ enum StatsCalculator {
             ? nil
             : Double(emotionValues.reduce(0, +)) / Double(emotionValues.count)
 
+        var methodCounts: [String: Int] = [:]
+        for record in records {
+            methodCounts[record.methodRaw, default: 0] += 1
+        }
+        let topMethod: TopMethodInfo? = methodCounts
+            .max { $0.value < $1.value }
+            .map { TopMethodInfo(name: $0.key, count: $0.value) }
+
         return FarewellStats(
             totalCount: totalCount,
             averageCompanionshipDays: averageCompanionshipDays,
             longestCompanionshipDays: longestCompanionshipDays,
             totalPurchasePrice: totalPurchasePrice,
             categoryBreakdown: categoryBreakdown,
-            averageEmotion: averageEmotion
+            averageEmotion: averageEmotion,
+            topMethod: topMethod
         )
     }
 }

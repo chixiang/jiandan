@@ -44,6 +44,7 @@ final class StatsCalculatorTests: XCTestCase {
         XCTAssertEqual(stats.totalPurchasePrice, 0)
         XCTAssertTrue(stats.categoryBreakdown.isEmpty)
         XCTAssertNil(stats.averageEmotion)
+        XCTAssertNil(stats.topMethod)
         XCTAssertTrue(stats.isEmpty)
     }
 
@@ -130,7 +131,8 @@ final class StatsCalculatorTests: XCTestCase {
             longestCompanionshipDays: 5,
             totalPurchasePrice: 100,
             categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
-            averageEmotion: 4.0
+            averageEmotion: 4.0,
+            topMethod: TopMethodInfo(name: "捐赠", count: 2)
         )
         let b = FarewellStats(
             totalCount: 3,
@@ -138,7 +140,8 @@ final class StatsCalculatorTests: XCTestCase {
             longestCompanionshipDays: 5,
             totalPurchasePrice: 100,
             categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
-            averageEmotion: 4.0
+            averageEmotion: 4.0,
+            topMethod: TopMethodInfo(name: "捐赠", count: 2)
         )
         XCTAssertEqual(a, b, "FarewellStats 应可比较相等")
     }
@@ -162,6 +165,35 @@ final class StatsCalculatorTests: XCTestCase {
             makeRecord(emotionValue: nil),
         ]
         XCTAssertNil(StatsCalculator.compute(from: records).averageEmotion)
+    }
+
+    // MARK: - 最常去向
+
+    func testTopMethodPicksMostFrequent() {
+        let records = [
+            makeRecord(name: "a"),
+            makeRecord(name: "b"),
+            makeRecord(name: "c"),
+        ]
+        // makeRecord 默认 method = .donate（捐赠），所以 3 条都是捐赠
+        let stats = StatsCalculator.compute(from: records)
+        XCTAssertEqual(stats.topMethod?.name, "捐赠")
+        XCTAssertEqual(stats.topMethod?.count, 3)
+    }
+
+    func testTopMethodNilWhenNoRecords() {
+        let stats = StatsCalculator.compute(from: [])
+        XCTAssertNil(stats.topMethod)
+    }
+
+    func testTopMethodWithMultipleMethods() {
+        let r1 = FarewellRecord(name: "a", category: .builtin(.other), farewellDate: .now, method: .gift)
+        let r2 = FarewellRecord(name: "b", category: .builtin(.other), farewellDate: .now, method: .gift)
+        let r3 = FarewellRecord(name: "c", category: .builtin(.other), farewellDate: .now, method: .donate)
+        let r4 = FarewellRecord(name: "d", category: .builtin(.other), farewellDate: .now, method: .discard)
+        let stats = StatsCalculator.compute(from: [r1, r2, r3, r4])
+        XCTAssertEqual(stats.topMethod?.name, "送人")
+        XCTAssertEqual(stats.topMethod?.count, 2)
     }
 
     // MARK: - 集成

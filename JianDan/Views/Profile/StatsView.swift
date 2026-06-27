@@ -42,15 +42,28 @@ struct StatsView: View {
                 )
             }
 
-            if let avg = stats.averageEmotion {
+            if stats.averageEmotion != nil || stats.topMethod != nil {
                 HStack(spacing: 12) {
-                    StatCard(
-                        value: String(format: "%.1f", avg),
-                        label: "情感均值",
-                        icon: "star.fill"
-                    )
-                    Color.clear
-                        .frame(maxWidth: .infinity)
+                    if let avg = stats.averageEmotion {
+                        StatCard(
+                            value: String(format: "%.1f", avg),
+                            label: "情感均值",
+                            icon: "star.fill"
+                        )
+                    } else {
+                        Color.clear
+                            .frame(maxWidth: .infinity)
+                    }
+                    if let top = stats.topMethod {
+                        StatCard(
+                            value: top.name,
+                            label: "最常去向",
+                            icon: "arrow.right"
+                        )
+                    } else {
+                        Color.clear
+                            .frame(maxWidth: .infinity)
+                    }
                 }
             }
 
@@ -166,7 +179,8 @@ private struct CategoryBreakdownView: View {
             CategoryCount(category: .builtin(.electronics), count: 2),
             CategoryCount(category: .builtin(.other), count: 2),
         ],
-        averageEmotion: 3.8
+        averageEmotion: 3.8,
+        topMethod: TopMethodInfo(name: "捐赠", count: 5)
     )
     return ScrollView {
         StatsView(stats: stats)
@@ -185,7 +199,8 @@ private struct CategoryBreakdownView: View {
             longestCompanionshipDays: 0,
             totalPurchasePrice: 0,
             categoryBreakdown: [],
-            averageEmotion: nil
+            averageEmotion: nil,
+            topMethod: nil
         ))
         .padding()
     }
