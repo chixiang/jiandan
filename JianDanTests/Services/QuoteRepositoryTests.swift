@@ -123,6 +123,69 @@ final class QuoteRepositoryTests: XCTestCase {
         XCTAssertEqual(value, 0, "nextInt(upperBound: 0) must return 0")
     }
 
+    // MARK: - 字段完整性
+
+    func testAllQuotesHaveNonWhitespaceFields() {
+        for q in repository.all {
+            XCTAssertFalse(
+                q.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                "\(q.id) text 应 trim 后非空"
+            )
+            XCTAssertFalse(
+                q.attribution.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                "\(q.id) attribution 应 trim 后非空"
+            )
+            XCTAssertLessThanOrEqual(q.text.count, Wisdom.textMaxLength)
+            XCTAssertLessThanOrEqual(q.attribution.count, Wisdom.attributionMaxLength)
+        }
+    }
+
+    // MARK: - 自定义 Calendar
+
+    func testTodayQuoteRespectsCustomCalendar() {
+        // 用一个非当前 calendar 计算 dayOfYear，应仍能返回非 nil
+        var utcCalendar = Calendar(identifier: .gregorian)
+        utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+        let date = Self.date(year: 2026, month: 6, day: 23)
+        let quote = repository.todayQuote(for: date, calendar: utcCalendar)
+        XCTAssertNotNil(quote)
+    }
+
+    // MARK: - 缓存命中
+
+    func testCacheAvoidsRebundleOnSecondAccess() {
+        let _ = repository.all  // 首次加载
+        // 第二次应走缓存；通过耗时大致判断（不严格）
+        let start = Date()
+        let _ = repository.all
+        let elapsed = Date().timeIntervalSince(start)
+        XCTAssertLessThan(elapsed, 0.01, "缓存命中应在 10ms 内返回")
+    }
+
+    // MARK: - ID 命名
+
+    func testAllIdsFollowQuotePrefix() {
+        for q in repository.all {
+            XCTAssertTrue(
+                q.id.hasPrefix("quote-"),
+                "\(q.id) 应以 quote- 开头"
+            )
+        }
+    }
+
+    // MARK: - todayQuote 跨日期稳定性
+
+    func testTodayQuoteStableAcrossHoursOfSameDay() {
+        // 同一天的不同小时（同一日历内）应返回同一句
+        let morning = Self.date(year: 2026, month: 6, day: 23)
+        // +6h 仍在同一天（不会跨日）
+        let evening = morning.addingTimeInterval(6 * 3600)
+        XCTAssertEqual(
+            repository.todayQuote(for: morning)?.id,
+            repository.todayQuote(for: evening)?.id
+        )
+    }
+
     // MARK: - Helpers
 
     private static func date(year: Int, month: Int, day: Int) -> Date {

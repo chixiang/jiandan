@@ -20,8 +20,7 @@ struct AddFarewellView: View {
     @State private var showPurchaseDate: Bool = false
 
     private var canSave: Bool {
-        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            && name.count <= FarewellRecord.nameMaxLength
+        AddFarewellValidator.canSave(name: name)
     }
 
     var body: some View {

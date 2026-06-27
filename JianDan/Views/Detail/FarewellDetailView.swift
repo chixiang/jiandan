@@ -200,10 +200,12 @@ struct FarewellDetailView: View {
     }
 
     private func deleteRecord() {
-        try? ImageStore.delete(filenames: record.photoFilenames)
-        modelContext.delete(record)
-        try? modelContext.save()
-        dismiss()
+        do {
+            try RecordDeleter.delete(record, in: modelContext)
+            dismiss()
+        } catch {
+            print("Delete failed: \(error)")
+        }
     }
 
     private func referencingRecordCount(for categoryID: String) -> Int {
@@ -263,10 +265,8 @@ struct EditFarewellView: View {
             Form {
                 Section("名称") {
                     TextField("名称", text: $record.name)
-                        .onChange(of: record.name) { _, newValue in
-                            if newValue.count > FarewellRecord.nameMaxLength {
-                                record.name = String(newValue.prefix(FarewellRecord.nameMaxLength))
-                            }
+                        .onChange(of: record.name) { _, _ in
+                            EditFarewellSaver.truncateName(record)
                         }
                 }
 
@@ -299,10 +299,8 @@ struct EditFarewellView: View {
                             get: { record.recipientDetail ?? "" },
                             set: { record.recipientDetail = $0.isEmpty ? nil : $0 }
                         ))
-                        .onChange(of: record.recipientDetail ?? "") { _, newValue in
-                            if newValue.count > FarewellRecord.recipientDetailMaxLength {
-                                record.recipientDetail = String(newValue.prefix(FarewellRecord.recipientDetailMaxLength))
-                            }
+                        .onChange(of: record.recipientDetail ?? "") { _, _ in
+                            EditFarewellSaver.truncateRecipientDetail(record)
                         }
                     }
                 }
@@ -355,10 +353,8 @@ struct EditFarewellView: View {
                         set: { record.farewellLetter = $0.isEmpty ? nil : $0 }
                     ), axis: .vertical)
                     .lineLimit(3...10)
-                    .onChange(of: record.farewellLetter ?? "") { _, newValue in
-                        if newValue.count > FarewellRecord.farewellLetterMaxLength {
-                            record.farewellLetter = String(newValue.prefix(FarewellRecord.farewellLetterMaxLength))
-                        }
+                    .onChange(of: record.farewellLetter ?? "") { _, _ in
+                        EditFarewellSaver.truncateFarewellLetter(record)
                     }
                 }
             }
@@ -414,9 +410,8 @@ struct EditFarewellView: View {
     }
 
     private func save() {
-        record.updatedAt = .now
         do {
-            try modelContext.save()
+            try EditFarewellSaver.save(record, in: modelContext)
             dismiss()
         } catch {
             print("Edit save failed: \(error)")

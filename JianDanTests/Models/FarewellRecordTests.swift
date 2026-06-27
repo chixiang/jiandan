@@ -172,4 +172,152 @@ final class FarewellRecordTests: XCTestCase {
         let afterDelete = try context.fetch(descriptor)
         XCTAssertTrue(afterDelete.isEmpty)
     }
+
+    // MARK: - 时间字段
+
+    func testCreatedAtEqualsUpdatedAtInitially() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let record = FarewellRecord(name: "X", category: .builtin(.other), method: .other)
+        context.insert(record)
+        // init 时两者都是 .now，但可能相差数微秒，用 ±0.1s 容差
+        let diff = abs(record.createdAt.timeIntervalSince(record.updatedAt))
+        XCTAssertLessThan(diff, 0.1, "init 时 createdAt 与 updatedAt 应几乎相等 (差 \(diff)s)")
+    }
+
+    func testUpdatedAtCanBeChanged() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let record = FarewellRecord(name: "X", category: .builtin(.other), method: .other)
+        context.insert(record)
+        let originalUpdatedAt = record.updatedAt
+        Thread.sleep(forTimeInterval: 0.01)
+        record.updatedAt = .now
+        XCTAssertGreaterThan(record.updatedAt, originalUpdatedAt)
+    }
+
+    // MARK: - SwiftData fetch / predicate
+
+    func testFetchSortedByFarewellDateDesc() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+
+        let older = FarewellRecord(
+            name: "older",
+            category: .builtin(.other),
+            farewellDate: Date(timeIntervalSince1970: 1_700_000_000),
+            method: .donate
+        )
+        let newer = FarewellRecord(
+            name: "newer",
+            category: .builtin(.other),
+            farewellDate: Date(timeIntervalSince1970: 1_800_000_000),
+            method: .donate
+        )
+        context.insert(older)
+        context.insert(newer)
+        try context.save()
+
+        let descriptor = FetchDescriptor<FarewellRecord>(
+            sortBy: [SortDescriptor(\.farewellDate, order: .reverse)]
+        )
+        let fetched = try context.fetch(descriptor)
+        XCTAssertEqual(fetched.count, 2)
+        XCTAssertEqual(fetched.first?.name, "newer", "倒序：第一条应是 newer")
+    }
+
+    func testFetchByCategoryRawPredicate() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+
+        let booksRecord = FarewellRecord(
+            name: "book1",
+            category: .builtin(.books),
+            method: .donate
+        )
+        let clothingRecord = FarewellRecord(
+            name: "shirt1",
+            category: .builtin(.clothing),
+            method: .donate
+        )
+        context.insert(booksRecord)
+        context.insert(clothingRecord)
+        try context.save()
+
+        let descriptor = FetchDescriptor<FarewellRecord>(
+            predicate: #Predicate { $0.categoryRaw == "书籍" }
+        )
+        let fetched = try context.fetch(descriptor)
+        XCTAssertEqual(fetched.count, 1)
+        XCTAssertEqual(fetched.first?.name, "book1")
+    }
+
+    func testFetchByFarewellDateRangePredicate() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+
+        let inRange = FarewellRecord(
+            name: "in",
+            category: .builtin(.other),
+            farewellDate: Date(timeIntervalSince1970: 1_750_000_000),
+            method: .donate
+        )
+        let outOfRange = FarewellRecord(
+            name: "out",
+            category: .builtin(.other),
+            farewellDate: Date(timeIntervalSince1970: 1_600_000_000),
+            method: .donate
+        )
+        context.insert(inRange)
+        context.insert(outOfRange)
+        try context.save()
+
+        let lower = Date(timeIntervalSince1970: 1_700_000_000)
+        let upper = Date(timeIntervalSince1970: 1_800_000_000)
+        let descriptor = FetchDescriptor<FarewellRecord>(
+            predicate: #Predicate { $0.farewellDate >= lower && $0.farewellDate <= upper }
+        )
+        let fetched = try context.fetch(descriptor)
+        XCTAssertEqual(fetched.count, 1)
+        XCTAssertEqual(fetched.first?.name, "in")
+    }
+
+    func testFetchEmptyContainerReturnsEmptyArray() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let descriptor = FetchDescriptor<FarewellRecord>()
+        let fetched = try context.fetch(descriptor)
+        XCTAssertTrue(fetched.isEmpty)
+    }
+
+    func testFetchWithLimit() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        for i in 0..<5 {
+            context.insert(FarewellRecord(
+                name: "r\(i)",
+                category: .builtin(.other),
+                method: .donate
+            ))
+        }
+        try context.save()
+
+        var descriptor = FetchDescriptor<FarewellRecord>()
+        descriptor.fetchLimit = 3
+        let fetched = try context.fetch(descriptor)
+        XCTAssertEqual(fetched.count, 3)
+    }
+
+    // MARK: - 字段默认值
+
+    func testDefaultFarewellDateIsNow() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let before = Date()
+        let record = FarewellRecord(name: "X", category: .builtin(.other), method: .other)
+        let after = Date()
+        context.insert(record)
+        XCTAssertGreaterThanOrEqual(record.farewellDate, before)
+        XCTAssertLessThanOrEqual(record.farewellDate, after)
+    }
 }

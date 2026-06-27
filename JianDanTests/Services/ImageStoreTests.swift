@@ -110,4 +110,82 @@ final class ImageStoreTests: XCTestCase {
         XCTAssertEqual(url1, url2, "多次访问应返回相同 URL")
         XCTAssertTrue(FileManager.default.fileExists(atPath: url1.path), "目录应已创建")
     }
+
+    // MARK: - 边界场景
+
+    func testDirectoryURLAutoRecreatesAfterDeletion() throws {
+        // 删除目录后再次访问应自动重建
+        let dir = ImageStore.directoryURL
+        try FileManager.default.removeItem(at: dir)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: dir.path))
+
+        // 重新访问
+        let url2 = ImageStore.directoryURL
+        XCTAssertTrue(FileManager.default.fileExists(atPath: url2.path), "目录应自动重建")
+    }
+
+    func testLoadReturnsNilForMissingFile() {
+        let phantom = "missing-\(UUID().uuidString).jpg"
+        XCTAssertNil(ImageStore.load(filename: phantom))
+        XCTAssertNil(ImageStore.loadImage(filename: phantom))
+    }
+
+    func testSaveReturnsUniqueFilenames() throws {
+        // 多次保存应返回不同 UUID 文件名
+        let data = makeTestImageData()
+        var filenames = Set<String>()
+        for _ in 0..<5 {
+            let f = try ImageStore.save(data)
+            filenames.insert(f)
+        }
+        XCTAssertEqual(filenames.count, 5, "5 次保存应得到 5 个唯一文件名")
+    }
+
+    func testFilenameMatchesUUIDFormat() throws {
+        let data = makeTestImageData()
+        let filename = try ImageStore.save(data)
+        XCTAssertTrue(filename.hasSuffix(".jpg"))
+        // UUID 格式：8-4-4-4-12 字符 + 连字符
+        let uuidPart = String(filename.dropLast(4))
+        XCTAssertEqual(uuidPart.count, 36, "UUID 字符串应为 36 字符")
+        XCTAssertEqual(uuidPart.filter { $0 == "-" }.count, 4, "UUID 应含 4 个连字符")
+    }
+
+    func testDeleteIsSafeToCallRepeatedly() throws {
+        let data = makeTestImageData()
+        let filename = try ImageStore.save(data)
+
+        // 多次删除同一文件不应抛错
+        XCTAssertNoThrow(try ImageStore.delete(filename: filename))
+        XCTAssertNoThrow(try ImageStore.delete(filename: filename))
+        XCTAssertNoThrow(try ImageStore.delete(filename: filename))
+    }
+
+    // MARK: - 并发（粗略）
+
+    func testConcurrentSaves() throws {
+        // 多线程并发保存，每个文件名应唯一
+        let data = makeTestImageData()
+        let group = DispatchGroup()
+        let queue = DispatchQueue(label: "test.concurrent", attributes: .concurrent)
+        let lock = NSLock()
+        var filenames = Set<String>()
+
+        for _ in 0..<10 {
+            group.enter()
+            queue.async {
+                do {
+                    let f = try ImageStore.save(data)
+                    lock.lock()
+                    filenames.insert(f)
+                    lock.unlock()
+                } catch {
+                    XCTFail("concurrent save failed: \(error)")
+                }
+                group.leave()
+            }
+        }
+        group.wait()
+        XCTAssertEqual(filenames.count, 10, "并发 10 次应得到 10 个唯一文件名")
+    }
 }

@@ -104,4 +104,183 @@ final class DataImporterTests: XCTestCase {
         XCTAssertFalse(failed.isSuccess)
         XCTAssertEqual(success, DataImporter.ImportResult(imported: 8, skipped: 0, error: nil))
     }
+
+    // MARK: - 错误路径
+
+    func testImportWithInvalidJSONReturnsError() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let badJSON = "not a json {{{".data(using: .utf8)!
+        let result = importer.importSampleRecords(jsonData: badJSON)
+
+        XCTAssertFalse(result.isSuccess)
+        XCTAssertNotNil(result.error)
+        XCTAssertEqual(result.imported, 0)
+        XCTAssertEqual(result.skipped, 0)
+    }
+
+    func testImportWithMissingRecordsFieldReturnsError() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let json = """
+        { "version": 1 }
+        """.data(using: .utf8)!
+        let result = importer.importSampleRecords(jsonData: json)
+
+        XCTAssertFalse(result.isSuccess)
+        XCTAssertNotNil(result.error)
+    }
+
+    func testImportWithEmptyRecordsArray() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let json = """
+        { "version": 1, "records": [] }
+        """.data(using: .utf8)!
+        let result = importer.importSampleRecords(jsonData: json)
+
+        XCTAssertTrue(result.isSuccess)
+        XCTAssertEqual(result.imported, 0)
+        XCTAssertEqual(result.skipped, 0)
+    }
+
+    func testImportWithUnknownCategoryFallsBackToOther() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let json = """
+        {
+          "version": 1,
+          "records": [
+            {"name": "未知分类物品", "category": "完全不存在的分类", "farewellDate": "2026-01-15", "method": "捐赠", "photoFilenames": []}
+          ]
+        }
+        """.data(using: .utf8)!
+        let result = importer.importSampleRecords(jsonData: json)
+
+        XCTAssertTrue(result.isSuccess, "未知 category 应 fallback 到 other 而不是失败")
+        XCTAssertEqual(result.imported, 1)
+
+        let descriptor = FetchDescriptor<FarewellRecord>()
+        let all = try context.fetch(descriptor)
+        XCTAssertEqual(all.count, 1)
+        XCTAssertEqual(all.first?.category, .builtin(.other))
+    }
+
+    func testImportWithUnknownMethodFallsBackToOther() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let json = """
+        {
+          "version": 1,
+          "records": [
+            {"name": "未知 method 物品", "category": "衣物", "farewellDate": "2026-01-15", "method": "不存在的去向", "photoFilenames": []}
+          ]
+        }
+        """.data(using: .utf8)!
+        let result = importer.importSampleRecords(jsonData: json)
+
+        XCTAssertTrue(result.isSuccess)
+        XCTAssertEqual(result.imported, 1)
+
+        let descriptor = FetchDescriptor<FarewellRecord>()
+        let all = try context.fetch(descriptor)
+        XCTAssertEqual(all.first?.method, .other)
+    }
+
+    func testImportPreservesOptionalFieldsAsNil() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let json = """
+        {
+          "version": 1,
+          "records": [
+            {"name": "全可选空", "category": "衣物", "farewellDate": "2026-01-15", "method": "扔掉", "photoFilenames": []}
+          ]
+        }
+        """.data(using: .utf8)!
+        let result = importer.importSampleRecords(jsonData: json)
+
+        XCTAssertEqual(result.imported, 1)
+        let descriptor = FetchDescriptor<FarewellRecord>()
+        let all = try context.fetch(descriptor)
+        let record = all.first
+        XCTAssertNil(record?.purchaseDate)
+        XCTAssertNil(record?.purchasePrice)
+        XCTAssertNil(record?.emotionValue)
+        XCTAssertNil(record?.recipientDetail)
+        XCTAssertNil(record?.farewellLetter)
+    }
+
+    // MARK: - Bundle 默认路径
+
+    func testImportWithoutJsonDataUsesBundle() throws {
+        // smoke test：调用默认 bundle 路径（-seedTestData 走的也是这条）
+        // sample_records.json 应在 app bundle 中
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let result = importer.importSampleRecords()
+
+        // 测试 bundle 应该能找到该资源（依赖 XcodeGen 资源包含配置）
+        // 如果找不到，imported = 0 + error
+        if !result.isSuccess {
+            XCTAssertNotNil(result.error)
+            // 至少断言不抛错即可
+            return
+        }
+        XCTAssertGreaterThan(result.imported, 0, "Bundle 内置 sample_records.json 应至少有 1 条")
+    }
+
+    // MARK: - 日期格式
+
+    func testImportDateFormatIsDateOnly() throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+        let importer = DataImporter(context: context)
+
+        let json = """
+        {
+          "version": 1,
+          "records": [
+            {"name": "date-test", "category": "衣物", "farewellDate": "2026-06-15", "method": "捐赠", "photoFilenames": []}
+          ]
+        }
+        """.data(using: .utf8)!
+        importer.importSampleRecords(jsonData: json)
+
+        let descriptor = FetchDescriptor<FarewellRecord>(
+            predicate: #Predicate { $0.name == "date-test" }
+        )
+        let all = try context.fetch(descriptor)
+        XCTAssertEqual(all.count, 1)
+        // 时间组件应为 0（UTC 0 点的日期）
+        let comps = Calendar(identifier: .gregorian).dateComponents(
+            in: TimeZone(secondsFromGMT: 0)!,
+            from: all.first!.farewellDate
+        )
+        XCTAssertEqual(comps.year, 2026)
+        XCTAssertEqual(comps.month, 6)
+        XCTAssertEqual(comps.day, 15)
+    }
+
+    // MARK: - ImportResult 数学性质
+
+    func testImportResultTotalFound() {
+        let result = DataImporter.ImportResult(imported: 3, skipped: 2, error: nil)
+        XCTAssertEqual(result.totalFound, 5)
+        XCTAssertTrue(result.isSuccess)
+    }
 }

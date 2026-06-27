@@ -1,4 +1,5 @@
 import XCTest
+import SwiftData
 @testable import JianDan
 
 // `Category` 与 Foundation 同名冲突；alias 一下
@@ -319,5 +320,150 @@ final class StatsCalculatorTests: XCTestCase {
         let ym = YearMonth.current(referenceDate: now)
         XCTAssertEqual(ym.year, 2026)
         XCTAssertEqual(ym.month, 6)
+    }
+
+    // MARK: - 闰年
+
+    func testLeapYearCompanionshipDays() {
+        // 2024-02-28 购入 → 2024-03-01 告别，应经过 2 天（闰年 2 月有 29 日）
+        let records = [
+            makeRecord(
+                farewellDate: date(year: 2024, month: 3, day: 1),
+                purchaseDate: date(year: 2024, month: 2, day: 28)
+            )
+        ]
+        let stats = StatsCalculator.compute(from: records)
+        XCTAssertEqual(stats.totalCompanionshipDays, 2, accuracy: 0)
+        XCTAssertEqual(stats.longestCompanionshipDays, 2, accuracy: 0)
+    }
+
+    func testSingleDayCompanionship() {
+        let records = [
+            makeRecord(
+                farewellDate: date(year: 2024, month: 6, day: 15),
+                purchaseDate: date(year: 2024, month: 6, day: 15)
+            )
+        ]
+        let stats = StatsCalculator.compute(from: records)
+        XCTAssertEqual(stats.totalCompanionshipDays, 0, accuracy: 0)
+        XCTAssertEqual(stats.longestCompanionshipDays, 0, accuracy: 0)
+    }
+
+    // MARK: - 自定义分类
+
+    func testMonthScopeWithCustomCategoryEncoded() throws {
+        let container = makeContainerForStatsTests()
+        let context = ModelContext(container)
+        let custom = UserCategory(name: "数码配件", iconName: "tag", sortOrder: 0)
+        context.insert(custom)
+
+        let now = date(year: 2026, month: 6, day: 15)
+        let compoundID = AnyCategory.storageIDForDelete(userCategory: custom)
+        let record = FarewellRecord(
+            name: "测试",
+            category: .builtin(.other),
+            farewellDate: date(year: 2026, month: 6, day: 5),
+            method: .donate
+        )
+        record.categoryRaw = compoundID
+        context.insert(record)
+        try context.save()
+
+        let stats = StatsCalculator.compute(
+            from: [record],
+            scope: .month(YearMonth(year: 2026, month: 6)),
+            referenceDate: now
+        )
+        XCTAssertEqual(stats.totalCount, 1)
+        XCTAssertEqual(stats.categoryBreakdown.first?.category, AnyCategory.custom(name: "数码配件", iconName: "tag"))
+    }
+
+    func testCategoryBreakdownWithCustomCategories() throws {
+        let container = makeContainerForStatsTests()
+        let context = ModelContext(container)
+        let cat1 = UserCategory(name: "数码", iconName: "tag", sortOrder: 0)
+        let cat2 = UserCategory(name: "服饰", iconName: "tag", sortOrder: 1)
+        context.insert(cat1)
+        context.insert(cat2)
+
+        let r1 = FarewellRecord(name: "a", category: .builtin(.other), method: .donate)
+        r1.categoryRaw = AnyCategory.storageIDForDelete(userCategory: cat1)
+        let r2 = FarewellRecord(name: "b", category: .builtin(.other), method: .donate)
+        r2.categoryRaw = AnyCategory.storageIDForDelete(userCategory: cat1)
+        let r3 = FarewellRecord(name: "c", category: .builtin(.other), method: .donate)
+        r3.categoryRaw = AnyCategory.storageIDForDelete(userCategory: cat2)
+        context.insert(r1); context.insert(r2); context.insert(r3)
+        try context.save()
+
+        let stats = StatsCalculator.compute(from: [r1, r2, r3])
+        XCTAssertEqual(stats.categoryBreakdown.count, 2)
+        XCTAssertEqual(stats.categoryBreakdown.first?.count, 2, "数码 应有 2 条")
+    }
+
+    // MARK: - 自定义 Calendar
+
+    func testComputeRespectsCustomCalendar() {
+        // 用 UTC 日历 + 构造 UTC 时区的日期；scope 过滤应仍能命中
+        var utcCalendar = Calendar(identifier: .gregorian)
+        utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+
+        // 构造 2026-06-15 UTC
+        var components = DateComponents()
+        components.year = 2026
+        components.month = 6
+        components.day = 15
+        let refDate = utcCalendar.date(from: components)!
+
+        // 构造 2026-06-01 UTC 时刻的记录
+        components.day = 1
+        let farewellDate = utcCalendar.date(from: components)!
+
+        let records = [
+            makeRecord(farewellDate: farewellDate)
+        ]
+        let stats = StatsCalculator.compute(
+            from: records,
+            scope: .month(YearMonth(year: 2026, month: 6)),
+            calendar: utcCalendar,
+            referenceDate: refDate
+        )
+        XCTAssertEqual(stats.totalCount, 1)
+        XCTAssertEqual(stats.monthLabel, "2026 年 6 月")
+    }
+
+    // MARK: - 月份枚举去重
+
+    func testMonthsWithRecordsDeduplicatesSameMonth() {
+        let records = [
+            makeRecord(farewellDate: date(year: 2026, month: 6, day: 1)),
+            makeRecord(farewellDate: date(year: 2026, month: 6, day: 15)),
+            makeRecord(farewellDate: date(year: 2026, month: 6, day: 30)),
+        ]
+        let months = StatsCalculator.monthsWithRecords(in: records)
+        XCTAssertEqual(months.count, 1, "6 月 3 条记录应只产出 1 个 YearMonth")
+        XCTAssertEqual(months.first?.month, 6)
+    }
+
+    // MARK: - AllTime + Calendar 边界
+
+    func testAllTimeScopeIgnoresCalendarMonthBoundary() {
+        // scope = .allTime 时，无论 referenceDate 是什么，都统计全部
+        let now = date(year: 2026, month: 6, day: 15)
+        let records = [
+            makeRecord(farewellDate: date(year: 2025, month: 12, day: 31)),
+            makeRecord(farewellDate: date(year: 2026, month: 1, day: 1)),
+        ]
+        let stats = StatsCalculator.compute(from: records, scope: .allTime, referenceDate: now)
+        XCTAssertEqual(stats.totalCount, 2)
+        XCTAssertNil(stats.monthLabel)
+    }
+
+    // MARK: - 辅助
+
+    private func makeContainerForStatsTests() -> ModelContainer {
+        let schema = Schema([FarewellRecord.self, UserCategory.self])
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        // swiftlint:disable:next force_try
+        return try! ModelContainer(for: schema, configurations: [config])
     }
 }

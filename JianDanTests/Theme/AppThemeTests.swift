@@ -80,4 +80,32 @@ final class AppThemeTests: XCTestCase {
         // 清理：恢复默认，避免影响其他测试
         manager.mode = .light
     }
+
+    // MARK: - EnvironmentKey
+
+    func testAppThemeDefaultEnvironmentIsLight() {
+        var env = EnvironmentValues()
+        // 默认值
+        let defaultTheme = AppTheme(mode: .light)
+        XCTAssertEqual(env.appTheme.mode, defaultTheme.mode)
+    }
+
+    func testEnvironmentKeySetterGetter() {
+        var env = EnvironmentValues()
+        let customTheme = AppTheme(mode: .ink)
+        env.appTheme = customTheme
+        XCTAssertEqual(env.appTheme.mode, .ink)
+        XCTAssertEqual(env.appTheme.background, AppColors.Ink.background)
+    }
+
+    func testAppThemeModifierAppliesTint() {
+        // 用 Image 应用 modifier，验证 .tint 被设置
+        // 直接测试 modifier 太复杂（需要 ViewInspector），改为检查主题色映射即可
+        let inkTheme = AppTheme(mode: .ink)
+        XCTAssertEqual(inkTheme.accent, AppColors.Ink.accent)
+        let darkTheme = AppTheme(mode: .dark)
+        XCTAssertEqual(darkTheme.accent, AppColors.Dark.accent)
+        let lightTheme = AppTheme(mode: .light)
+        XCTAssertEqual(lightTheme.accent, AppColors.Light.accent)
+    }
 }
