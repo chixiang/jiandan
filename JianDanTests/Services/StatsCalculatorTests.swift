@@ -189,13 +189,13 @@ final class StatsCalculatorTests: XCTestCase {
         ]
         let breakdown = StatsCalculator.compute(from: records).emotionBreakdown
         XCTAssertEqual(breakdown.count, 3)
-        // 按 count 降序：不舍(2) > 复杂(1) > 平静(0)
+        // 按 count 降序：复杂(2) > 不舍(1) > 平静(0)
         XCTAssertEqual(breakdown[0].stars, 2)
         XCTAssertEqual(breakdown[0].count, 2)
-        XCTAssertEqual(breakdown[0].name, "不舍")
+        XCTAssertEqual(breakdown[0].name, "复杂")
         XCTAssertEqual(breakdown[1].stars, 3)
         XCTAssertEqual(breakdown[1].count, 1)
-        XCTAssertEqual(breakdown[1].name, "复杂")
+        XCTAssertEqual(breakdown[1].name, "不舍")
         XCTAssertEqual(breakdown[2].stars, 1)
         XCTAssertEqual(breakdown[2].count, 0)
         XCTAssertEqual(breakdown[2].name, "平静")
@@ -210,7 +210,7 @@ final class StatsCalculatorTests: XCTestCase {
         XCTAssertEqual(breakdown.count, 3)
         XCTAssertTrue(breakdown.allSatisfy { $0.count == 0 })
         XCTAssertEqual(breakdown[0].name, "平静")
-        XCTAssertEqual(breakdown[2].name, "复杂")
+        XCTAssertEqual(breakdown[2].name, "不舍")
     }
 
     // MARK: - 集成
@@ -281,7 +281,7 @@ final class StatsCalculatorTests: XCTestCase {
             categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
             categoryPriceBreakdown: [CategoryPriceCount(category: .builtin(FarewellCategory.books), totalPrice: 300)],
             methodBreakdown: [MethodCount(name: "捐赠", icon: "heart", count: 2)],
-            emotionBreakdown: [EmotionCount(stars: 3, name: "平静", count: 1)]
+            emotionBreakdown: [EmotionCount(stars: 1, name: "平静", count: 1)]
         )
         let b = FarewellStats(
             totalCount: 3,
@@ -291,7 +291,7 @@ final class StatsCalculatorTests: XCTestCase {
             categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
             categoryPriceBreakdown: [CategoryPriceCount(category: .builtin(FarewellCategory.books), totalPrice: 300)],
             methodBreakdown: [MethodCount(name: "捐赠", icon: "heart", count: 2)],
-            emotionBreakdown: [EmotionCount(stars: 3, name: "平静", count: 1)]
+            emotionBreakdown: [EmotionCount(stars: 1, name: "平静", count: 1)]
         )
         XCTAssertEqual(a, b, "FarewellStats 应可比较相等")
     }

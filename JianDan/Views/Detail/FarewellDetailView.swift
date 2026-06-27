@@ -70,7 +70,7 @@ struct FarewellDetailView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         HStack(spacing: 12) {
-                            ForEach(1...5, id: \.self) { i in
+                            ForEach(1...3, id: \.self) { i in
                                 Circle()
                                     .fill(i <= emotion ? Color.accentColor : Color.secondary.opacity(0.3))
                                     .frame(width: 10, height: 10)
@@ -191,8 +191,8 @@ struct FarewellDetailView: View {
     private func emotionLabel(_ value: Int) -> String {
         switch value {
         case 1: return "平静"
-        case 2: return "不舍"
-        case 3: return "复杂"
+        case 2: return "复杂"
+        case 3: return "不舍"
         default: return ""
         }
     }

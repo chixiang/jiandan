@@ -84,7 +84,7 @@ enum StatsCalculator {
                 emotionCounts[ev, default: 0] += 1
             }
         }
-        let emotionLabels: [Int: String] = [1: "平静", 2: "不舍", 3: "复杂"]
+        let emotionLabels: [Int: String] = [1: "平静", 2: "复杂", 3: "不舍"]
         let emotionBreakdown = (1...3).map { stars in
             EmotionCount(
                 stars: stars,

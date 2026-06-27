@@ -38,8 +38,8 @@ struct EmotionStarsView: View {
     private func label(for value: Int) -> String {
         switch value {
         case 1: return "平静"
-        case 2: return "不舍"
-        case 3: return "复杂"
+        case 2: return "复杂"
+        case 3: return "不舍"
         default: return ""
         }
     }
