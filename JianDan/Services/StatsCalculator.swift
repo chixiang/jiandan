@@ -3,7 +3,7 @@ import Foundation
 /// 告别统计结果（纯值类型，便于测试与缓存）
 struct FarewellStats: Equatable {
     let totalCount: Int
-    let averageCompanionshipDays: Double?
+    let averageCompanionshipDays: Int?
     let longestCompanionshipDays: Int
     let totalPurchasePrice: Double
     let categoryBreakdown: [CategoryCount]
@@ -46,9 +46,9 @@ enum StatsCalculator {
 
         let companionshipValues = records.compactMap { $0.companionshipDays }
         let totalCompanionshipDaysSum = companionshipValues.reduce(0, +)
-        let averageCompanionshipDays: Double? = companionshipValues.isEmpty
+        let averageCompanionshipDays: Int? = companionshipValues.isEmpty
             ? nil
-            : Double(totalCompanionshipDaysSum) / Double(companionshipValues.count)
+            : Int((Double(totalCompanionshipDaysSum) / Double(companionshipValues.count)).rounded())
         let longestCompanionshipDays = companionshipValues.max() ?? 0
 
         let totalPurchasePrice = records.compactMap { $0.purchasePrice }.reduce(0, +)

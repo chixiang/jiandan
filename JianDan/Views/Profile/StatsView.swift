@@ -23,7 +23,7 @@ struct StatsView: View {
                     icon: "leaf.fill"
                 )
                 StatCard(
-                    value: stats.averageCompanionshipDays.map { String(format: "%.1f", $0) } ?? "—",
+                    value: stats.averageCompanionshipDays.map { "\($0)" } ?? "—",
                     label: "平均陪伴",
                     icon: "heart.fill"
                 )
@@ -220,7 +220,7 @@ private struct BreakdownRow: View {
     let theme = AppTheme(mode: .light)
     let stats = FarewellStats(
         totalCount: 12,
-        averageCompanionshipDays: 70.4,
+        averageCompanionshipDays: 70,
         longestCompanionshipDays: 365,
         totalPurchasePrice: 1280,
         categoryBreakdown: [

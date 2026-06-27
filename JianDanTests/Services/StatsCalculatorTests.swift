@@ -80,7 +80,7 @@ final class StatsCalculatorTests: XCTestCase {
             ),
         ]
         let stats = StatsCalculator.compute(from: records)
-        XCTAssertEqual(stats.averageCompanionshipDays!, 165, accuracy: 2)
+        XCTAssertEqual(stats.averageCompanionshipDays!, 165)
         XCTAssertEqual(stats.longestCompanionshipDays, 365, accuracy: 1)
     }
 
@@ -94,7 +94,7 @@ final class StatsCalculatorTests: XCTestCase {
         ]
         let stats = StatsCalculator.compute(from: records)
         XCTAssertEqual(stats.totalCount, 2, "总数不受影响")
-        XCTAssertEqual(stats.averageCompanionshipDays!, 10, accuracy: 1, "无购入日期的应跳过")
+        XCTAssertEqual(stats.averageCompanionshipDays!, 10, "无购入日期的应跳过")
     }
 
     // MARK: - 总价
@@ -230,7 +230,7 @@ final class StatsCalculatorTests: XCTestCase {
             )
         ]
         let stats = StatsCalculator.compute(from: records)
-        XCTAssertEqual(stats.averageCompanionshipDays!, 2, accuracy: 0)
+        XCTAssertEqual(stats.averageCompanionshipDays!, 2)
         XCTAssertEqual(stats.longestCompanionshipDays, 2, accuracy: 0)
     }
 
@@ -242,7 +242,7 @@ final class StatsCalculatorTests: XCTestCase {
             )
         ]
         let stats = StatsCalculator.compute(from: records)
-        XCTAssertEqual(stats.averageCompanionshipDays!, 0, accuracy: 0)
+        XCTAssertEqual(stats.averageCompanionshipDays!, 0)
         XCTAssertEqual(stats.longestCompanionshipDays, 0, accuracy: 0)
     }
 
@@ -275,7 +275,7 @@ final class StatsCalculatorTests: XCTestCase {
     func testFarewellStatsEquatable() {
         let a = FarewellStats(
             totalCount: 3,
-            averageCompanionshipDays: 3.3,
+            averageCompanionshipDays: 3,
             longestCompanionshipDays: 5,
             totalPurchasePrice: 100,
             categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
@@ -285,7 +285,7 @@ final class StatsCalculatorTests: XCTestCase {
         )
         let b = FarewellStats(
             totalCount: 3,
-            averageCompanionshipDays: 3.3,
+            averageCompanionshipDays: 3,
             longestCompanionshipDays: 5,
             totalPurchasePrice: 100,
             categoryBreakdown: [CategoryCount(category: .builtin(FarewellCategory.books), count: 3)],
