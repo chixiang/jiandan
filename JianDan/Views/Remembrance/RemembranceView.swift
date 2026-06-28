@@ -123,7 +123,7 @@ struct RemembranceView: View {
                 // ---- 当时心情 ----
                 if let emotion = item.emotionValue {
                     HStack(spacing: 8) {
-                        ForEach(1...5, id: \.self) { i in
+                        ForEach(1...3, id: \.self) { i in
                             Circle()
                                 .fill(i <= emotion ? theme.accent : theme.divider)
                                 .frame(width: 8, height: 8)
