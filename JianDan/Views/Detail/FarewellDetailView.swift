@@ -6,6 +6,8 @@ struct FarewellDetailView: View {
     @Bindable var record: FarewellRecord
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+    @Environment(CurrencyManager.self) private var currencyManager
 
     @State private var showingDeleteConfirm = false
     @State private var showingEdit = false
@@ -94,8 +96,12 @@ struct FarewellDetailView: View {
                                 .font(.body)
                         }
                         if let price = record.purchasePrice {
-                            Text("价格 ¥\(price, specifier: "%.0f")")
-                                .font(.body)
+                            HStack(spacing: 4) {
+                                Image(systemName: currencyManager.currency.icon)
+                                    .foregroundStyle(.secondary)
+                                Text(price, format: .number.precision(.fractionLength(0)))
+                            }
+                            .font(.body)
                         }
                     }
                 }
@@ -254,6 +260,8 @@ struct EditFarewellView: View {
     @Bindable var record: FarewellRecord
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+    @Environment(CurrencyManager.self) private var currencyManager
 
     @State private var deleteCustomCategoryAlert: UserCategory? = nil
     @Query(sort: \UserCategory.sortOrder, order: .forward) private var customCategories: [UserCategory]
@@ -322,22 +330,26 @@ struct EditFarewellView: View {
                         ), in: ...record.farewellDate, displayedComponents: .date)
                     }
 
-                    TextField("购入价格（选填）", text: Binding(
-                        get: {
-                            if let price = record.purchasePrice, price > 0 {
-                                return String(format: "%.0f", price)
+                    HStack(spacing: 6) {
+                        Text(currencyManager.currency.symbol)
+                            .foregroundStyle(theme.secondary)
+                        TextField("购入价格（选填）", text: Binding(
+                            get: {
+                                if let price = record.purchasePrice, price > 0 {
+                                    return String(format: "%.0f", price)
+                                }
+                                return ""
+                            },
+                            set: { newValue in
+                                if let price = Double(newValue), price > 0 {
+                                    record.purchasePrice = price
+                                } else {
+                                    record.purchasePrice = nil
+                                }
                             }
-                            return ""
-                        },
-                        set: { newValue in
-                            if let price = Double(newValue), price > 0 {
-                                record.purchasePrice = price
-                            } else {
-                                record.purchasePrice = nil
-                            }
-                        }
-                    ))
-                    .keyboardType(.decimalPad)
+                        ))
+                        .keyboardType(.decimalPad)
+                    }
 
                     EmotionStarsView(value: Binding(
                         get: { record.emotionValue },

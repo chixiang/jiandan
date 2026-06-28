@@ -8,6 +8,7 @@ import SwiftData
 struct RemembranceView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.modelContext) private var modelContext
+    @Environment(CurrencyManager.self) private var currencyManager
 
     @Query(sort: \FarewellRecord.farewellDate, order: .reverse) private var records: [FarewellRecord]
 
@@ -108,7 +109,7 @@ struct RemembranceView: View {
                     pill(item.category.displayName, icon: item.category.iconName)
                     pill(item.method.rawValue, icon: item.method.icon)
                     if let price = item.purchasePrice, price > 0 {
-                        pill("¥\(String(format: "%.0f", price))", icon: "yensign")
+                        pill(String(format: "%.0f", price), icon: currencyManager.currency.icon)
                     }
                 }
 
@@ -215,5 +216,6 @@ struct RemembranceView: View {
 #Preview {
     RemembranceView()
         .environment(\.appTheme, AppTheme(mode: .light))
+        .environment(CurrencyManager())
         .modelContainer(for: FarewellRecord.self, inMemory: true)
 }

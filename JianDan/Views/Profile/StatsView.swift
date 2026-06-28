@@ -6,6 +6,7 @@ import SwiftUI
 /// 下方依次展示分类分布、分类总价、去向分布、情感分布。
 struct StatsView: View {
     @Environment(\.appTheme) private var theme
+    @Environment(CurrencyManager.self) private var currencyManager
     let stats: FarewellStats
 
     var body: some View {
@@ -38,7 +39,7 @@ struct StatsView: View {
                 StatCard(
                     value: priceString(stats.totalPurchasePrice),
                     label: "购入总价",
-                    icon: "yensign.circle"
+                    icon: currencyManager.currency.iconCircle
                 )
             }
 
@@ -102,12 +103,12 @@ struct StatsView: View {
 
     private func priceString(_ price: Double) -> String {
         if price >= 10000 {
-            return String(format: "%.1fk", price / 1000)
+            return String(format: "\(currencyManager.currency.symbol)%.1fk", price / 1000)
         }
         if price == 0 {
             return "—"
         }
-        return String(format: "%.0f", price)
+        return "\(currencyManager.currency.symbol)\(String(format: "%.0f", price))"
     }
 }
 

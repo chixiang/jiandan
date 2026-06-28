@@ -4,6 +4,7 @@ import SwiftData
 @main
 struct JianDanApp: App {
     @State private var themeManager = ThemeManager()
+    @State private var currencyManager = CurrencyManager()
 
     /// 开屏短文协调器：冷启动时随机选一条
     ///
@@ -45,6 +46,7 @@ struct JianDanApp: App {
         // 显式 set nil 比 removePersistentDomain 更可靠（模拟器上 remove 可能有缓存延迟）
         // 同时 reset store 同名
         UserDefaults.standard.set(nil, forKey: "app.themeMode")
+        UserDefaults.standard.set(nil, forKey: "app.currency")
     }
 
     /// -seedTestData launch arg 触发：清空 store 后自动填充样本记录
@@ -98,6 +100,7 @@ struct JianDanApp: App {
                 RootTabView()
                     .appTheme(themeManager.mode)
                     .environment(themeManager)
+                    .environment(currencyManager)
             }
         }
         .modelContainer(for: [FarewellRecord.self, UserCategory.self])

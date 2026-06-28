@@ -5,6 +5,8 @@ import SwiftData
 struct AddFarewellView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+    @Environment(CurrencyManager.self) private var currencyManager
 
     @State private var name: String = ""
     @State private var category: AnyCategory = .builtin(.clothing)
@@ -65,8 +67,12 @@ struct AddFarewellView: View {
                         ), in: ...farewellDate, displayedComponents: .date)
                     }
 
-                    TextField("购入价格（选填）", text: $purchasePriceText)
-                        .keyboardType(.decimalPad)
+                    HStack(spacing: 6) {
+                        Text(currencyManager.currency.symbol)
+                            .foregroundStyle(theme.secondary)
+                        TextField("购入价格（选填）", text: $purchasePriceText)
+                            .keyboardType(.decimalPad)
+                    }
 
                     EmotionStarsView(value: $emotionValue)
                 }
@@ -149,4 +155,6 @@ struct AddFarewellView: View {
 #Preview {
     AddFarewellView()
         .modelContainer(for: FarewellRecord.self, inMemory: true)
+        .environment(\.appTheme, AppTheme(mode: .light))
+        .environment(CurrencyManager())
 }
