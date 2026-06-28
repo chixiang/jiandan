@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftData
 
-/// 减单详情页
+/// 告别清单详情页
 struct FarewellDetailView: View {
     @Bindable var record: FarewellRecord
     @Environment(\.modelContext) private var modelContext
@@ -53,7 +53,7 @@ struct FarewellDetailView: View {
                     DetailRow(
                         icon: record.method.icon,
                         label: "去向",
-                        value: record.method.rawValue
+                        value: record.method.localizedName
                     )
                     if let detail = record.recipientDetail, !detail.isEmpty {
                         DetailRow(
@@ -106,11 +106,11 @@ struct FarewellDetailView: View {
                     }
                 }
 
-                // 减单一言
+                // 告别留言
                 if let letter = record.farewellLetter, !letter.isEmpty {
                     Divider()
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("减单一言")
+                        Text("告别留言")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         Text(letter)
@@ -158,7 +158,7 @@ struct FarewellDetailView: View {
             }
         }
         .confirmationDialog(
-            "确认删除这条减单？",
+            "确认删除这条告别记录？",
             isPresented: $showingDeleteConfirm,
             titleVisibility: .visible
         ) {
@@ -196,9 +196,9 @@ struct FarewellDetailView: View {
 
     private func emotionLabel(_ value: Int) -> String {
         switch value {
-        case 1: return "平静"
-        case 2: return "复杂"
-        case 3: return "不舍"
+        case 1: return String(localized: "平静")
+        case 2: return String(localized: "复杂")
+        case 3: return String(localized: "不舍")
         default: return ""
         }
     }
@@ -281,7 +281,7 @@ struct EditFarewellView: View {
                     PhotoPickerSection(items: $photos)
                 }
 
-                Section("减单日期") {
+                Section("告别日期") {
                     DatePicker("日期", selection: $record.farewellDate, in: ...Date.now, displayedComponents: .date)
                 }
 
@@ -362,7 +362,7 @@ struct EditFarewellView: View {
                     ))
                 }
 
-                Section("减单一言") {
+                Section("告别留言") {
                     TextField("写一段话给它", text: Binding(
                         get: { record.farewellLetter ?? "" },
                         set: { record.farewellLetter = $0.isEmpty ? nil : $0 }
@@ -373,7 +373,7 @@ struct EditFarewellView: View {
                     }
                 }
             }
-            .navigationTitle("编辑减单")
+            .navigationTitle("编辑告别")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

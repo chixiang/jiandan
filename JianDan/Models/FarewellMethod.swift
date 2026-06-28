@@ -11,6 +11,17 @@ enum FarewellMethod: String, CaseIterable, Identifiable, Codable {
 
     var id: String { rawValue }
 
+    var localizedName: String {
+        switch self {
+        case .gift: return String(localized: "送人")
+        case .discard: return String(localized: "扔掉")
+        case .donate: return String(localized: "捐赠")
+        case .resell: return String(localized: "二手出售")
+        case .store: return String(localized: "暂存")
+        case .other: return String(localized: "其他")
+        }
+    }
+
     /// SF Symbol 图标
     var icon: String {
         switch self {

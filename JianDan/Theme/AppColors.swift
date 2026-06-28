@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 减单品牌色板
+/// 告别清单品牌色板
 ///
 /// 极简、雅致、留白 —— 三种色调供用户在 Settings 中切换：
 /// - 浅色 (Light): 米白底 + 墨灰字 + 淡赭点缀
@@ -41,7 +41,7 @@ enum AppColors {
     }
 }
 
-/// 减单主题模式
+/// 告别清单主题模式
 ///
 /// `rawValue` 同时是 UserDefaults 的存储键、显示名和 `init(rawValue:)` 恢复键。
 enum AppThemeMode: String, CaseIterable, Identifiable, Codable {
@@ -52,7 +52,13 @@ enum AppThemeMode: String, CaseIterable, Identifiable, Codable {
     var id: String { rawValue }
 
     /// 用户友好的描述（与 rawValue 相同，但显式提供方便调用）
-    var displayName: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .light: return String(localized: "浅色")
+        case .dark: return String(localized: "深色")
+        case .ink: return String(localized: "墨色")
+        }
+    }
 
     /// 对应的系统 `ColorScheme`。
     /// Light 用 `.light`；Dark 和 Ink 均为深色 UI，但通过自定义色板覆盖背景。

@@ -1,0 +1,4 @@
+CFBundleDisplayName = "告别清单";
+NSPhotoLibraryUsageDescription = "告别清单需要访问相册以添加物品的照片";
+NSPhotoLibraryAddUsageDescription = "告别清单需要保存照片到相册";
+NSCameraUsageDescription = "告别清单需要使用相机以拍摄物品的照片";

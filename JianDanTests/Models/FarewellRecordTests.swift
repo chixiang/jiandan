@@ -162,9 +162,9 @@ final class FarewellRecordTests: XCTestCase {
         XCTAssertEqual(loaded.photoFilenames, ["test.jpg"])
 
         // Update
-        loaded.farewellLetter = "更新后的减单一言"
+        loaded.farewellLetter = "更新后的告别留言"
         try context.save()
-        XCTAssertEqual(loaded.farewellLetter, "更新后的减单一言")
+        XCTAssertEqual(loaded.farewellLetter, "更新后的告别留言")
 
         // Delete
         context.delete(loaded)

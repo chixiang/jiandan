@@ -21,6 +21,23 @@ enum Category: String, CaseIterable, Identifiable, Codable {
 
     var id: String { rawValue }
 
+    var localizedName: String {
+        switch self {
+        case .clothing: return String(localized: "衣物")
+        case .shoesAccessories: return String(localized: "鞋包配饰")
+        case .books: return String(localized: "书籍")
+        case .electronics: return String(localized: "电子")
+        case .furniture: return String(localized: "家具")
+        case .homeStorage: return String(localized: "家居收纳")
+        case .beauty: return String(localized: "美妆护肤")
+        case .documents: return String(localized: "票据文件")
+        case .toysCollectibles: return String(localized: "玩具收藏")
+        case .tools: return String(localized: "工具器材")
+        case .miscellaneous: return String(localized: "杂物")
+        case .other: return String(localized: "其他")
+        }
+    }
+
     /// SF Symbol 图标
     var icon: String {
         switch self {

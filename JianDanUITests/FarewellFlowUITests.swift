@@ -21,7 +21,7 @@ final class FarewellFlowUITests: XCTestCase {
         return app
     }
 
-    // MARK: - 流程 1：完整新增减单 + 查看详情
+    // MARK: - 流程 1：完整新增告别清单 + 查看详情
 
     /// 完整新增流程：进首页 → 点 + → 填名字 → 选分类 → 保存
     /// → 列表看到 → 点卡片 → 详情页看到名称
@@ -30,14 +30,14 @@ final class FarewellFlowUITests: XCTestCase {
 
         // 1. 空状态 → 点 + 号
         XCTAssertTrue(
-            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            app.staticTexts["还没有告别记录"].waitForExistence(timeout: 5),
             "Precondition: empty state should be visible"
         )
         app.buttons["记下第一件"].tap()
 
         // 2. sheet 出现
         XCTAssertTrue(
-            app.navigationBars["新建减单"].waitForExistence(timeout: 3),
+            app.navigationBars["新建告别"].waitForExistence(timeout: 3),
             "Add sheet should appear"
         )
 
@@ -52,7 +52,7 @@ final class FarewellFlowUITests: XCTestCase {
             furnitureChip.tap()
         }
 
-        // 5. 写一段减单一言（axis: .vertical → TextEditor，需用 textViews）
+        // 5. 写一段告别留言（axis: .vertical → TextEditor，需用 textViews）
         let letterField = app.textViews["写一段话给它（选填）"]
         if letterField.waitForExistence(timeout: 2) {
             letterField.tap()
@@ -64,7 +64,7 @@ final class FarewellFlowUITests: XCTestCase {
 
         // 7. sheet 关闭
         XCTAssertTrue(
-            app.navigationBars["新建减单"].waitForNonExistence(timeout: 5),
+            app.navigationBars["新建告别"].waitForNonExistence(timeout: 5),
             "Sheet should dismiss after save"
         )
 
@@ -78,8 +78,8 @@ final class FarewellFlowUITests: XCTestCase {
         // 9. 点击卡片进入详情
         card.tap()
 
-        // 10. 详情页能看到名称 + 分类 + 减单一言
-        // 10. 详情页能看到名称 + 分类 + 减单一言
+        // 10. 详情页能看到名称 + 分类 + 告别留言
+        // 10. 详情页能看到名称 + 分类 + 告别留言
         XCTAssertTrue(
             app.staticTexts["流程测试-台灯"].waitForExistence(timeout: 3),
             "Detail view should show the record name"
@@ -88,7 +88,7 @@ final class FarewellFlowUITests: XCTestCase {
             app.staticTexts["家具"].exists,
             "Detail view should show category"
         )
-        // 减单一言的 typeText 依赖中文输入法，XCUITest 不稳定；仅检查名称与分类
+        // 告别留言的 typeText 依赖中文输入法，XCUITest 不稳定；仅检查名称与分类
         // farewell letter input via TextEditor is flaky with Chinese IME in XCUI;
         // we skip it here since the record name + category already confirm save worked.
 

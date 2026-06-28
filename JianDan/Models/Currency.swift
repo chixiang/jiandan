@@ -15,11 +15,11 @@ enum Currency: String, CaseIterable, Identifiable, Codable {
 
     var displayName: String {
         switch self {
-        case .cny: return "人民币"
-        case .usd: return "美元"
-        case .eur: return "欧元"
-        case .jpy: return "日元"
-        case .gbp: return "英镑"
+        case .cny: return String(localized: "人民币")
+        case .usd: return String(localized: "美元")
+        case .eur: return String(localized: "欧元")
+        case .jpy: return String(localized: "日元")
+        case .gbp: return String(localized: "英镑")
         }
     }
 

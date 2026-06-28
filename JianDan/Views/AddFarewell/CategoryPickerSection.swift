@@ -28,7 +28,7 @@ struct CategoryPickerSection: View {
                     // 1. 内置分类
                     ForEach(Category.allCases) { category in
                         CategoryChip(
-                            label: category.rawValue,
+                            label: category.localizedName,
                             iconName: category.icon,
                             isSelected: selection == .builtin(category),
                             isDeletable: false,

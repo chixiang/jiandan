@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 
-/// 删除一条减单记录的服务
+/// 删除一条告别清单记录的服务
 ///
 /// 抽取自 `FarewellDetailView.deleteRecord()` 的"清理照片 + 删记录 + 保存"流程，
 /// 便于单元测试验证图片清理行为。

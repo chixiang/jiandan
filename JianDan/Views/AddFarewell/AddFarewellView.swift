@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftData
 
-/// 新建减单表单
+/// 新建告别表单
 struct AddFarewellView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -40,7 +40,7 @@ struct AddFarewellView: View {
                             }
                         }
 
-                    DatePicker("减单日期", selection: $farewellDate, in: ...Date.now, displayedComponents: .date)
+                    DatePicker("告别日期", selection: $farewellDate, in: ...Date.now, displayedComponents: .date)
                 }
 
                 Section("分类与去向") {
@@ -86,7 +86,7 @@ struct AddFarewellView: View {
                             }
                         }
                 } header: {
-                    Text("减单一言")
+                    Text("告别留言")
                 } footer: {
                     HStack {
                         Spacer()
@@ -96,7 +96,7 @@ struct AddFarewellView: View {
                     }
                 }
             }
-            .navigationTitle("新建减单")
+            .navigationTitle("新建告别")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

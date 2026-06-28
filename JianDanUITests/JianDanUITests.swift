@@ -10,8 +10,8 @@ final class JianDanUITests: XCTestCase {
 
         // 验证 Tab Bar 两个 tab item 存在（Phase 2 已删除「极简」Tab）
         XCTAssertTrue(
-            app.tabBars.buttons["减单"].waitForExistence(timeout: 5),
-            "Tab '减单' should exist after launch"
+            app.tabBars.buttons["告别清单"].waitForExistence(timeout: 5),
+            "Tab '告别清单' should exist after launch"
         )
         XCTAssertTrue(
             app.tabBars.buttons["我的"].waitForExistence(timeout: 5),
@@ -19,7 +19,7 @@ final class JianDanUITests: XCTestCase {
         )
     }
 
-    /// 回归测试：池老板反馈 task9 后新建一条减单在列表中看不到。
+    /// 回归测试：池老板反馈 task9 后新建一条告别清单在列表中看不到。
     /// 流程：进首页 → 点 + → 填名字 → 保存 → 期待列表出现该条记录。
     func testAddFarewellAppearsInList() throws {
         let app = XCUIApplication()
@@ -27,14 +27,14 @@ final class JianDanUITests: XCTestCase {
         app.launchArguments = ["-resetStore", "-resetUserDefaults", "-disableSplash"]
         app.launch()
 
-        // 1. 已经在「减单」Tab；空状态显示「记下第一件」按钮
+        // 1. 已经在「告别清单」Tab；空状态显示「记下第一件」按钮
         XCTAssertTrue(
-            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            app.staticTexts["还没有告别记录"].waitForExistence(timeout: 5),
             "Empty state should appear on first launch (or if store was empty)"
         )
 
         // 2. 点 + 按钮（导航栏右上角）
-        let addButton = app.navigationBars.buttons["添加减单记录"]
+        let addButton = app.navigationBars.buttons["添加告别记录"]
         if !addButton.exists {
             // 兜底：空状态中央也有一个 + 按钮
             let emptyAdd = app.buttons["记下第一件"]
@@ -44,9 +44,9 @@ final class JianDanUITests: XCTestCase {
             addButton.tap()
         }
 
-        // 3. 等待 sheet 出现「新建减单」标题
+        // 3. 等待 sheet 出现「新建告别」标题
         XCTAssertTrue(
-            app.navigationBars["新建减单"].waitForExistence(timeout: 3),
+            app.navigationBars["新建告别"].waitForExistence(timeout: 3),
             "Add sheet should appear"
         )
 
@@ -54,7 +54,7 @@ final class JianDanUITests: XCTestCase {
         let nameField = app.textFields["名称（如：一件蓝色羊毛大衣）"]
         XCTAssertTrue(nameField.waitForExistence(timeout: 2), "Name field should exist")
         nameField.tap()
-        nameField.typeText("UI测试减单-蓝色羊毛大衣")
+        nameField.typeText("UI测试告别清单-蓝色羊毛大衣")
 
         // 5. 点保存
         let saveButton = app.buttons["保存"]
@@ -63,12 +63,12 @@ final class JianDanUITests: XCTestCase {
 
         // 6. 期待 sheet 关闭
         XCTAssertTrue(
-            app.navigationBars["新建减单"].waitForNonExistence(timeout: 5),
+            app.navigationBars["新建告别"].waitForNonExistence(timeout: 5),
             "Sheet should dismiss after save"
         )
 
         // 7. ★ 核心断言：列表里能看到这条记录
-        let created = app.staticTexts["UI测试减单-蓝色羊毛大衣"]
+        let created = app.staticTexts["UI测试告别清单-蓝色羊毛大衣"]
         XCTAssertTrue(
             created.waitForExistence(timeout: 5),
             "Newly created farewell should appear in the diary list"
@@ -101,16 +101,16 @@ final class JianDanUITests: XCTestCase {
             "Splash quote attribution should appear"
         )
 
-        // 2. 底部「减单」水印可见
+        // 2. 底部「告别清单」水印可见
         // 注：iOS accessibility 把纯装饰文字降级为「弱标签」，先不强断言
-        // XCTAssertTrue(app.staticTexts["减单"].exists, "Splash watermark should appear")
+        // XCTAssertTrue(app.staticTexts["告别清单"].exists, "Splash watermark should appear")
 
         // 3. 等 1.5s 让 1s 倒计时 + 0.4s 淡出完成
         sleep(2)
 
         // 4. Tab 主界面浮现（已显示空态）
         XCTAssertTrue(
-            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            app.staticTexts["还没有告别记录"].waitForExistence(timeout: 5),
             "After splash dismiss, diary empty state should appear"
         )
 
@@ -150,7 +150,7 @@ final class JianDanUITests: XCTestCase {
 
         // 4. Tab 主界面浮现
         XCTAssertTrue(
-            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            app.staticTexts["还没有告别记录"].waitForExistence(timeout: 5),
             "After tap, diary should appear"
         )
     }

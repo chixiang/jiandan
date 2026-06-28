@@ -42,7 +42,7 @@ final class EditFarewellUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["去向"].exists)
     }
 
-    /// 减单一言存在时应在详情页可见
+    /// 告别留言存在时应在详情页可见
     func testDetailShowsFarewellLetter() {
         let app = launchSeededApp()
         // 选择有 farewellLetter 的记录：「冬天的厚被褥」
@@ -54,9 +54,9 @@ final class EditFarewellUITests: XCTestCase {
             app.navigationBars["冬天的厚被褥"].waitForExistence(timeout: 5)
         )
 
-        // 减单一言 section 应可见
+        // 告别留言 section 应可见
         XCTAssertTrue(
-            app.staticTexts["减单一言"].waitForExistence(timeout: 3)
+            app.staticTexts["告别留言"].waitForExistence(timeout: 3)
         )
     }
 

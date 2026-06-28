@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 减单主题环境：贯穿整个 View 树
+/// 告别清单主题环境：贯穿整个 View 树
 ///
 /// 用法：
 /// ```swift
@@ -94,7 +94,7 @@ struct AppThemeModifier: ViewModifier {
 }
 
 extension View {
-    /// 应用减单主题。挂载在 Root 视图即可。
+    /// 应用告别清单主题。挂载在 Root 视图即可。
     func appTheme(_ mode: AppThemeMode) -> some View {
         modifier(AppThemeModifier(mode: mode))
     }

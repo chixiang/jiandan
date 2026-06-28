@@ -35,7 +35,7 @@ private struct MethodChip: View {
         Button(action: onTap) {
             HStack(spacing: 6) {
                 Image(systemName: method.icon)
-                Text(method.rawValue)
+                Text(method.localizedName)
             }
             .font(.subheadline)
             .padding(.horizontal, 14)

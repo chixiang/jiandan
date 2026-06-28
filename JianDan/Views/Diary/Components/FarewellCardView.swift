@@ -37,13 +37,13 @@ struct FarewellCardView: View {
                     }
                     HStack(spacing: 2) {
                         Image(systemName: record.method.icon)
-                        Text(record.method.rawValue)
+                        Text(record.method.localizedName)
                     }
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-                // 日期：购入 ~ 减单
+                // 日期：购入 ~ 告别清单
                 HStack(spacing: 4) {
                     if let purchase = record.purchaseDate {
                         Text(Self.dateString(from: purchase))

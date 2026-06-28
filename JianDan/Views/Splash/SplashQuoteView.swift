@@ -3,7 +3,7 @@ import SwiftUI
 /// 开屏短文画面：纯静态视觉组件
 ///
 /// 设计原则：
-/// - **克制到极致**：仅展示一句金句 + 出处 + 底部「减单」二字水印，无任何图标 / 按钮
+/// - **克制到极致**：仅展示一句金句 + 出处 + 底部「告别清单」二字水印，无任何图标 / 按钮
 /// - **垂直留白**：顶部 ~22% 留白、中段金句、底部 ~14% 水印，居中对齐
 /// - **状态外置**：是否可见、是否跳过都由调用方（`SplashCoordinator`）管理
 ///
@@ -26,8 +26,8 @@ struct SplashQuoteView: View {
 
                 Spacer()  // 中段与底部水印之间用弹性留白分隔
 
-                // 底部：极克制「减单」水印
-                Text("减单")
+                // 底部：极克制「告别清单」水印
+                Text("告别清单")
                     .font(AppTypography.caption)
                     .tracking(8)  // 字间距拉开
                     .foregroundStyle(theme.secondary.opacity(0.55))

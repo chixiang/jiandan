@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 
-/// 编辑减单表单的保存辅助函数
+/// 编辑告别表单的保存辅助函数
 ///
 /// 抽取自 `EditFarewellView` 的若干 `.onChange` 截断逻辑 + `save()` 方法。
 /// 视图侧调用示例：

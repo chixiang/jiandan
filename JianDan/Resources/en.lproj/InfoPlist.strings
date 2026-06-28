@@ -1,0 +1,4 @@
+CFBundleDisplayName = "Farewell List";
+NSPhotoLibraryUsageDescription = "Farewell List needs access to your photo library to add photos of items.";
+NSPhotoLibraryAddUsageDescription = "Farewell List needs to save photos to your photo library.";
+NSCameraUsageDescription = "Farewell List needs to use the camera to take photos of items.";

@@ -22,7 +22,7 @@ struct CategoryManagementView: View {
                 Section("内置分类") {
                     ForEach(Category.allCases) { cat in
                         CategoryManagementRow(
-                            name: cat.rawValue,
+                            name: cat.localizedName,
                             iconName: cat.icon,
                             canDelete: false,
                             onDelete: nil

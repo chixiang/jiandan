@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftData
 
-/// 怀念 · 减单
+/// 怀念 · 告别清单
 ///
 /// 杂志感居中排版，图片作为卡片嵌入内容区而非通栏 hero，
 /// 兼顾横竖图兼容与紧凑布局。
@@ -107,7 +107,7 @@ struct RemembranceView: View {
                 // ---- 分类 · 方式 · 价格 ----
                 HStack(spacing: 8) {
                     pill(item.category.displayName, icon: item.category.iconName)
-                    pill(item.method.rawValue, icon: item.method.icon)
+                    pill(item.method.localizedName, icon: item.method.icon)
                     if let price = item.purchasePrice, price > 0 {
                         pill(String(format: "%.0f", price), icon: currencyManager.currency.icon)
                     }
@@ -135,7 +135,7 @@ struct RemembranceView: View {
                     }
                 }
 
-                // ---- 减单一言（pull-quote） ----
+                // ---- 告别留言（pull-quote） ----
                 if let letter = item.farewellLetter, !letter.isEmpty {
                     VStack(spacing: 16) {
                         Rectangle()
@@ -189,9 +189,9 @@ struct RemembranceView: View {
 
     private func emotionLabel(_ value: Int) -> String {
         switch value {
-        case 1: return "平静"
-        case 2: return "复杂"
-        case 3: return "不舍"
+        case 1: return String(localized: "平静")
+        case 2: return String(localized: "复杂")
+        case 3: return String(localized: "不舍")
         default: return ""
         }
     }
@@ -204,7 +204,7 @@ struct RemembranceView: View {
             Text("还没有告别记录")
                 .font(AppTypography.body)
                 .foregroundStyle(theme.secondary)
-            Text("在「减单」Tab 记下第一件物品，\\n怀念就会出现在这里")
+            Text("在「告别清单」Tab 记下第一件物品，\\n怀念就会出现在这里")
                 .font(AppTypography.caption)
                 .foregroundStyle(theme.secondary)
                 .multilineTextAlignment(.center)

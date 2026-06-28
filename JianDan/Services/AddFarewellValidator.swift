@@ -1,6 +1,6 @@
 import Foundation
 
-/// 新建减单表单的纯函数校验器
+/// 新建告别表单的纯函数校验器
 ///
 /// 抽取自 `AddFarewellView` 的 `canSave` 计算属性，便于单元测试覆盖边界场景。
 /// 视图侧只需：

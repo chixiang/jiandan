@@ -13,7 +13,7 @@ struct DiaryEmptyView: View {
                 .foregroundStyle(.secondary)
 
             VStack(spacing: 8) {
-                Text("还没有减单")
+                Text("还没有告别记录")
                     .font(.title2)
                 Text("拥有的愈少，\n自由便愈多")
                     .font(.subheadline)

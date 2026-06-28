@@ -1,4 +1,4 @@
-# 减单 JianDan
+# 告别清单 Farewell List
 
 一个用 SwiftUI + SwiftData 打造的个人极简生活 iOS App。
 
@@ -44,7 +44,7 @@ task9 将 `FarewellRecord` 的图片字段从 `@Attribute(.externalStorage) var 
 
 **如果您的设备上装有 task6 之前的版本，请先卸载 App，再安装 task9**：
 
-1. 在真机/模拟器长按「减单」App 图标 → 删除
+1. 在真机/模拟器长按「告别清单」App 图标 → 删除
 2. 重新 build & run task9
 
 老数据将丢失（task6 时个人测试数据，损失可控）。Phase 1 范围内不写显式迁移方案。

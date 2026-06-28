@@ -12,7 +12,7 @@ struct RootTabView: View {
         TabView {
             DiaryView()
                 .tabItem {
-                    Label("减单", systemImage: "leaf")
+                    Label("告别清单", systemImage: "leaf")
                 }
 
             RemembranceView()

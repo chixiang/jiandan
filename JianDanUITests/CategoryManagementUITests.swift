@@ -113,8 +113,8 @@ final class CategoryManagementUITests: XCTestCase {
         // 完成关闭（leading 按钮「完成」）
         app.navigationBars.buttons.element(boundBy: 0).tap()
 
-        // 进「减单」Tab 新建表单
-        app.tabBars.buttons["减单"].tap()
+        // 进「告别清单」Tab 新建表单
+        app.tabBars.buttons["告别清单"].tap()
         app.buttons["记下第一件"].tap()
 
         // 自定义分类应在 chip 中可见（横向滚动）

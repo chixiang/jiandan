@@ -97,7 +97,7 @@ struct SplashContainer<Content: View>: View {
         quote: WisdomLibrary.all[0],
         autoDismissSeconds: 3.0
     )) {
-        // 模拟主界面：仅展示「减单」两字以便对比叠加效果
+        // 模拟主界面：仅展示「告别清单」两字以便对比叠加效果
         ZStack {
             Color.white
             Text("主界面")

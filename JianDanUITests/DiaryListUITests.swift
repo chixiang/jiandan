@@ -1,6 +1,6 @@
 import XCTest
 
-/// 「减单」列表相关的 UI 流程测试
+/// 「告别清单」列表相关的 UI 流程测试
 ///
 /// 覆盖：种子数据展示、列表排序、新增流程、取消 sheet、卡片→详情、详情删除
 final class DiaryListUITests: XCTestCase {
@@ -33,7 +33,7 @@ final class DiaryListUITests: XCTestCase {
     func testListEmptyAfterReset() {
         let app = launchFreshApp()
         XCTAssertTrue(
-            app.staticTexts["还没有减单"].waitForExistence(timeout: 5),
+            app.staticTexts["还没有告别记录"].waitForExistence(timeout: 5),
             "空状态应可见"
         )
         XCTAssertTrue(
@@ -81,8 +81,8 @@ final class DiaryListUITests: XCTestCase {
 
     func testAddFarewellFromTopRight() {
         let app = launchSeededApp()
-        // 顶部 + 按钮（accessibility label "添加减单记录"）
-        let addButton = app.navigationBars.buttons["添加减单记录"]
+        // 顶部 + 按钮（accessibility label "添加告别记录"）
+        let addButton = app.navigationBars.buttons["添加告别记录"]
         XCTAssertTrue(addButton.waitForExistence(timeout: 5))
         addButton.tap()
 
@@ -111,7 +111,7 @@ final class DiaryListUITests: XCTestCase {
 
         // sheet 关闭
         XCTAssertTrue(
-            app.navigationBars["新建减单"].waitForNonExistence(timeout: 3)
+            app.navigationBars["新建告别"].waitForNonExistence(timeout: 3)
         )
         // 列表里不应有这条记录
         XCTAssertFalse(

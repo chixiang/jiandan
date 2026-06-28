@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>减单</string>
+	<string>告别清单</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,11 +23,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>减单需要使用相机以拍摄物品照片</string>
+	<string>告别清单需要使用相机以拍摄物品照片</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>减单需要保存照片到相册</string>
+	<string>告别清单需要保存照片到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>减单需要访问相册以添加物品的照片</string>
+	<string>告别清单需要访问相册以添加物品的照片</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

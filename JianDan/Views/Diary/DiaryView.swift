@@ -3,9 +3,17 @@ import SwiftData
 
 /// 列表排序方式
 enum SortKey: String, CaseIterable {
-    case farewellDate = "减单日期"
+    case farewellDate = "告别日期"
     case purchaseDate = "购入日期"
     case price = "价格"
+
+    var localizedName: String {
+        switch self {
+        case .farewellDate: return String(localized: "告别日期")
+        case .purchaseDate: return String(localized: "购入日期")
+        case .price: return String(localized: "价格")
+        }
+    }
 
     func descriptor(ascending: Bool) -> SortDescriptor<FarewellRecord> {
         let order: SortOrder = ascending ? .forward : .reverse
@@ -61,7 +69,7 @@ struct DiaryView: View {
                             ForEach(SortKey.allCases, id: \.self) { key in
                                 Button { sortKey = key } label: {
                                     HStack {
-                                        Text(key.rawValue)
+                                        Text(key.localizedName)
                                         if key == sortKey {
                                             Spacer()
                                             Image(systemName: "checkmark")
@@ -96,7 +104,7 @@ struct DiaryView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
-                    .accessibilityLabel("添加减单记录")
+                    .accessibilityLabel("添加告别记录")
                 }
             }
             .sheet(isPresented: $showingAdd) {
@@ -178,7 +186,7 @@ private struct DiaryListView: View {
     }
 
     private var title: String {
-        isFiltering ? "减单 (\(displayedRecords.count))" : "减单"
+        isFiltering ? "告别清单 (\(displayedRecords.count))" : "告别清单"
     }
 
     private var filteredEmptyView: some View {

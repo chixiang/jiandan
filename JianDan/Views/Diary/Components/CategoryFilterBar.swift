@@ -38,14 +38,14 @@ struct CategoryFilterBar: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
                     FilterChip(
-                        label: "全部",
+                        label: String(localized: "全部"),
                         isSelected: selectedCategoryIDs.isEmpty,
                         onTap: { selectedCategoryIDs = [] }
                     )
 
                     ForEach(Category.allCases) { category in
                         FilterChip(
-                            label: category.rawValue,
+                            label: category.localizedName,
                             iconName: category.icon,
                             isSelected: selectedCategoryIDs.contains(category.rawValue),
                             onTap: { toggleCategory(category.rawValue) }
@@ -96,14 +96,14 @@ struct CategoryFilterBar: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
                 FilterChip(
-                    label: "全部",
+                    label: String(localized: "全部"),
                     isSelected: selectedMethods.isEmpty,
                     onTap: { selectedMethods = [] }
                 )
 
                 ForEach(FarewellMethod.allCases) { method in
                     FilterChip(
-                        label: method.rawValue,
+                        label: method.localizedName,
                         iconName: method.icon,
                         isSelected: selectedMethods.contains(method.rawValue),
                         onTap: { toggleMethod(method.rawValue) }

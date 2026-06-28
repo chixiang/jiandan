@@ -51,7 +51,7 @@ final class StatsUITests: XCTestCase {
         let app = launchFreshApp()
 
         // 先建一条
-        app.tabBars.buttons["减单"].tap()
+        app.tabBars.buttons["告别清单"].tap()
         app.buttons["记下第一件"].tap()
         let nameField = app.textFields["名称（如：一件蓝色羊毛大衣）"]
         XCTAssertTrue(nameField.waitForExistence(timeout: 3))

@@ -1,0 +1,4 @@
+CFBundleDisplayName = "さよならリスト";
+NSPhotoLibraryUsageDescription = "さよならリストはアイテムの写真を追加するために写真ライブラリへのアクセスが必要です。";
+NSPhotoLibraryAddUsageDescription = "さよならリストは写真をアルバムに保存する必要があります。";
+NSCameraUsageDescription = "さよならリストはアイテムの写真を撮影するためにカメラへのアクセスが必要です。";
