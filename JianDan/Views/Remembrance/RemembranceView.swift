@@ -202,6 +202,7 @@ struct RemembranceView: View {
 
     private var emptyView: some View {
         VStack(spacing: 16) {
+            Spacer()
             Image(systemName: "heart")
                 .font(.system(size: 48, weight: .ultraLight))
                 .foregroundStyle(theme.secondary)
@@ -212,8 +213,9 @@ struct RemembranceView: View {
                 .font(AppTypography.caption)
                 .foregroundStyle(theme.secondary)
                 .multilineTextAlignment(.center)
+            Spacer()
         }
-        .frame(maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

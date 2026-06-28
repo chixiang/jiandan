@@ -17,16 +17,18 @@ struct ProfileView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    if stats.isEmpty {
-                        emptyStateView
-                    } else {
-                        StatsView(stats: stats)
+            Group {
+                if stats.isEmpty {
+                    emptyStateView
+                } else {
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            StatsView(stats: stats)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
             }
             .background(theme.background)
             .toolbar {
@@ -46,6 +48,7 @@ struct ProfileView: View {
 
     private var emptyStateView: some View {
         VStack(spacing: 16) {
+            Spacer()
             Image(systemName: "leaf")
                 .font(.system(size: 48, weight: .ultraLight))
                 .foregroundStyle(theme.secondary)
@@ -56,9 +59,9 @@ struct ProfileView: View {
                 .font(AppTypography.caption)
                 .foregroundStyle(theme.secondary)
                 .multilineTextAlignment(.center)
+            Spacer()
         }
-        .padding(.top, 40)
-        .padding(.bottom, 12)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
