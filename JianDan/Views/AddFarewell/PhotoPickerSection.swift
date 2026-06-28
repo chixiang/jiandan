@@ -22,6 +22,7 @@ struct PhotoPickerSection: View {
 
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var showCamera = false
+    @State private var showPhotoPicker = false
     @State private var cameraUnavailableAlert = false
 
     var body: some View {
@@ -73,6 +74,12 @@ struct PhotoPickerSection: View {
         } message: {
             Text("请在真机上使用拍照功能。")
         }
+        .photosPicker(
+            isPresented: $showPhotoPicker,
+            selection: $selectedItems,
+            maxSelectionCount: maxCount - items.count,
+            matching: .images
+        )
     }
 
     // MARK: - Actions
@@ -137,11 +144,7 @@ struct PhotoPickerSection: View {
                         Label("拍照", systemImage: "camera.fill")
                     }
 
-                    PhotosPicker(
-                        selection: $selectedItems,
-                        maxSelectionCount: maxCount - items.count,
-                        matching: .images
-                    ) {
+                    Button(action: { showPhotoPicker = true }) {
                         Label("从相册选", systemImage: "photo.on.rectangle")
                     }
                 } label: {
