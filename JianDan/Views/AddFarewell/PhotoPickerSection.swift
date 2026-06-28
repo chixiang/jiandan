@@ -9,6 +9,7 @@ import UIKit
 struct PhotoItem: Identifiable {
     let id = UUID()
     var data: Data
+    var existingFilename: String?
 }
 
 /// 照片选择区（最多 3 张）

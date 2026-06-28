@@ -255,7 +255,7 @@ private struct DetailRow: View {
 
 // MARK: - 编辑页
 
-/// 编辑页（Phase 1 简化版：仅编辑文本字段，不支持修改照片）
+/// 编辑页
 struct EditFarewellView: View {
     @Bindable var record: FarewellRecord
     @Environment(\.modelContext) private var modelContext
@@ -263,6 +263,7 @@ struct EditFarewellView: View {
     @Environment(\.appTheme) private var theme
     @Environment(CurrencyManager.self) private var currencyManager
 
+    @State private var photos: [PhotoItem] = []
     @State private var deleteCustomCategoryAlert: UserCategory? = nil
     @Query(sort: \UserCategory.sortOrder, order: .forward) private var customCategories: [UserCategory]
 
@@ -274,6 +275,10 @@ struct EditFarewellView: View {
                         .onChange(of: record.name) { _, _ in
                             EditFarewellSaver.truncateName(record)
                         }
+                }
+
+                Section {
+                    PhotoPickerSection(items: $photos)
                 }
 
                 Section("减单日期") {
@@ -400,6 +405,15 @@ struct EditFarewellView: View {
                 }
             }
         }
+        .onAppear(perform: loadExistingPhotos)
+    }
+
+    private func loadExistingPhotos() {
+        for filename in record.photoFilenames {
+            if let data = ImageStore.load(filename: filename) {
+                photos.append(PhotoItem(data: data, existingFilename: filename))
+            }
+        }
     }
 
     private func referencingRecordCount(for categoryID: String) -> Int {
@@ -420,6 +434,27 @@ struct EditFarewellView: View {
     }
 
     private func save() {
+        // 记录当前已有的照片文件名
+        let oldFilenames = Set(record.photoFilenames)
+        let keptFilenames = Set(photos.compactMap(\.existingFilename))
+        let removedFilenames = Array(oldFilenames.subtracting(keptFilenames))
+
+        // 删除已移除的照片文件
+        if !removedFilenames.isEmpty {
+            try? ImageStore.delete(filenames: removedFilenames)
+        }
+
+        // 保存新增的照片
+        var newFilenames: [String] = []
+        for photo in photos where photo.existingFilename == nil {
+            if let filename = try? ImageStore.save(photo.data) {
+                newFilenames.append(filename)
+            }
+        }
+
+        // 更新记录的图片文件名列表
+        record.photoFilenames = keptFilenames.union(newFilenames).sorted()
+
         do {
             try EditFarewellSaver.save(record, in: modelContext)
             dismiss()
