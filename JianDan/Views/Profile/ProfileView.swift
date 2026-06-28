@@ -9,6 +9,8 @@ struct ProfileView: View {
 
     @Query(sort: \FarewellRecord.farewellDate, order: .reverse) private var records: [FarewellRecord]
 
+    @State private var showingSettings = false
+
     private var stats: FarewellStats {
         StatsCalculator.compute(from: records)
     }
@@ -22,14 +24,24 @@ struct ProfileView: View {
                     } else {
                         StatsView(stats: stats)
                     }
-
-                    SettingsView()
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
             }
             .background(theme.background)
-    }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
+            }
+        }
     }
 
     private var emptyStateView: some View {

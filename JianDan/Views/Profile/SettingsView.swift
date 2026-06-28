@@ -5,6 +5,7 @@ import SwiftUI
 /// 主题切换直接绑定 `ThemeManager`（已用 `@Observable`），变更会立即生效
 /// 并通过 `UserDefaults` 持久化（ThemeManager.init 自动恢复）。
 struct SettingsView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @Environment(ThemeManager.self) private var themeManager
     @Environment(CurrencyManager.self) private var currencyManager
@@ -15,187 +16,201 @@ struct SettingsView: View {
     @State private var showingRestartAlert = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // 分组标题
-            Text("外观")
-                .font(AppTypography.caption)
-                .foregroundStyle(theme.secondary)
-                .tracking(2)
-                .padding(.horizontal, 4)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    // 分组标题
+                    Text("外观")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(theme.secondary)
+                        .tracking(2)
+                        .padding(.horizontal, 4)
 
-            // 主题选项
-            VStack(spacing: 0) {
-                ForEach(AppThemeMode.allCases) { mode in
-                    ThemeOptionRow(
-                        mode: mode,
-                        isSelected: themeManager.mode == mode,
-                        onSelect: {
-                            themeManager.mode = mode
+                    // 主题选项
+                    VStack(spacing: 0) {
+                        ForEach(AppThemeMode.allCases) { mode in
+                            ThemeOptionRow(
+                                mode: mode,
+                                isSelected: themeManager.mode == mode,
+                                onSelect: {
+                                    themeManager.mode = mode
+                                }
+                            )
+
+                            if mode != AppThemeMode.allCases.last {
+                                Divider()
+                                    .background(theme.divider)
+                                    .padding(.leading, 16)
+                            }
                         }
+                    }
+                    .background(theme.cardBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .strokeBorder(theme.divider, lineWidth: 0.5)
                     )
 
-                    if mode != AppThemeMode.allCases.last {
-                        Divider()
-                            .background(theme.divider)
-                            .padding(.leading, 16)
-                    }
-                }
-            }
-            .background(theme.cardBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .strokeBorder(theme.divider, lineWidth: 0.5)
-            )
-
-            // 语言
-            VStack(alignment: .leading, spacing: 12) {
-                Text("语言")
-                    .font(AppTypography.caption)
-                    .foregroundStyle(theme.secondary)
-                    .tracking(2)
-                    .padding(.horizontal, 4)
-
-                VStack(spacing: 0) {
-                    ForEach(AppLanguage.allCases) { lang in
-                        LanguageOptionRow(
-                            lang: lang,
-                            isSelected: languageManager.language == lang,
-                            onSelect: {
-                                guard languageManager.language != lang else { return }
-                                languageManager.apply(lang)
-                                showingRestartAlert = true
-                            }
-                        )
-
-                        if lang != AppLanguage.allCases.last {
-                            Divider()
-                                .background(theme.divider)
-                                .padding(.leading, 52)
-                        }
-                    }
-                }
-                .background(theme.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .strokeBorder(theme.divider, lineWidth: 0.5)
-                )
-            }
-
-            // 币种
-            VStack(alignment: .leading, spacing: 12) {
-                Text("币种")
-                    .font(AppTypography.caption)
-                    .foregroundStyle(theme.secondary)
-                    .tracking(2)
-                    .padding(.horizontal, 4)
-
-                VStack(spacing: 0) {
-                    ForEach(Currency.allCases) { currency in
-                        CurrencyOptionRow(
-                            currency: currency,
-                            isSelected: currencyManager.currency == currency,
-                            onSelect: {
-                                currencyManager.currency = currency
-                            }
-                        )
-
-                        if currency != Currency.allCases.last {
-                            Divider()
-                                .background(theme.divider)
-                                .padding(.leading, 52)
-                        }
-                    }
-                }
-                .background(theme.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .strokeBorder(theme.divider, lineWidth: 0.5)
-                )
-            }
-
-            // 分类管理
-            VStack(alignment: .leading, spacing: 12) {
-                Text("分类")
-                    .font(AppTypography.caption)
-                    .foregroundStyle(theme.secondary)
-                    .tracking(2)
-                    .padding(.horizontal, 4)
-
-                Button(action: { showingCategoryManagement = true }) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "tag")
-                            .font(.subheadline)
-                            .foregroundStyle(theme.accent)
-                        Text("管理自定义分类")
-                            .font(AppTypography.body)
-                            .foregroundStyle(theme.primaryText)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(theme.secondary)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 14)
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .background(theme.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .strokeBorder(theme.divider, lineWidth: 0.5)
-                )
-            }
-
-            // 导入测试数据
-            VStack(alignment: .leading, spacing: 16) {
-                Text("数据")
-                    .font(AppTypography.caption)
-                    .foregroundStyle(theme.secondary)
-                    .tracking(2)
-                    .padding(.horizontal, 4)
-
-                Button(action: {
-                    let importer = DataImporter(context: modelContext)
-                    let result = importer.importSampleRecords()
-                    if let err = result.error {
-                        print("[DataImporter] \(err)")
-                    } else {
-                        print("[DataImporter] imported=\(result.imported) skipped=\(result.skipped)")
-                    }
-                }) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "tray.and.arrow.down")
-                            .font(.subheadline)
-                            .foregroundStyle(theme.accent)
-                        Text("导入测试数据")
-                            .font(AppTypography.body)
-                            .foregroundStyle(theme.primaryText)
-                        Spacer()
-                        Text("8 条样本")
+                    // 语言
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("语言")
                             .font(AppTypography.caption)
                             .foregroundStyle(theme.secondary)
+                            .tracking(2)
+                            .padding(.horizontal, 4)
+
+                        VStack(spacing: 0) {
+                            ForEach(AppLanguage.allCases) { lang in
+                                LanguageOptionRow(
+                                    lang: lang,
+                                    isSelected: languageManager.language == lang,
+                                    onSelect: {
+                                        guard languageManager.language != lang else { return }
+                                        languageManager.apply(lang)
+                                        showingRestartAlert = true
+                                    }
+                                )
+
+                                if lang != AppLanguage.allCases.last {
+                                    Divider()
+                                        .background(theme.divider)
+                                        .padding(.leading, 52)
+                                }
+                            }
+                        }
+                        .background(theme.cardBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(theme.divider, lineWidth: 0.5)
+                        )
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 14)
-                    .contentShape(Rectangle())
+
+                    // 币种
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("币种")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
+                            .tracking(2)
+                            .padding(.horizontal, 4)
+
+                        VStack(spacing: 0) {
+                            ForEach(Currency.allCases) { currency in
+                                CurrencyOptionRow(
+                                    currency: currency,
+                                    isSelected: currencyManager.currency == currency,
+                                    onSelect: {
+                                        currencyManager.currency = currency
+                                    }
+                                )
+
+                                if currency != Currency.allCases.last {
+                                    Divider()
+                                        .background(theme.divider)
+                                        .padding(.leading, 52)
+                                }
+                            }
+                        }
+                        .background(theme.cardBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(theme.divider, lineWidth: 0.5)
+                        )
+                    }
+
+                    // 分类管理
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("分类")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
+                            .tracking(2)
+                            .padding(.horizontal, 4)
+
+                        Button(action: { showingCategoryManagement = true }) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "tag")
+                                    .font(.subheadline)
+                                    .foregroundStyle(theme.accent)
+                                Text("管理自定义分类")
+                                    .font(AppTypography.body)
+                                    .foregroundStyle(theme.primaryText)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(theme.secondary)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 14)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .background(theme.cardBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(theme.divider, lineWidth: 0.5)
+                        )
+                    }
+
+                    // 导入测试数据
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("数据")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
+                            .tracking(2)
+                            .padding(.horizontal, 4)
+
+                        Button(action: {
+                            let importer = DataImporter(context: modelContext)
+                            let result = importer.importSampleRecords()
+                            if let err = result.error {
+                                print("[DataImporter] \(err)")
+                            } else {
+                                print("[DataImporter] imported=\(result.imported) skipped=\(result.skipped)")
+                            }
+                        }) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "tray.and.arrow.down")
+                                    .font(.subheadline)
+                                    .foregroundStyle(theme.accent)
+                                Text("导入测试数据")
+                                    .font(AppTypography.body)
+                                    .foregroundStyle(theme.primaryText)
+                                Spacer()
+                                Text("8 条样本")
+                                    .font(AppTypography.caption)
+                                    .foregroundStyle(theme.secondary)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 14)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
-                .buttonStyle(.plain)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
             }
-        }
-        .sheet(isPresented: $showingCategoryManagement) {
-            CategoryManagementView()
-        }
-        .alert("切换语言", isPresented: $showingRestartAlert) {
-            Button("立即重启", role: .destructive) {
-                exit(0)
+            .background(theme.background)
+            .sheet(isPresented: $showingCategoryManagement) {
+                CategoryManagementView()
             }
-            Button("稍后", role: .cancel) { }
-        } message: {
-            Text("语言将在下次启动时切换。是否立即重启？")
+            .alert("切换语言", isPresented: $showingRestartAlert) {
+                Button("立即重启", role: .destructive) {
+                    exit(0)
+                }
+                Button("稍后", role: .cancel) { }
+            } message: {
+                Text("语言将在下次启动时切换。是否立即重启？")
+            }
+            .navigationTitle("设置")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("完成") { dismiss() }
+                }
+            }
         }
     }
 }
