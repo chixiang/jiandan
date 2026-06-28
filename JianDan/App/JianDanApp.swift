@@ -5,6 +5,7 @@ import SwiftData
 struct JianDanApp: App {
     @State private var themeManager = ThemeManager()
     @State private var currencyManager = CurrencyManager()
+    @State private var languageManager = LanguageManager()
 
     /// 开屏短文协调器：冷启动时随机选一条
     ///
@@ -47,6 +48,7 @@ struct JianDanApp: App {
         // 同时 reset store 同名
         UserDefaults.standard.set(nil, forKey: "app.themeMode")
         UserDefaults.standard.set(nil, forKey: "app.currency")
+        UserDefaults.standard.set(nil, forKey: "app.language")
     }
 
     /// -seedTestData launch arg 触发：清空 store 后自动填充样本记录
@@ -101,6 +103,7 @@ struct JianDanApp: App {
                     .appTheme(themeManager.mode)
                     .environment(themeManager)
                     .environment(currencyManager)
+                    .environment(languageManager)
             }
         }
         .modelContainer(for: [FarewellRecord.self, UserCategory.self])

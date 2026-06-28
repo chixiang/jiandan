@@ -8,9 +8,11 @@ struct SettingsView: View {
     @Environment(\.appTheme) private var theme
     @Environment(ThemeManager.self) private var themeManager
     @Environment(CurrencyManager.self) private var currencyManager
+    @Environment(LanguageManager.self) private var languageManager
     @Environment(\.modelContext) private var modelContext
 
     @State private var showingCategoryManagement = false
+    @State private var showingRestartAlert = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -45,6 +47,41 @@ struct SettingsView: View {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
                     .strokeBorder(theme.divider, lineWidth: 0.5)
             )
+
+            // 语言
+            VStack(alignment: .leading, spacing: 12) {
+                Text("语言")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.secondary)
+                    .tracking(2)
+                    .padding(.horizontal, 4)
+
+                VStack(spacing: 0) {
+                    ForEach(AppLanguage.allCases) { lang in
+                        LanguageOptionRow(
+                            lang: lang,
+                            isSelected: languageManager.language == lang,
+                            onSelect: {
+                                guard languageManager.language != lang else { return }
+                                languageManager.apply(lang)
+                                showingRestartAlert = true
+                            }
+                        )
+
+                        if lang != AppLanguage.allCases.last {
+                            Divider()
+                                .background(theme.divider)
+                                .padding(.leading, 52)
+                        }
+                    }
+                }
+                .background(theme.cardBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .strokeBorder(theme.divider, lineWidth: 0.5)
+                )
+            }
 
             // 币种
             VStack(alignment: .leading, spacing: 12) {
@@ -152,6 +189,14 @@ struct SettingsView: View {
         .sheet(isPresented: $showingCategoryManagement) {
             CategoryManagementView()
         }
+        .alert("切换语言", isPresented: $showingRestartAlert) {
+            Button("立即重启", role: .destructive) {
+                exit(0)
+            }
+            Button("稍后", role: .cancel) { }
+        } message: {
+            Text("语言将在下次启动时切换。是否立即重启？")
+        }
     }
 }
 
@@ -218,6 +263,45 @@ private struct ThemeOptionRow: View {
     .environment(\.appTheme, theme)
     .environment(ThemeManager())
     .environment(CurrencyManager())
+    .environment(LanguageManager())
+}
+
+/// 单个语言选项行
+private struct LanguageOptionRow: View {
+    @Environment(\.appTheme) private var theme
+    let lang: AppLanguage
+    let isSelected: Bool
+    let onSelect: () -> Void
+
+    var body: some View {
+        Button(action: onSelect) {
+            HStack(spacing: 12) {
+                Image(systemName: lang.icon)
+                    .font(.body)
+                    .foregroundStyle(theme.primaryText)
+                    .frame(width: 24)
+
+                Text(lang.displayName)
+                    .font(AppTypography.body)
+                    .foregroundStyle(theme.primaryText)
+
+                Spacer()
+
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.subheadline)
+                        .foregroundStyle(theme.accent)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(lang.displayName)\(isSelected ? "，已选中" : "")")
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+    }
 }
 
 /// 单个币种选项行
