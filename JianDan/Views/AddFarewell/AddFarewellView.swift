@@ -17,7 +17,7 @@ struct AddFarewellView: View {
     @State private var recipientDetail: String = ""
     @State private var farewellLetter: String = ""
     @State private var emotionValue: Int? = nil
-    @State private var photos: [Data] = []
+    @State private var photos: [PhotoItem] = []
 
     @State private var showPurchaseDate: Bool = false
 
@@ -29,7 +29,7 @@ struct AddFarewellView: View {
         NavigationStack {
             Form {
                 Section {
-                    PhotoPickerSection(photos: $photos)
+                    PhotoPickerSection(items: $photos)
                 }
 
                 Section("物品信息") {
@@ -116,9 +116,9 @@ struct AddFarewellView: View {
 
         // 把 Data 转 filenames（先存图，再构造 record）
         var savedFilenames: [String] = []
-        for data in photos {
+        for photo in photos {
             do {
-                let filename = try ImageStore.save(data)
+                let filename = try ImageStore.save(photo.data)
                 savedFilenames.append(filename)
             } catch {
                 // Phase 1 暂不实现完整错误提示；本张图片不入库，继续保存其余

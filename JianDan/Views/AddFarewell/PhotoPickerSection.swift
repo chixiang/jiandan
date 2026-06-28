@@ -2,13 +2,22 @@ import SwiftUI
 import PhotosUI
 import UIKit
 
+/// 照片选择项
+///
+/// 使用 UUID 作为 id 避免 `Data` 作为 `ForEach` id 时的 hash 冲突
+/// （多张 JPEG 文件头相同，曾导致"删一张删所有"的 bug）。
+struct PhotoItem: Identifiable {
+    let id = UUID()
+    var data: Data
+}
+
 /// 照片选择区（最多 3 张）
 ///
 /// 空状态提供「拍照」+「从相册选」两个并列按钮；
 /// 已选状态下末尾「+」按钮弹出菜单，包含两个入口。
 /// 模拟器上点拍照按钮会弹出提示 alert。
 struct PhotoPickerSection: View {
-    @Binding var photos: [Data]
+    @Binding var items: [PhotoItem]
     private let maxCount = FarewellRecord.maxPhotos
 
     @State private var selectedItems: [PhotosPickerItem] = []
@@ -20,30 +29,41 @@ struct PhotoPickerSection: View {
             Text("照片")
                 .font(.headline)
 
-            if photos.isEmpty {
+            if items.isEmpty {
                 emptyActions
             } else {
                 filledGrid
             }
         }
         .onChange(of: selectedItems) { _, newItems in
+            print("[PhotoPicker] 📸 selectedItems changed: \(newItems.count) items")
             Task {
-                var newData: [Data] = []
+                var newItemsData: [PhotoItem] = []
                 for item in newItems {
                     if let data = try? await item.loadTransferable(type: Data.self) {
-                        newData.append(data)
+                        newItemsData.append(PhotoItem(data: data))
+                        print("[PhotoPicker] ⬇️ loaded photo: \(newItemsData.last!.id)")
+                    } else {
+                        print("[PhotoPicker] ⚠️ load failed for item")
                     }
                 }
                 await MainActor.run {
-                    photos.append(contentsOf: newData)
+                    items.append(contentsOf: newItemsData)
+                    print("[PhotoPicker] ✅ appended \(newItemsData.count) photos, total=\(items.count)")
                     selectedItems = []
+                    print("[PhotoPicker] 🔄 selectedItems reset to []")
                 }
             }
         }
         .fullScreenCover(isPresented: $showCamera) {
             CameraPicker { data in
-                if photos.count < maxCount {
-                    photos.append(data)
+                print("[PhotoPicker] 📷 camera captured, items.count=\(items.count), max=\(maxCount)")
+                if items.count < maxCount {
+                    let newItem = PhotoItem(data: data)
+                    items.append(newItem)
+                    print("[PhotoPicker] ✅ camera photo added: id=\(newItem.id), total=\(items.count)")
+                } else {
+                    print("[PhotoPicker] ⚠️ camera ignored: max reached")
                 }
             }
             .ignoresSafeArea()
@@ -102,13 +122,16 @@ struct PhotoPickerSection: View {
     // MARK: - 已选状态
 
     private var filledGrid: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
-            ForEach(Array(photos.enumerated()), id: \.offset) { index, data in
-                PhotoTile(data: data, onRemove: {
-                    photos.remove(at: index)
+        let _ = print("[PhotoPicker] 🖼️ filledGrid render: count=\(items.count), ids=\(items.map(\.id))")
+        return LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
+            ForEach(items) { item in
+                PhotoTile(data: item.data, onRemove: {
+                    print("[PhotoPicker] 🗑️ delete start: id=\(item.id), count=\(items.count), allIDs=\(items.map(\.id))")
+                    items.removeAll { $0.id == item.id }
+                    print("[PhotoPicker] ✅ delete done: count=\(items.count)")
                 })
             }
-            if photos.count < maxCount {
+            if items.count < maxCount {
                 Menu {
                     Button(action: openCamera) {
                         Label("拍照", systemImage: "camera.fill")
@@ -116,7 +139,7 @@ struct PhotoPickerSection: View {
 
                     PhotosPicker(
                         selection: $selectedItems,
-                        maxSelectionCount: maxCount - photos.count,
+                        maxSelectionCount: maxCount - items.count,
                         matching: .images
                     ) {
                         Label("从相册选", systemImage: "photo.on.rectangle")
@@ -153,18 +176,17 @@ private struct PhotoTile: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             }
 
-            Button(action: onRemove) {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.title3)
-                    .foregroundStyle(.white, .black.opacity(0.6))
-            }
-            .padding(4)
+            Image(systemName: "xmark.circle.fill")
+                .font(.title3)
+                .foregroundStyle(.white, .black.opacity(0.6))
+                .padding(4)
+                .onTapGesture { onRemove() }
         }
     }
 }
 
 #Preview {
-    @Previewable @State var photos: [Data] = []
-    return PhotoPickerSection(photos: $photos)
+    @Previewable @State var items: [PhotoItem] = []
+    return PhotoPickerSection(items: $items)
         .padding()
 }
