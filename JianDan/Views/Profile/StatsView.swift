@@ -183,17 +183,16 @@ private struct BreakdownRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            if let iconName = icon {
-                Label(label, systemImage: iconName)
-                    .font(AppTypography.caption)
-                    .foregroundStyle(theme.primaryText)
-                    .frame(width: 80, alignment: .leading)
-            } else {
+            HStack(spacing: 6) {
+                Image(systemName: icon ?? "")
+                    .frame(width: 16)
+                    .opacity(icon == nil ? 0 : 1)
                 Text(label)
-                    .font(AppTypography.caption)
-                    .foregroundStyle(theme.primaryText)
-                    .frame(width: 80, alignment: .leading)
+                    .lineLimit(1)
             }
+            .font(AppTypography.caption)
+            .foregroundStyle(theme.primaryText)
+            .frame(width: 100, alignment: .leading)
 
             GeometryReader { proxy in
                 let ratio = maxCount > 0 ? Double(count) / Double(maxCount) : 0
