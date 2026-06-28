@@ -29,8 +29,7 @@ struct ProfileView: View {
                 .padding(.vertical, 12)
             }
             .background(theme.background)
-            .navigationTitle("我的")
-        }
+    }
     }
 
     private var emptyStateView: some View {

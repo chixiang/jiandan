@@ -160,35 +160,42 @@ private struct DiaryListView: View {
     }
 
     var body: some View {
-        Group {
-            if displayedRecords.isEmpty {
-                if isFiltering {
-                    filteredEmptyView
-                } else {
-                    DiaryEmptyView(onAddTapped: onAddTapped)
+        VStack(spacing: 0) {
+            if isFiltering {
+                HStack {
+                    Text(String.localizedStringWithFormat(
+                        String(localized: "告别清单 (%lld)"), displayedRecords.count
+                    ))
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.secondary)
+                    Spacer()
                 }
-            } else {
-                List {
-                    ForEach(displayedRecords) { record in
-                        NavigationLink(value: record) {
-                            FarewellCardView(record: record)
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                        .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                .padding(.horizontal, 20)
+                .padding(.vertical, 8)
+            }
+            Group {
+                if displayedRecords.isEmpty {
+                    if isFiltering {
+                        filteredEmptyView
+                    } else {
+                        DiaryEmptyView(onAddTapped: onAddTapped)
                     }
+                } else {
+                    List {
+                        ForEach(displayedRecords) { record in
+                            NavigationLink(value: record) {
+                                FarewellCardView(record: record)
+                            }
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                        }
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
             }
         }
-        .navigationTitle(title)
-    }
-
-    private var title: String {
-        isFiltering
-            ? String.localizedStringWithFormat(String(localized: "告别清单 (%lld)"), displayedRecords.count)
-            : String(localized: "告别清单")
     }
 
     private var filteredEmptyView: some View {

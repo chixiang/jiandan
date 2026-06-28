@@ -28,7 +28,6 @@ struct RemembranceView: View {
                 }
             }
             .background(theme.background)
-            .navigationTitle("怀念")
             .toolbar {
                 if !records.isEmpty {
                     ToolbarItem(placement: .topBarTrailing) {
