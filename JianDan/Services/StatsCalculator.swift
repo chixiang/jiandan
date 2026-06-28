@@ -74,7 +74,7 @@ enum StatsCalculator {
         let methodBreakdown = FarewellMethod.allCases
             .compactMap { method -> MethodCount? in
                 guard let count = methodCounts[method.rawValue], count > 0 else { return nil }
-                return MethodCount(name: method.rawValue, icon: method.icon, count: count)
+                return MethodCount(name: method.localizedName, icon: method.icon, count: count)
             }
             .sorted { $0.count > $1.count }
 
@@ -84,7 +84,11 @@ enum StatsCalculator {
                 emotionCounts[ev, default: 0] += 1
             }
         }
-        let emotionLabels: [Int: String] = [1: "平静", 2: "复杂", 3: "不舍"]
+        let emotionLabels: [Int: String] = [
+            1: String(localized: "平静"),
+            2: String(localized: "复杂"),
+            3: String(localized: "不舍")
+        ]
         let emotionBreakdown = (1...3).map { stars in
             EmotionCount(
                 stars: stars,

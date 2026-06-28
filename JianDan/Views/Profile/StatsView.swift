@@ -20,12 +20,12 @@ struct StatsView: View {
             HStack(spacing: 12) {
                 StatCard(
                     value: "\(stats.totalCount)",
-                    label: "告别数",
+                    label: String(localized: "告别数"),
                     icon: "leaf.fill"
                 )
                 StatCard(
                     value: stats.averageCompanionshipDays.map { "\($0)" } ?? "—",
-                    label: "平均陪伴",
+                    label: String(localized: "平均陪伴"),
                     icon: "heart.fill"
                 )
             }
@@ -33,18 +33,18 @@ struct StatsView: View {
             HStack(spacing: 12) {
                 StatCard(
                     value: "\(stats.longestCompanionshipDays)",
-                    label: "最长陪伴",
+                    label: String(localized: "最长陪伴"),
                     icon: "hourglass"
                 )
                 StatCard(
                     value: priceString(stats.totalPurchasePrice),
-                    label: "购入总价",
+                    label: String(localized: "购入总价"),
                     icon: currencyManager.currency.iconCircle
                 )
             }
 
             if !stats.categoryBreakdown.isEmpty {
-                BreakdownCard(title: "分类分布") {
+                BreakdownCard(title: String(localized: "分类分布")) {
                     ForEach(stats.categoryBreakdown, id: \.category) { item in
                         BreakdownRow(
                             icon: item.category.iconName,
@@ -58,7 +58,7 @@ struct StatsView: View {
             }
 
             if !stats.categoryPriceBreakdown.isEmpty {
-                BreakdownCard(title: "分类总价") {
+                BreakdownCard(title: String(localized: "分类总价")) {
                     ForEach(stats.categoryPriceBreakdown, id: \.category) { item in
                         BreakdownRow(
                             icon: item.category.iconName,
@@ -72,7 +72,7 @@ struct StatsView: View {
             }
 
             if !stats.methodBreakdown.isEmpty {
-                BreakdownCard(title: "去向分布") {
+                BreakdownCard(title: String(localized: "去向分布")) {
                     ForEach(Array(stats.methodBreakdown.enumerated()), id: \.offset) { _, item in
                         BreakdownRow(
                             icon: item.icon,
@@ -86,7 +86,7 @@ struct StatsView: View {
             }
 
             if !stats.emotionBreakdown.isEmpty {
-                BreakdownCard(title: "情感分布") {
+                BreakdownCard(title: String(localized: "情感分布")) {
                     ForEach(stats.emotionBreakdown, id: \.stars) { item in
                         BreakdownRow(
                             icon: nil,

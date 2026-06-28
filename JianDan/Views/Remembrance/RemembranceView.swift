@@ -204,7 +204,7 @@ struct RemembranceView: View {
             Text("还没有告别记录")
                 .font(AppTypography.body)
                 .foregroundStyle(theme.secondary)
-            Text("在「告别清单」Tab 记下第一件物品，\\n怀念就会出现在这里")
+            Text("在「告别清单」Tab 记下第一件物品，\n怀念就会出现在这里")
                 .font(AppTypography.caption)
                 .foregroundStyle(theme.secondary)
                 .multilineTextAlignment(.center)

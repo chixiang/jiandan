@@ -186,7 +186,9 @@ private struct DiaryListView: View {
     }
 
     private var title: String {
-        isFiltering ? "告别清单 (\(displayedRecords.count))" : "告别清单"
+        isFiltering
+            ? String.localizedStringWithFormat(String(localized: "告别清单 (%lld)"), displayedRecords.count)
+            : String(localized: "告别清单")
     }
 
     private var filteredEmptyView: some View {

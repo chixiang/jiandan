@@ -73,7 +73,7 @@ struct NewCategorySheet: View {
 
     private var previewName: String {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.isEmpty ? "未命名" : trimmed
+        return trimmed.isEmpty ? String(localized: "未命名") : trimmed
     }
 
     private func save() {

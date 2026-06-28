@@ -167,7 +167,10 @@ struct FarewellDetailView: View {
             }
             Button("取消", role: .cancel) {}
         } message: {
-            Text("「\(record.name)」将被永久删除，相关照片也会一并清理。")
+            Text(String.localizedStringWithFormat(
+                String(localized: "「%@」将被永久删除，相关照片也会一并清理。"),
+                record.name
+            ))
         }
         .sheet(isPresented: $showingEdit) {
             EditFarewellView(record: record)
@@ -187,9 +190,15 @@ struct FarewellDetailView: View {
         } message: { cat in
             let count = referencingRecordCount(for: AnyCategory.storageIDForDelete(userCategory: cat))
             if count > 0 {
-                Text("「\(cat.name)」关联了 \(count) 条记录，删除后将归入「其他」。")
+                Text(String.localizedStringWithFormat(
+                    String(localized: "「%@」关联了 %lld 条记录，删除后将归入「其他」。"),
+                    cat.name, count
+                ))
             } else {
-                Text("「\(cat.name)」将被删除。")
+                Text(String.localizedStringWithFormat(
+                    String(localized: "「%@」将被删除。"),
+                    cat.name
+                ))
             }
         }
     }
@@ -233,7 +242,7 @@ struct FarewellDetailView: View {
 /// 详情行（图标 + 标签 + 值）
 private struct DetailRow: View {
     let icon: String
-    let label: String
+    let label: LocalizedStringKey
     let value: String
 
     var body: some View {
@@ -399,9 +408,15 @@ struct EditFarewellView: View {
             } message: { cat in
                 let count = referencingRecordCount(for: AnyCategory.storageIDForDelete(userCategory: cat))
                 if count > 0 {
-                    Text("「\(cat.name)」关联了 \(count) 条记录，删除后将归入「其他」。")
+                    Text(String.localizedStringWithFormat(
+                        String(localized: "「%@」关联了 %lld 条记录，删除后将归入「其他」。"),
+                        cat.name, count
+                    ))
                 } else {
-                    Text("「\(cat.name)」将被删除。")
+                    Text(String.localizedStringWithFormat(
+                        String(localized: "「%@」将被删除。"),
+                        cat.name
+                    ))
                 }
             }
         }

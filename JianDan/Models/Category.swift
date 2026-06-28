@@ -75,7 +75,7 @@ enum AnyCategory: Hashable {
 
     var displayName: String {
         switch self {
-        case .builtin(let c): return c.rawValue
+        case .builtin(let c): return c.localizedName
         case .custom(let name, _): return name
         }
     }

@@ -122,14 +122,14 @@ struct CategoryFilterBar: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
                 FilterChip(
-                    label: "全部",
+                    label: String(localized: "全部"),
                     isSelected: selectedEmotions.isEmpty,
                     onTap: { selectedEmotions = [] }
                 )
 
-                emotionChip(value: 1, label: "平静")
-                emotionChip(value: 2, label: "复杂")
-                emotionChip(value: 3, label: "不舍")
+                emotionChip(value: 1, label: String(localized: "平静"))
+                emotionChip(value: 2, label: String(localized: "复杂"))
+                emotionChip(value: 3, label: String(localized: "不舍"))
             }
             .padding(.leading, chipLeading)
             .padding(.trailing, 16)
