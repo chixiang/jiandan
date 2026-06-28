@@ -34,6 +34,7 @@ struct FullScreenImageViewer: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .ignoresSafeArea()
+            .onAppear { currentIndex = initialIndex }
 
             // 顶部工具条
             VStack {

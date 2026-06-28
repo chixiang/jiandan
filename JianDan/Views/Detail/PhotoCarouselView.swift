@@ -1,12 +1,18 @@
 import SwiftUI
 
+/// 全屏查看器触发项（每次点击生成新 UUID，保证 fullScreenCover 刷新）
+private struct ViewerItem: Identifiable {
+    let id = UUID()
+    let filenames: [String]
+    let index: Int
+}
+
 /// 多张照片轮播（横向滑动 + 主照片 + 缺图占位）
 struct PhotoCarouselView: View {
     let filenames: [String]
     private let height: CGFloat = 240
 
-    @State private var showingViewer = false
-    @State private var viewerIndex = 0
+    @State private var viewerItem: ViewerItem?
 
     var body: some View {
         if filenames.isEmpty {
@@ -31,8 +37,7 @@ struct PhotoCarouselView: View {
                             .frame(height: height)
                             .clipped()
                             .onTapGesture {
-                                viewerIndex = index
-                                showingViewer = true
+                                viewerItem = ViewerItem(filenames: filenames, index: index)
                             }
                     } else {
                         // 图片文件丢失
@@ -55,8 +60,8 @@ struct PhotoCarouselView: View {
             .tabViewStyle(.page(indexDisplayMode: filenames.count > 1 ? .always : .never))
             .frame(height: height)
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-            .fullScreenCover(isPresented: $showingViewer) {
-                FullScreenImageViewer(filenames: filenames, initialIndex: viewerIndex)
+            .fullScreenCover(item: $viewerItem) { item in
+                FullScreenImageViewer(filenames: item.filenames, initialIndex: item.index)
                     .ignoresSafeArea()
             }
         }
