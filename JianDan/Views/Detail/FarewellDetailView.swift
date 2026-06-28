@@ -74,7 +74,7 @@ struct FarewellDetailView: View {
                         HStack(spacing: 12) {
                             ForEach(1...3, id: \.self) { i in
                                 Circle()
-                                    .fill(i <= emotion ? Color.accentColor : Color.secondary.opacity(0.3))
+                                    .fill(i <= emotion ? theme.accent : Color.secondary.opacity(0.3))
                                     .frame(width: 10, height: 10)
                             }
                             Text(emotionLabel(emotion))

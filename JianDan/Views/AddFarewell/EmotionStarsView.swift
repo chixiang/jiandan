@@ -3,6 +3,7 @@ import SwiftUI
 /// 情感值选择（1-3，圆点 + 标签，可重选为未选）
 struct EmotionStarsView: View {
     @Binding var value: Int?  // nil 表示未选
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -12,11 +13,15 @@ struct EmotionStarsView: View {
             HStack(spacing: 12) {
                 ForEach(1...3, id: \.self) { i in
                     Button {
-                        value = (value == i) ? nil : i
+                        let newValue = (value == i) ? nil : i
+                        if value != newValue {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        }
+                        value = newValue
                     } label: {
                         VStack(spacing: 4) {
                             Circle()
-                                .fill(i <= (value ?? 0) ? Color.accentColor : Color.secondary.opacity(0.3))
+                                .fill(i <= (value ?? 0) ? theme.accent : Color.secondary.opacity(0.3))
                                 .frame(width: 16, height: 16)
                             Text(label(for: i))
                                 .font(.caption2)

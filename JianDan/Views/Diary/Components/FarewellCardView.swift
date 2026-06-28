@@ -73,12 +73,13 @@ struct FarewellCardView: View {
 /// 情感值显示（3 个小圆点）
 struct EmotionDotsView: View {
     let value: Int  // 1-3
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         HStack(spacing: 3) {
             ForEach(0..<3, id: \.self) { i in
                 Circle()
-                    .fill(i < value ? Color.accentColor : Color.secondary.opacity(0.3))
+                    .fill(i < value ? theme.accent : Color.secondary.opacity(0.3))
                     .frame(width: 5, height: 5)
             }
         }

@@ -21,6 +21,8 @@ struct RemembranceView: View {
                     emptyView
                 } else if let record {
                     detailView(record)
+                        .id(record.id)
+                        .transition(.opacity.combined(with: .scale(scale: 0.93)))
                 } else {
                     emptyView
                 }
@@ -44,12 +46,15 @@ struct RemembranceView: View {
             .onChange(of: records.count) { _, _ in
                 if record == nil, !records.isEmpty { pickRandom() }
             }
+            .animation(.easeInOut(duration: 0.35), value: record?.id)
         }
     }
 
     private func pickRandom() {
         guard !records.isEmpty else { return }
-        record = records.randomElement()
+        withAnimation(.easeInOut(duration: 0.35)) {
+            record = records.randomElement()
+        }
     }
 
     // MARK: - 详情
