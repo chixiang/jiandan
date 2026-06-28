@@ -67,6 +67,7 @@
 		BF2408695CE30C33BF0187C4 /* FarewellRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE769F5056A471E00722546A /* FarewellRecordTests.swift */; };
 		BFF7FC2643DE6ABE8BD23D7B /* EmotionStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8291787AC78FDB5D852356D /* EmotionStarsView.swift */; };
 		C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F58F233837E8540A75220A /* RootTabView.swift */; };
+		CE10408D699699ADDF4AF06C /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0AADB363F540EBC3A4B /* CameraPicker.swift */; };
 		D6E8C4170EF533A803AF6038 /* ViewLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86392142ABA790AF7701776B /* ViewLogicTests.swift */; };
 		DC61387E7B35C0ACFA39E7A2 /* CategoryManagementUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC5F5FAB46F7765CCBDC23 /* CategoryManagementUITests.swift */; };
 		DDB1D458B9EB2C168CF0B004 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953BE81A83D14FA4885D6EC6 /* Category.swift */; };
@@ -161,6 +162,7 @@
 		F5B7C90D71E57A2B5ACC382A /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
 		F8291787AC78FDB5D852356D /* EmotionStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionStarsView.swift; sourceTree = "<group>"; };
 		F97A802DEEFF748A880F9068 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		FA98C0AADB363F540EBC3A4B /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
 		FE769F5056A471E00722546A /* FarewellRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellRecordTests.swift; sourceTree = "<group>"; };
 		FF9768E2C59E1A3862EBFD78 /* AddFarewellValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFarewellValidator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -293,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C10B87A7A5D7AE535F63F9 /* AddFarewellView.swift */,
+				FA98C0AADB363F540EBC3A4B /* CameraPicker.swift */,
 				3A6D987CB3C3B4637E5E6A47 /* CategoryPickerSection.swift */,
 				F8291787AC78FDB5D852356D /* EmotionStarsView.swift */,
 				A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */,
@@ -577,6 +580,7 @@
 				F3D843F7E5CBFBDE631B11FB /* AddFarewellView.swift in Sources */,
 				343A8F732E1FA38AB7285DFA /* AppColors.swift in Sources */,
 				B460C927552FAB0105D5782C /* AppTheme.swift in Sources */,
+				CE10408D699699ADDF4AF06C /* CameraPicker.swift in Sources */,
 				DDB1D458B9EB2C168CF0B004 /* Category.swift in Sources */,
 				8EF52CE61CEAC7D58BCB47ED /* CategoryFilterBar.swift in Sources */,
 				A1400292404297B98A058F6F /* CategoryManagementView.swift in Sources */,
