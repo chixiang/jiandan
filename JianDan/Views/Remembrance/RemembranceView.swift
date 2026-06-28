@@ -31,6 +31,7 @@ struct RemembranceView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(action: pickRandom) {
                             Image(systemName: "shuffle")
+                                .font(.subheadline)
                                 .foregroundStyle(theme.accent)
                         }
                     }

@@ -86,6 +86,7 @@ struct DiaryView: View {
                         }
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")
+                            .font(.subheadline)
                             .accessibilityLabel("排序")
                     }
                 }
