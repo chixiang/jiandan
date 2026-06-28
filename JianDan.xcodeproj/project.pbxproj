@@ -14,6 +14,7 @@
 		129C3445F14098B47F0DFE41 /* PhotoPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315FD98085A1654860A02556 /* PhotoPickerSection.swift */; };
 		16D9C38B7AE96D0C586ED2F5 /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D523E96697D04AEBCE06B44 /* ImageStore.swift */; };
 		195CBA3717213D2C7C8435D6 /* FarewellRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653E826D7FEDD5AA9A1D0C4C /* FarewellRecord.swift */; };
+		1ED2B38B019899E28F26C8EC /* FullScreenImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B22EB6CA3AB333D862CED /* FullScreenImageViewer.swift */; };
 		288710547798C8DF86143CCD /* QuoteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5707BFE98662FEDB681AC732 /* QuoteRepository.swift */; };
 		2E508AC5FBF9E6A67D6A4574 /* FarewellCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8FCD077678E9390B716892 /* FarewellCardView.swift */; };
 		343A8F732E1FA38AB7285DFA /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB68B3D4F4079460C6C4CA5 /* AppColors.swift */; };
@@ -136,6 +137,7 @@
 		7CB87889DA90CC45879AAD7E /* CurrencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTests.swift; sourceTree = "<group>"; };
 		7CC922E49CE05ED0E2E58202 /* FarewellFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellFlowUITests.swift; sourceTree = "<group>"; };
 		7E85F6D983B0E4503AAE8250 /* SplashCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashCoordinatorTests.swift; sourceTree = "<group>"; };
+		7F5B22EB6CA3AB333D862CED /* FullScreenImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewer.swift; sourceTree = "<group>"; };
 		8219FA361E37E6D1FF2EAAE8 /* FarewellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellDetailView.swift; sourceTree = "<group>"; };
 		8488E941677635BC790A0B27 /* QuoteRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteRepositoryTests.swift; sourceTree = "<group>"; };
 		86392142ABA790AF7701776B /* ViewLogicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLogicTests.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				8219FA361E37E6D1FF2EAAE8 /* FarewellDetailView.swift */,
+				7F5B22EB6CA3AB333D862CED /* FullScreenImageViewer.swift */,
 				042C3A3CDD346236BEDE492E /* PhotoCarouselView.swift */,
 			);
 			path = Detail;
@@ -596,6 +599,7 @@
 				7C9C8DEE7BC5DBDD45FDB7C9 /* FarewellDetailView.swift in Sources */,
 				A6BBC88132F3CE115E5F343F /* FarewellMethod.swift in Sources */,
 				195CBA3717213D2C7C8435D6 /* FarewellRecord.swift in Sources */,
+				1ED2B38B019899E28F26C8EC /* FullScreenImageViewer.swift in Sources */,
 				16D9C38B7AE96D0C586ED2F5 /* ImageStore.swift in Sources */,
 				6729CAE706D36D68AC690578 /* JianDanApp.swift in Sources */,
 				890FC4F0258F39243567F303 /* MethodPickerSection.swift in Sources */,

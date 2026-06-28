@@ -5,6 +5,9 @@ struct PhotoCarouselView: View {
     let filenames: [String]
     private let height: CGFloat = 240
 
+    @State private var showingViewer = false
+    @State private var viewerIndex = 0
+
     var body: some View {
         if filenames.isEmpty {
             // 无照片占位
@@ -19,7 +22,7 @@ struct PhotoCarouselView: View {
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         } else {
             TabView {
-                ForEach(Array(filenames.enumerated()), id: \.offset) { _, filename in
+                ForEach(Array(filenames.enumerated()), id: \.offset) { index, filename in
                     if let image = ImageStore.loadImage(filename: filename) {
                         Image(uiImage: image)
                             .resizable()
@@ -27,6 +30,10 @@ struct PhotoCarouselView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: height)
                             .clipped()
+                            .onTapGesture {
+                                viewerIndex = index
+                                showingViewer = true
+                            }
                     } else {
                         // 图片文件丢失
                         ZStack {
@@ -48,17 +55,10 @@ struct PhotoCarouselView: View {
             .tabViewStyle(.page(indexDisplayMode: filenames.count > 1 ? .always : .never))
             .frame(height: height)
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .fullScreenCover(isPresented: $showingViewer) {
+                FullScreenImageViewer(filenames: filenames, initialIndex: viewerIndex)
+                    .ignoresSafeArea()
+            }
         }
     }
-}
-
-#Preview {
-    VStack(spacing: 16) {
-        Text("无照片").font(.caption)
-        PhotoCarouselView(filenames: [])
-
-        Text("文件不存在（演示降级路径）").font(.caption)
-        PhotoCarouselView(filenames: ["nonexistent-\(UUID().uuidString).jpg"])
-    }
-    .padding()
 }
