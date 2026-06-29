@@ -2,7 +2,6 @@ import SwiftUI
 import SwiftData
 
 private let rowHeight: CGFloat = 38
-private let chipLeading: CGFloat = 52
 
 struct CategoryFilterBar: View {
     @Binding var selectedCategoryIDs: Set<String>
@@ -32,9 +31,6 @@ struct CategoryFilterBar: View {
 
     private var categoryRow: some View {
         HStack(spacing: 0) {
-            expandToggle
-                .padding(.leading, 16)
-
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
                     FilterChip(
@@ -68,9 +64,12 @@ struct CategoryFilterBar: View {
                         }
                     }
                 }
-                .padding(.leading, 8)
-                .padding(.trailing, 16)
+                .padding(.leading, 16)
+                .padding(.trailing, 8)
             }
+
+            expandToggle
+                .padding(.trailing, 10)
         }
         .frame(height: rowHeight)
     }
@@ -110,7 +109,7 @@ struct CategoryFilterBar: View {
                     )
                 }
             }
-            .padding(.leading, chipLeading)
+            .padding(.leading, 16)
             .padding(.trailing, 16)
         }
         .frame(height: rowHeight)
@@ -131,7 +130,7 @@ struct CategoryFilterBar: View {
                 emotionChip(value: 2, label: String(localized: "复杂"))
                 emotionChip(value: 3, label: String(localized: "不舍"))
             }
-            .padding(.leading, chipLeading)
+            .padding(.leading, 16)
             .padding(.trailing, 16)
         }
         .frame(height: rowHeight)
