@@ -13,6 +13,7 @@ struct RemembranceView: View {
     @Query(sort: \FarewellRecord.farewellDate, order: .reverse) private var records: [FarewellRecord]
 
     @State private var record: FarewellRecord?
+    @State private var showingEmptyAlert = false
 
     var body: some View {
         NavigationStack {
@@ -29,15 +30,24 @@ struct RemembranceView: View {
             }
             .background(theme.background)
             .toolbar {
-                if !records.isEmpty {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: pickRandom) {
-                            Image(systemName: "shuffle")
-                                .font(.subheadline)
-                                .foregroundStyle(theme.accent)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        if records.isEmpty {
+                            showingEmptyAlert = true
+                        } else {
+                            pickRandom()
                         }
+                    }) {
+                        Image(systemName: "shuffle")
+                            .font(.subheadline)
+                            .foregroundStyle(theme.accent)
                     }
                 }
+            }
+            .alert("还没有告别记录", isPresented: $showingEmptyAlert) {
+                Button("好的", role: .cancel) { }
+            } message: {
+                Text("先去「告别清单」Tab 记下第一件物品吧")
             }
             .onAppear {
                 if record == nil, !records.isEmpty { pickRandom() }
