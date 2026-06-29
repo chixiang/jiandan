@@ -67,6 +67,7 @@ struct CategoryFilterBar: View {
                 .padding(.leading, 16)
                 .padding(.trailing, 8)
             }
+            .padding(.trailing, 6)
 
             expandToggle
                 .padding(.trailing, 10)
