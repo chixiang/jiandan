@@ -17,6 +17,16 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
         }
     }
 
+    /// 跟随系统时解析当前系统语言，否则返回自身
+    var resolvedForCurrentSystem: AppLanguage {
+        guard self == .system else { return self }
+        switch Locale.current.language.languageCode?.identifier {
+        case "en": return .en
+        case "ja": return .ja
+        default: return .en
+        }
+    }
+
     var icon: String {
         switch self {
         case .system: return "globe"

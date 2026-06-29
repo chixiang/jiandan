@@ -103,8 +103,8 @@ struct JianDanApp: App {
                     .appTheme(themeManager.mode)
                     .environment(themeManager)
                     .environment(currencyManager)
-                    .environment(languageManager)
             }
+            .environment(languageManager)
         }
         .modelContainer(for: [FarewellRecord.self, UserCategory.self])
     }

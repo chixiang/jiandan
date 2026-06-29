@@ -5,181 +5,301 @@
       "id": "quote-001",
       "text": "拥有得愈少，自由便愈多。",
       "attribution": "断舍离·前言",
-      "category": "心境"
+      "category": "心境",
+      "textEn": "The less you own, the freer you become.",
+      "attributionEn": "Foreword to Danshari",
+      "textJa": "持つものが少なければ少ないほど、自由は増える。",
+      "attributionJa": "断捨離・序文"
     },
     {
       "id": "quote-002",
       "text": "我们占有的东西，最终也在占有我们。",
       "attribution": "亨利·戴维·梭罗",
-      "category": "觉醒"
+      "category": "觉醒",
+      "textEn": "The things you own end up owning you.",
+      "attributionEn": "Henry David Thoreau, Walden (paraphrased)",
+      "textJa": "持ち物は、いつしかあなたを持ってしまう。",
+      "attributionJa": "ヘンリー・デイヴィッド・ソロー『ウォールデン』"
     },
     {
       "id": "quote-003",
       "text": "把房间里多余的东西都送走，剩下的就是真正需要照料的自己。",
       "attribution": "近藤麻理惠",
-      "category": "整理"
+      "category": "整理",
+      "textEn": "Keep only what sparks joy. What remains is the self that truly needs your care.",
+      "attributionEn": "Marie Kondo",
+      "textJa": "部屋の余計なものをすべて手放せば、残るのは本当に手をかけるべき自分自身。",
+      "attributionJa": "近藤麻理恵"
     },
     {
       "id": "quote-004",
       "text": "少买一件不必之物，便少一次日后的告别。",
       "attribution": "未知",
-      "category": "取舍"
+      "category": "取舍",
+      "textEn": "One less unnecessary purchase means one less farewell down the road.",
+      "attributionEn": "Unknown",
+      "textJa": "不必要なものを一つ買わなければ、将来の別れが一つ減る。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-005",
       "text": "极简不是清空生活，而是为重要的事腾出空间。",
       "attribution": "约书亚·贝克尔",
-      "category": "生活"
+      "category": "生活",
+      "textEn": "Minimalism is the intentional promotion of the things we most value and the removal of anything that distracts us from it.",
+      "attributionEn": "Joshua Becker",
+      "textJa": "ミニマリズムとは生活を空にすることではなく、大切なもののために場所を空けること。",
+      "attributionJa": "ジョシュア・ベッカー"
     },
     {
       "id": "quote-006",
       "text": "衣橱里悬挂的，应当是真正会被穿上的那一件。",
       "attribution": "断舍离·衣物",
-      "category": "整理"
+      "category": "整理",
+      "textEn": "Your closet should hold only the clothes you actually wear.",
+      "attributionEn": "Danshari on Clothing",
+      "textJa": "クローゼットに掛かるべきは、本当に身に着けるものだけ。",
+      "attributionJa": "断捨離・衣類"
     },
     {
       "id": "quote-007",
       "text": "空间清爽了，心也就清爽了。",
       "attribution": "未知",
-      "category": "心境"
+      "category": "心境",
+      "textEn": "When your space is clear, your mind is clear.",
+      "attributionEn": "Unknown",
+      "textJa": "空間がすっきりすれば、心もすっきりする。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-008",
       "text": "若一件物品不能让你心动、不为你所用，便不必再为它停留。",
       "attribution": "近藤麻理惠",
-      "category": "整理"
+      "category": "整理",
+      "textEn": "The question of whether or not to keep something is really the question of whether or not it sparks joy.",
+      "attributionEn": "Marie Kondo",
+      "textJa": "ときめかないもの、使わないものは、手放すとき。",
+      "attributionJa": "近藤麻理恵"
     },
     {
       "id": "quote-009",
       "text": "先断，再舍，后离——顺序不能颠倒。",
       "attribution": "断舍离三步骤",
-      "category": "方法"
+      "category": "方法",
+      "textEn": "First Deny, then Discard, then Detach — the order must not be reversed.",
+      "attributionEn": "The Three Steps of Danshari",
+      "textJa": "断、舍、離——この順番を決して逆にしてはいけない。",
+      "attributionJa": "断捨離の三步骤"
     },
     {
       "id": "quote-010",
       "text": "减物的过程，也是减念的过程。",
       "attribution": "未知",
-      "category": "心境"
+      "category": "心境",
+      "textEn": "Reducing possessions is also reducing attachments.",
+      "attributionEn": "Unknown",
+      "textJa": "物を減らす過程は、執着を減らす過程でもある。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-011",
       "text": "桌上的杂物越少，专注的时间就越长。",
       "attribution": "极简主义者访谈",
-      "category": "专注"
+      "category": "专注",
+      "textEn": "The fewer distractions on your desk, the longer you can focus.",
+      "attributionEn": "Interview with a Minimalist",
+      "textJa": "机の上の余計なものが少なければ少ないほど、集中できる時間は長くなる。",
+      "attributionJa": "ミニマリストインタビュー"
     },
     {
       "id": "quote-012",
       "text": "留下，是因为每日要用；离开，是因为从此再无相干。",
       "attribution": "未知",
-      "category": "取舍"
+      "category": "取舍",
+      "textEn": "Keep it because you use it daily. Let it go because it no longer serves you.",
+      "attributionEn": "Unknown",
+      "textJa": "残すのは毎日使うから。手放すのは、もう自分に関係がないから。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-013",
       "text": "告别一件物品的最佳时机，是你真心为它找到下一个归宿的那一天。",
       "attribution": "未知",
-      "category": "告别"
+      "category": "告别",
+      "textEn": "The best time to say goodbye to an object is the day you find it a new home.",
+      "attributionEn": "Unknown",
+      "textJa": "物に別れを告げる最良のタイミングは、心から次の持ち主を思い浮かべたその日。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-014",
       "text": "家，是容纳生活的容器，不是容纳物品的仓库。",
       "attribution": "未知",
-      "category": "生活"
+      "category": "生活",
+      "textEn": "Home is a vessel for life, not a warehouse for things.",
+      "attributionEn": "Unknown",
+      "textJa": "家は生活を入れる器であって、物をしまう倉庫ではない。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-015",
       "text": "物质不是越多越好，而是越准越好。",
       "attribution": "未知",
-      "category": "取舍"
+      "category": "取舍",
+      "textEn": "More is not better. The right things are better.",
+      "attributionEn": "Unknown",
+      "textJa": "物は多ければいいのではない。精選されていればいい。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-016",
       "text": "让物品回到它本来的位置，是每日的小修行。",
       "attribution": "未知",
-      "category": "日常"
+      "category": "日常",
+      "textEn": "Putting things back where they belong is a small daily practice.",
+      "attributionEn": "Unknown",
+      "textJa": "物を本来あるべき場所に戻す。それが毎日の小さな修行。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-017",
       "text": "极简不是终点，而是一种持续修整的能力。",
       "attribution": "未知",
-      "category": "心境"
+      "category": "心境",
+      "textEn": "Minimalism is not a destination — it is the ability to keep refining.",
+      "attributionEn": "Unknown",
+      "textJa": "ミニマリズムは終点ではなく、絶えず整えていく力のこと。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-018",
       "text": "扔掉一件东西不难，难的是不再买回另一件替代。",
       "attribution": "未知",
-      "category": "取舍"
+      "category": "取舍",
+      "textEn": "Throwing something away is easy. Not buying a replacement is the real challenge.",
+      "attributionEn": "Unknown",
+      "textJa": "捨てることは難しくない。代わりを買わないことが本当の挑戦。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-019",
       "text": "目光所及，皆是所需；目光所及，皆是心绪。",
       "attribution": "未知",
-      "category": "心境"
+      "category": "心境",
+      "textEn": "Let everything in sight be something you need, and every view reflect your heart.",
+      "attributionEn": "Unknown",
+      "textJa": "目に入るものはすべて必要なもの。目に映るものはすべて心の表れ。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-020",
       "text": "断舍离的本质，是与曾经的自己温柔告别。",
       "attribution": "山下英子",
-      "category": "告别"
+      "category": "告别",
+      "textEn": "The essence of Danshari is a gentle farewell to your former self.",
+      "attributionEn": "Hideko Yamashita",
+      "textJa": "断捨離の本質は、かつての自分との優しい別れ。",
+      "attributionJa": "山下英子"
     },
     {
       "id": "quote-021",
       "text": "真正重要的东西，眼睛看不见。",
       "attribution": "圣埃克苏佩里·《小王子》",
-      "category": "心境"
+      "category": "心境",
+      "textEn": "What is essential is invisible to the eye.",
+      "attributionEn": "Antoine de Saint-Exupéry, The Little Prince",
+      "textJa": "本当に大切なものは、目に見えない。",
+      "attributionJa": "サン＝テグジュペリ『星の王子さま』"
     },
     {
       "id": "quote-022",
       "text": "买之前问自己三遍：需要吗，喜欢吗，长期会用吗。",
       "attribution": "极简采购清单",
-      "category": "方法"
+      "category": "方法",
+      "textEn": "Before you buy, ask yourself three times: Do I need it? Do I love it? Will I use it long-term?",
+      "attributionEn": "The Minimalist Shopping List",
+      "textJa": "買う前に三回自問しよう：必要か？好きか？長く使うか？",
+      "attributionJa": "ミニマリスト買い物リスト"
     },
     {
       "id": "quote-023",
       "text": "把不需要的东西送走，是给真正需要的人留一席之地。",
       "attribution": "未知",
-      "category": "取舍"
+      "category": "取舍",
+      "textEn": "Passing on what you don't need makes room for someone who truly does.",
+      "attributionEn": "Unknown",
+      "textJa": "不要なものを手放すことは、本当に必要とする人のために場所を空けること。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-024",
       "text": "衣不如新，人不如故；可衣不必新，故人自长留。",
       "attribution": "古典化用",
-      "category": "心境"
+      "category": "心境",
+      "textEn": "New clothes are fine, but old friends are dearer. Yet clothes need not be new, and true friends stay forever.",
+      "attributionEn": "Classical Adaptation",
+      "textJa": "衣は新しきに如かず、人は故しきに如かず。されど衣は新しきを要さず、故人は自ずから長く留まる。",
+      "attributionJa": "古典より"
     },
     {
       "id": "quote-025",
       "text": "生活不必满，留白也是充实的一部分。",
       "attribution": "未知",
-      "category": "生活"
+      "category": "生活",
+      "textEn": "Life need not be full. Emptiness is part of fulfillment.",
+      "attributionEn": "Unknown",
+      "textJa": "生活は満たされる必要はない。余白こそが充実の一部。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-026",
       "text": "扔掉它不是否定它，是承认它使命已尽。",
       "attribution": "未知",
-      "category": "告别"
+      "category": "告别",
+      "textEn": "Letting go is not rejection. It is acknowledging its purpose has been fulfilled.",
+      "attributionEn": "Unknown",
+      "textJa": "捨てることは否定ではない。その役割を全うしたと認めること。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-027",
       "text": "数字时代的极简，是为通知、邮件、订阅也设一道门。",
       "attribution": "极简·数字",
-      "category": "数字"
+      "category": "数字",
+      "textEn": "Digital minimalism means setting a gate for notifications, emails, and subscriptions too.",
+      "attributionEn": "Digital Minimalism",
+      "textJa": "デジタル時代のミニマリズムとは、通知やメールや購読にも門を設けること。",
+      "attributionJa": "ミニマリズム・デジタル"
     },
     {
       "id": "quote-028",
       "text": "一物一用，是秩序；一物多用，是将就。",
       "attribution": "未知",
-      "category": "日常"
+      "category": "日常",
+      "textEn": "One thing, one purpose — that is order. One thing, many purposes — that is compromise.",
+      "attributionEn": "Unknown",
+      "textJa": "一物一用は秩序。一物多用は妥協。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-029",
       "text": "在能力之内简朴，在简朴之内自由。",
       "attribution": "未知",
-      "category": "生活"
+      "category": "生活",
+      "textEn": "Live simply within your means, and be free within that simplicity.",
+      "attributionEn": "Unknown",
+      "textJa": "能力の範囲で簡素に、簡素の中で自由に。",
+      "attributionJa": "作者不明"
     },
     {
       "id": "quote-030",
       "text": "每一次告别，都是为下一次相遇腾出空间。",
       "attribution": "未知",
-      "category": "告别"
+      "category": "告别",
+      "textEn": "Every farewell makes space for the next encounter.",
+      "attributionEn": "Unknown",
+      "textJa": "別れのたびに、次の出会いのための場所ができる。",
+      "attributionJa": "作者不明"
     }
   ]
 }

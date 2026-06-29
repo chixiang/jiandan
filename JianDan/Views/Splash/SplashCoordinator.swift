@@ -57,6 +57,7 @@ final class SplashCoordinator {
 ///   第一次求值时是 nil。如果容器用 State 镜像初始值，后续父视图变化不会传进来。
 /// - 计时 `.task` 和点击 dismiss 都直接操作同一 coordinator 实例。
 struct SplashContainer<Content: View>: View {
+    @Environment(LanguageManager.self) private var languageManager
     let coordinator: SplashCoordinator?
     @ViewBuilder var content: () -> Content
 
@@ -69,7 +70,7 @@ struct SplashContainer<Content: View>: View {
         content()
             .overlay {
                 if let coordinator, coordinator.isVisible {
-                    SplashQuoteView(quote: coordinator.quote)
+                    SplashQuoteView(quote: coordinator.quote, language: languageManager.language)
                         .transition(.opacity)
                         // 点击 splash 时立即 dismiss；只有 splash 可见时拦截 tap
                         // —— splash 不可见后不再挂 .onTapGesture，让 NavigationLink

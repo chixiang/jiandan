@@ -87,7 +87,11 @@ final class QuoteRepository {
                     id: entry.id,
                     text: entry.text,
                     attribution: entry.attribution,
-                    category: entry.category
+                    category: entry.category,
+                    textEn: entry.textEn,
+                    attributionEn: entry.attributionEn,
+                    textJa: entry.textJa,
+                    attributionJa: entry.attributionJa
                 )
             }
         } catch {
@@ -111,4 +115,8 @@ private struct QuoteEntry: Decodable {
     let text: String
     let attribution: String
     let category: String?
+    let textEn: String?
+    let attributionEn: String?
+    let textJa: String?
+    let attributionJa: String?
 }

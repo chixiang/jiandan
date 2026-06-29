@@ -12,6 +12,7 @@ import SwiftUI
 struct SplashQuoteView: View {
     @Environment(\.appTheme) private var theme
     let quote: Wisdom
+    let language: AppLanguage
 
     var body: some View {
         ZStack {
@@ -41,14 +42,14 @@ struct SplashQuoteView: View {
     /// 金句 + 出处区块
     private var quoteBlock: some View {
         VStack(spacing: 20) {
-            Text(quote.text)
-                .font(AppTypography.headline)  // 衬线大字
+            Text(quote.localizedText(for: language))
+                .font(AppTypography.headline)
                 .foregroundStyle(theme.primaryText)
                 .multilineTextAlignment(.center)
                 .lineSpacing(10)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text("— \(quote.attribution)")
+            Text("— \(quote.localizedAttribution(for: language))")
                 .font(AppTypography.caption)
                 .foregroundStyle(theme.secondary)
                 .tracking(1)
@@ -64,11 +65,11 @@ struct SplashQuoteView: View {
 }
 
 #Preview("Light") {
-    SplashQuoteView(quote: WisdomLibrary.all[0])
+    SplashQuoteView(quote: WisdomLibrary.all[0], language: .system)
         .environment(\.appTheme, AppTheme(mode: .light))
 }
 
 #Preview("Ink") {
-    SplashQuoteView(quote: WisdomLibrary.all[1])
+    SplashQuoteView(quote: WisdomLibrary.all[1], language: .system)
         .environment(\.appTheme, AppTheme(mode: .ink))
 }
