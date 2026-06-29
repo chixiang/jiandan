@@ -21,6 +21,7 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
     var resolvedForCurrentSystem: AppLanguage {
         guard self == .system else { return self }
         switch Locale.current.language.languageCode?.identifier {
+        case "zh": return .zhHans
         case "en": return .en
         case "ja": return .ja
         default: return .en
