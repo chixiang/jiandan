@@ -1,5 +1,10 @@
 import SwiftUI
 import SwiftData
+import Photos
+
+private enum SharePhase {
+    case hidden, ceremony, preview
+}
 
 /// 新建告别表单
 struct AddFarewellView: View {
@@ -21,10 +26,13 @@ struct AddFarewellView: View {
 
     @State private var showPurchaseDate: Bool = false
 
-    @State private var showCeremony = false
+    @State private var sharePhase: SharePhase = .hidden
     @State private var ceremonyFilled = false
     @State private var savedName = ""
     @State private var ceremonyColor: Color = .clear
+    @State private var savedRecord: FarewellRecord?
+    @State private var showShareSheet = false
+    @State private var shareSheetImage: UIImage?
 
     private var canSave: Bool {
         AddFarewellValidator.canSave(name: name)
@@ -106,20 +114,41 @@ struct AddFarewellView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("取消") { if !showCeremony { dismiss() } }
+                        Button("取消") { if sharePhase == .hidden { dismiss() } }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("保存") { save() }
-                            .disabled(!canSave || showCeremony)
+                            .disabled(!canSave || sharePhase != .hidden)
                             .fontWeight(.semibold)
                     }
                 }
 
-                if showCeremony {
+                switch sharePhase {
+                case .hidden:
+                    EmptyView()
+                case .ceremony:
                     ceremonyOverlay
                         .transition(.opacity)
                         .zIndex(1)
+                case .preview:
+                    Group {
+                        if let record = savedRecord {
+                            SharePreviewView(
+                                record: record,
+                                onSave: { saveToAlbum(themeMode: $0) },
+                                onShare: { shareImage($0) },
+                                onClose: { dismiss() }
+                            )
+                        }
+                    }
+                    .transition(.opacity)
+                    .zIndex(1)
                 }
+            }
+        }
+        .sheet(isPresented: $showShareSheet, onDismiss: { dismiss() }) {
+            if let image = shareSheetImage {
+                ShareSheet(items: [image])
             }
         }
     }
@@ -149,11 +178,10 @@ struct AddFarewellView: View {
                     .foregroundStyle(theme.secondary)
             }
         }
-        .onTapGesture { dismiss() }
     }
 
     private func save() {
-        guard !showCeremony else { return }
+        guard sharePhase == .hidden else { return }
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         savedName = trimmedName
 
@@ -187,20 +215,37 @@ struct AddFarewellView: View {
         do {
             try modelContext.save()
 
+            savedRecord = record
             ceremonyColor = theme.accent
             withAnimation(.easeOut(duration: 0.4)) {
-                showCeremony = true
+                sharePhase = .ceremony
             }
             withAnimation(.spring(duration: 0.5).delay(0.3)) {
                 ceremonyFilled = true
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                dismiss()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation {
+                    sharePhase = .preview
+                }
             }
         } catch {
             print("Save failed: \(error)")
         }
+    }
+
+    private func saveToAlbum(themeMode: AppThemeMode) {
+        guard let record = savedRecord else { return }
+        let theme = CardTheme.theme(for: themeMode)
+        guard let image = FarewellImageGenerator.generate(for: record, theme: theme) else { return }
+
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        dismiss()
+    }
+
+    private func shareImage(_ image: UIImage) {
+        shareSheetImage = image
+        showShareSheet = true
     }
 }
 

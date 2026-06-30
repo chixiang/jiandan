@@ -61,6 +61,7 @@
 		A6BBC88132F3CE115E5F343F /* FarewellMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F345B1EE86941AEF8FFDBE /* FarewellMethod.swift */; };
 		A99323A6869E5548100AD577 /* FarewellMethodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11D7BBF83F06584C9BB9C73 /* FarewellMethodTests.swift */; };
 		AB0932D80C56224F07CC226F /* DataImporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7802F75870B7F69FB84ECC4 /* DataImporterTests.swift */; };
+		AB70777E643964DF2DCE52B8 /* FarewellImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E005263BA1E601FECBD377 /* FarewellImageGenerator.swift */; };
 		ABF18B5080D84A0730A97178 /* SplashCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421DB8D35799B304A11870A /* SplashCoordinator.swift */; };
 		AF55A8B0E2CC8B1CCF27388F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FBC91255D9A175AAB537393 /* Assets.xcassets */; };
 		B38690AE58C44585101B1B6F /* EditFarewellSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43600565744E93CA4AE37 /* EditFarewellSaver.swift */; };
@@ -73,9 +74,11 @@
 		C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F58F233837E8540A75220A /* RootTabView.swift */; };
 		CE10408D699699ADDF4AF06C /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0AADB363F540EBC3A4B /* CameraPicker.swift */; };
 		CEC2BA9F6EF388440A91A2FC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72AF75FEA00D9679416E50B9 /* InfoPlist.strings */; };
+		CFEAD1EB12D1F585104350F1 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F95690CDC8F8F866CABEFC /* ShareSheet.swift */; };
 		D6E8C4170EF533A803AF6038 /* ViewLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86392142ABA790AF7701776B /* ViewLogicTests.swift */; };
 		DC61387E7B35C0ACFA39E7A2 /* CategoryManagementUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC5F5FAB46F7765CCBDC23 /* CategoryManagementUITests.swift */; };
 		DDB1D458B9EB2C168CF0B004 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953BE81A83D14FA4885D6EC6 /* Category.swift */; };
+		E183F1DBA2E275B55D09AE58 /* SharePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */; };
 		F08B04C6C56711A13179F6CD /* AppThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3BF256622877B3CB2545B /* AppThemeTests.swift */; };
 		F314F4BF2529B3A21329D245 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B641C5B51F39B3E67BAE341 /* LanguageManager.swift */; };
 		F3830D3298699FA078DF7D85 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE7FEDB25497446B422606 /* SettingsView.swift */; };
@@ -111,7 +114,10 @@
 		0F6CFF80E0DA6229B03F4366 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		106A31E555DE5AE091468124 /* AnyCategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCategoryTests.swift; sourceTree = "<group>"; };
 		132E58443AB3251FA4F72E44 /* DiaryEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEmptyView.swift; sourceTree = "<group>"; };
+		14E005263BA1E601FECBD377 /* FarewellImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellImageGenerator.swift; sourceTree = "<group>"; };
 		1645C3A512D3DCE50DFD69E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePreviewView.swift; sourceTree = "<group>"; };
+		19F95690CDC8F8F866CABEFC /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		2029782CE9E44F5A7D36E945 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		215CC86D5E1D25181A78747C /* WisdomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomTests.swift; sourceTree = "<group>"; };
 		2784CD7FE36FCEA935CA5A40 /* JianDanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JianDanUITests.swift; sourceTree = "<group>"; };
@@ -252,6 +258,7 @@
 				663BE7C19EE7AD28A6863C31 /* CurrencyManager.swift */,
 				40EF65B8444AA069C0674633 /* DataImporter.swift */,
 				0DD43600565744E93CA4AE37 /* EditFarewellSaver.swift */,
+				14E005263BA1E601FECBD377 /* FarewellImageGenerator.swift */,
 				6D523E96697D04AEBCE06B44 /* ImageStore.swift */,
 				4B641C5B51F39B3E67BAE341 /* LanguageManager.swift */,
 				5707BFE98662FEDB681AC732 /* QuoteRepository.swift */,
@@ -329,6 +336,8 @@
 				A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */,
 				5C6DD2FFBF32B06E4BB63605 /* NewCategorySheet.swift */,
 				315FD98085A1654860A02556 /* PhotoPickerSection.swift */,
+				19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */,
+				19F95690CDC8F8F866CABEFC /* ShareSheet.swift */,
 			);
 			path = AddFarewell;
 			sourceTree = "<group>";
@@ -638,6 +647,7 @@
 				BFF7FC2643DE6ABE8BD23D7B /* EmotionStarsView.swift in Sources */,
 				2E508AC5FBF9E6A67D6A4574 /* FarewellCardView.swift in Sources */,
 				7C9C8DEE7BC5DBDD45FDB7C9 /* FarewellDetailView.swift in Sources */,
+				AB70777E643964DF2DCE52B8 /* FarewellImageGenerator.swift in Sources */,
 				A6BBC88132F3CE115E5F343F /* FarewellMethod.swift in Sources */,
 				195CBA3717213D2C7C8435D6 /* FarewellRecord.swift in Sources */,
 				1ED2B38B019899E28F26C8EC /* FullScreenImageViewer.swift in Sources */,
@@ -656,6 +666,8 @@
 				BB7A51F8D22CA1D74EB558AF /* RemembranceView.swift in Sources */,
 				C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */,
 				F3830D3298699FA078DF7D85 /* SettingsView.swift in Sources */,
+				E183F1DBA2E275B55D09AE58 /* SharePreviewView.swift in Sources */,
+				CFEAD1EB12D1F585104350F1 /* ShareSheet.swift in Sources */,
 				ABF18B5080D84A0730A97178 /* SplashCoordinator.swift in Sources */,
 				8969BBF985D0CB1833233819 /* SplashQuoteView.swift in Sources */,
 				4CF125A0F526B99CFA6D81E6 /* StatsCalculator.swift in Sources */,
