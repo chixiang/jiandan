@@ -34,6 +34,9 @@ struct DiaryView: View {
     @State private var sortKey: SortKey = .farewellDate
     @State private var sortAscending = false
     @State private var showingAdd = false
+    @State private var searchText = ""
+    @State private var isSearching = false
+    @FocusState private var isSearchFocused: Bool
 
     var body: some View {
         NavigationStack {
@@ -48,6 +51,7 @@ struct DiaryView: View {
                     selectedCategoryIDs: selectedCategoryIDs,
                     selectedMethods: selectedMethods,
                     selectedEmotions: selectedEmotions,
+                    searchText: searchText,
                     sortKey: sortKey,
                     sortAscending: sortAscending,
                     onAddTapped: { showingAdd = true },
@@ -63,6 +67,36 @@ struct DiaryView: View {
                 FarewellDetailView(record: record)
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    if !isSearching {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.25)) {
+                                isSearching = true
+                                isSearchFocused = true
+                            }
+                        } label: {
+                            Image(systemName: "magnifyingglass")
+                        }
+                    }
+                }
+                ToolbarItem(placement: .principal) {
+                    if isSearching {
+                        HStack(spacing: 8) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundStyle(.secondary)
+                            TextField(String(localized: "搜索物品名称..."), text: $searchText)
+                                .textFieldStyle(.plain)
+                                .focused($isSearchFocused)
+                            Button(String(localized: "取消")) {
+                                searchText = ""
+                                isSearching = false
+                                isSearchFocused = false
+                            }
+                            .font(.subheadline)
+                        }
+                        .transition(.opacity)
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Section {
@@ -122,6 +156,7 @@ private struct DiaryListView: View {
     let selectedCategoryIDs: Set<String>
     let selectedMethods: Set<String>
     let selectedEmotions: Set<Int>
+    let searchText: String
     let sortKey: SortKey
     let sortAscending: Bool
     let onAddTapped: () -> Void
@@ -131,6 +166,7 @@ private struct DiaryListView: View {
         selectedCategoryIDs: Set<String>,
         selectedMethods: Set<String>,
         selectedEmotions: Set<Int>,
+        searchText: String,
         sortKey: SortKey,
         sortAscending: Bool,
         onAddTapped: @escaping () -> Void,
@@ -139,6 +175,7 @@ private struct DiaryListView: View {
         self.selectedCategoryIDs = selectedCategoryIDs
         self.selectedMethods = selectedMethods
         self.selectedEmotions = selectedEmotions
+        self.searchText = searchText
         self.sortKey = sortKey
         self.sortAscending = sortAscending
         self.onAddTapped = onAddTapped
@@ -152,11 +189,12 @@ private struct DiaryListView: View {
             (selectedCategoryIDs.isEmpty || selectedCategoryIDs.contains(record.categoryRaw))
             && (selectedMethods.isEmpty || selectedMethods.contains(record.methodRaw))
             && (selectedEmotions.isEmpty || selectedEmotions.contains(record.emotionValue ?? -1))
+            && (searchText.isEmpty || record.name.localizedStandardContains(searchText))
         }
     }
 
     private var isFiltering: Bool {
-        !selectedCategoryIDs.isEmpty || !selectedMethods.isEmpty || !selectedEmotions.isEmpty
+        !selectedCategoryIDs.isEmpty || !selectedMethods.isEmpty || !selectedEmotions.isEmpty || !searchText.isEmpty
     }
 
     var body: some View {
@@ -204,7 +242,7 @@ private struct DiaryListView: View {
             Image(systemName: "magnifyingglass")
                 .font(.title2)
                 .foregroundStyle(theme.secondary)
-            Text("该分类下暂无告别记录")
+            Text(!searchText.isEmpty ? String(localized: "未找到相关物品") : String(localized: "该分类下暂无告别记录"))
                 .foregroundStyle(theme.secondary)
             Button("清除筛选", action: onClearFilter)
                 .buttonStyle(.bordered)
