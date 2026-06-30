@@ -11,9 +11,6 @@ struct SharePreviewView: View {
     @State private var showPreviewShare = false
     @State private var shareImage: UIImage?
 
-    private let cardW: CGFloat = 390
-    private let cardH: CGFloat = 585
-
     var body: some View {
         ZStack {
             Color.black.opacity(0.65)
@@ -87,7 +84,9 @@ struct SharePreviewView: View {
     }
 
     private var previewHeight: CGFloat {
-        let byWidth = maxCardWidth * cardH / cardW
+        guard let size = cachedImages.first?.value.size else { return 400 }
+        let aspect = size.width / size.height
+        let byWidth = maxCardWidth / aspect
         let bySafe = UIScreen.main.bounds.height * 0.6
         return min(byWidth, bySafe)
     }
