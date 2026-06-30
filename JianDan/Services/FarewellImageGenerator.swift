@@ -63,11 +63,14 @@ struct FarewellShareCard: View {
     }
 
     var body: some View {
-        if isPortraitPhoto, let img = photoImage {
-            landscapeBody(photo: img)
-        } else {
-            portraitBody
+        Group {
+            if isPortraitPhoto, let img = photoImage {
+                landscapeBody(photo: img)
+            } else {
+                portraitBody
+            }
         }
+        .overlay(matBorder)
     }
 
     // MARK: - Landscape (585×390, photo left + text right)
@@ -78,7 +81,7 @@ struct FarewellShareCard: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 240, maxHeight: 310)
-                .padding(.leading, 20)
+                .padding(.leading, 28)
                 .padding(.trailing, 12)
 
             Spacer(minLength: 0)
@@ -133,9 +136,9 @@ struct FarewellShareCard: View {
                 Image(uiImage: img)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 334, maxHeight: 240)
-                    .padding(.top, 28)
-                    .padding(.horizontal, 28)
+                    .frame(maxWidth: 326, maxHeight: 240)
+                    .padding(.top, 32)
+                    .padding(.horizontal, 32)
 
                 Color.clear.frame(height: 24)
             } else {
@@ -161,7 +164,7 @@ struct FarewellShareCard: View {
                         .padding(.top, 6)
                 }
             }
-            .padding(.horizontal, 28)
+            .padding(.horizontal, 32)
 
             hairline
                 .padding(.horizontal, 32)
@@ -169,7 +172,7 @@ struct FarewellShareCard: View {
 
             if let letter = farewellLetter, !letter.isEmpty {
                 letterView(letter: letter)
-                    .padding(.horizontal, 28)
+                    .padding(.horizontal, 32)
                     .padding(.top, 14)
             }
 
@@ -179,12 +182,27 @@ struct FarewellShareCard: View {
                 .padding(.horizontal, 32)
 
             footerView
-                .padding(.horizontal, 28)
+                .padding(.horizontal, 32)
                 .padding(.top, 4)
-                .padding(.bottom, 28)
+                .padding(.bottom, 32)
         }
         .frame(width: cardSize.width, height: cardSize.height)
         .background(theme.background)
+    }
+
+    // MARK: - Mat Border
+
+    @ViewBuilder
+    private var matBorder: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 2)
+                .stroke(theme.divider, lineWidth: 0.5)
+                .padding(14)
+            RoundedRectangle(cornerRadius: 2)
+                .stroke(theme.divider, lineWidth: 0.5)
+                .padding(18)
+        }
+        .allowsHitTesting(false)
     }
 
     // MARK: - Sub-views

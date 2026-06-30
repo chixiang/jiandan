@@ -28,7 +28,6 @@ struct SharePreviewView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(maxWidth: maxCardWidth)
-                                    .cornerRadius(12)
                                     .shadow(color: .black.opacity(0.4), radius: 16)
                                     .tag(mode)
                             }
