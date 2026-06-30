@@ -2,13 +2,14 @@ import SwiftUI
 
 struct SharePreviewView: View {
     let record: FarewellRecord
-    let onSave: (AppThemeMode) -> Void
-    let onShare: (UIImage) -> Void
     let onClose: () -> Void
 
     @State private var selectedTheme: AppThemeMode = .light
     @State private var cachedImages: [AppThemeMode: UIImage] = [:]
     @State private var isReady = false
+    @State private var toastMessage: String?
+    @State private var showPreviewShare = false
+    @State private var shareImage: UIImage?
 
     private let cardW: CGFloat = 390
     private let cardH: CGFloat = 585
@@ -42,14 +43,8 @@ struct SharePreviewView: View {
                     Spacer()
 
                     HStack(spacing: 16) {
-                        actionButton(label: String(localized: "保存到相册"), icon: "square.and.arrow.down") {
-                            onSave(selectedTheme)
-                        }
-                        actionButton(label: String(localized: "分享"), icon: "square.and.arrow.up") {
-                            if let image = cachedImages[selectedTheme] {
-                                onShare(image)
-                            }
-                        }
+                        saveButton
+                        shareButton
                     }
 
                     Button(String(localized: "关闭"), role: .cancel) { onClose() }
@@ -62,8 +57,29 @@ struct SharePreviewView: View {
                 ProgressView()
                     .tint(.white)
             }
+
+            if let toast = toastMessage {
+                VStack {
+                    Spacer()
+                    Text(toast)
+                        .font(.subheadline)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .background(.black.opacity(0.75))
+                        .clipShape(Capsule())
+                        .padding(.bottom, 120)
+                }
+                .transition(.opacity)
+                .zIndex(2)
+            }
         }
         .onAppear(perform: generateImages)
+        .sheet(isPresented: $showPreviewShare) {
+            if let image = shareImage {
+                ShareSheet(items: [image])
+            }
+        }
     }
 
     private var maxCardWidth: CGFloat {
@@ -76,9 +92,36 @@ struct SharePreviewView: View {
         return min(byWidth, bySafe)
     }
 
-    private func actionButton(label: String, icon: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Label(label, systemImage: icon)
+    private var saveButton: some View {
+        Button {
+            let theme = CardTheme.theme(for: selectedTheme)
+            guard let image = FarewellImageGenerator.generate(for: record, theme: theme) else { return }
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            withAnimation {
+                toastMessage = String(localized: "已保存")
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation {
+                    toastMessage = nil
+                }
+            }
+        } label: {
+            Label(String(localized: "保存到相册"), systemImage: "square.and.arrow.down")
+                .font(.subheadline)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(.white.opacity(0.2))
+                .clipShape(Capsule())
+        }
+        .foregroundStyle(.white)
+    }
+
+    private var shareButton: some View {
+        Button {
+            shareImage = cachedImages[selectedTheme]
+            showPreviewShare = true
+        } label: {
+            Label(String(localized: "分享"), systemImage: "square.and.arrow.up")
                 .font(.subheadline)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)

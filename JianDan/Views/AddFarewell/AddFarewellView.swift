@@ -1,6 +1,5 @@
 import SwiftUI
 import SwiftData
-import Photos
 
 private enum SharePhase {
     case hidden, ceremony, preview
@@ -31,8 +30,6 @@ struct AddFarewellView: View {
     @State private var savedName = ""
     @State private var ceremonyColor: Color = .clear
     @State private var savedRecord: FarewellRecord?
-    @State private var showShareSheet = false
-    @State private var shareSheetImage: UIImage?
 
     private var canSave: Bool {
         AddFarewellValidator.canSave(name: name)
@@ -131,24 +128,15 @@ struct AddFarewellView: View {
                         .transition(.opacity)
                         .zIndex(1)
                 case .preview:
-                    Group {
-                        if let record = savedRecord {
-                            SharePreviewView(
-                                record: record,
-                                onSave: { saveToAlbum(themeMode: $0) },
-                                onShare: { shareImage($0) },
-                                onClose: { dismiss() }
-                            )
-                        }
+                    if let record = savedRecord {
+                        SharePreviewView(
+                            record: record,
+                            onClose: { dismiss() }
+                        )
+                        .transition(.opacity)
+                        .zIndex(1)
                     }
-                    .transition(.opacity)
-                    .zIndex(1)
                 }
-            }
-        }
-        .sheet(isPresented: $showShareSheet, onDismiss: { dismiss() }) {
-            if let image = shareSheetImage {
-                ShareSheet(items: [image])
             }
         }
     }
@@ -182,6 +170,7 @@ struct AddFarewellView: View {
 
     private func save() {
         guard sharePhase == .hidden else { return }
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         savedName = trimmedName
 
@@ -234,19 +223,6 @@ struct AddFarewellView: View {
         }
     }
 
-    private func saveToAlbum(themeMode: AppThemeMode) {
-        guard let record = savedRecord else { return }
-        let theme = CardTheme.theme(for: themeMode)
-        guard let image = FarewellImageGenerator.generate(for: record, theme: theme) else { return }
-
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        dismiss()
-    }
-
-    private func shareImage(_ image: UIImage) {
-        shareSheetImage = image
-        showShareSheet = true
-    }
 }
 
 #Preview {

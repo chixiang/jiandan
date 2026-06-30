@@ -12,6 +12,7 @@ struct FarewellDetailView: View {
     @State private var showingDeleteConfirm = false
     @State private var showingEdit = false
     @State private var deleteCustomCategoryAlert: UserCategory? = nil
+    @State private var showDetailShare = false
 
     var body: some View {
         ScrollView {
@@ -147,6 +148,11 @@ struct FarewellDetailView: View {
                     } label: {
                         Label("编辑", systemImage: "pencil")
                     }
+                    Button {
+                        showDetailShare = true
+                    } label: {
+                        Label("分享", systemImage: "square.and.arrow.up")
+                    }
                     Button(role: .destructive) {
                         showingDeleteConfirm = true
                     } label: {
@@ -174,6 +180,12 @@ struct FarewellDetailView: View {
         }
         .sheet(isPresented: $showingEdit) {
             EditFarewellView(record: record)
+        }
+        .fullScreenCover(isPresented: $showDetailShare) {
+            SharePreviewView(
+                record: record,
+                onClose: { showDetailShare = false }
+            )
         }
         .alert(
             "删除自定义分类？",
