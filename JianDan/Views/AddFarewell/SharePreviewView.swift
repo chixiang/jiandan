@@ -4,7 +4,7 @@ struct SharePreviewView: View {
     let record: FarewellRecord
     let onClose: () -> Void
 
-    @State private var selectedTheme: AppThemeMode = .light
+    @State private var selectedTheme: AppThemeMode? = .light
     @State private var cachedImages: [AppThemeMode: UIImage] = [:]
     @State private var isReady = false
     @State private var toastMessage: String?
@@ -21,20 +21,33 @@ struct SharePreviewView: View {
                 VStack(spacing: 12) {
                     Spacer()
 
-                    TabView(selection: $selectedTheme) {
-                        ForEach(AppThemeMode.allCases) { mode in
-                            if let image = cachedImages[mode] {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(maxWidth: maxCardWidth)
-                                    .shadow(color: .black.opacity(0.4), radius: 16)
-                                    .tag(mode)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(AppThemeMode.allCases) { mode in
+                                if let image = cachedImages[mode] {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: cardWidth)
+                                        .shadow(color: .black.opacity(0.4), radius: 16)
+                                }
                             }
                         }
+                        .scrollTargetLayout()
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .always))
+                    .scrollClipDisabled()
+                    .contentMargins(.horizontal, (UIScreen.main.bounds.width - cardWidth) / 2, for: .scrollContent)
+                    .scrollTargetBehavior(.viewAligned)
+                    .scrollPosition(id: $selectedTheme)
                     .frame(height: previewHeight)
+
+                    HStack(spacing: 8) {
+                        ForEach(AppThemeMode.allCases) { mode in
+                            Circle()
+                                .fill(selectedTheme == mode ? .white : .white.opacity(0.4))
+                                .frame(width: 6, height: 6)
+                        }
+                    }
 
                     Spacer()
 
@@ -78,21 +91,21 @@ struct SharePreviewView: View {
         }
     }
 
-    private var maxCardWidth: CGFloat {
-        min(UIScreen.main.bounds.width - 48, 340)
+    private var cardWidth: CGFloat {
+        UIScreen.main.bounds.width * 0.88
     }
 
     private var previewHeight: CGFloat {
         guard let size = cachedImages.first?.value.size else { return 400 }
         let aspect = size.width / size.height
-        let byWidth = maxCardWidth / aspect
+        let byWidth = cardWidth / aspect
         let bySafe = UIScreen.main.bounds.height * 0.6
         return min(byWidth, bySafe)
     }
 
     private var saveButton: some View {
         Button {
-            let theme = CardTheme.theme(for: selectedTheme)
+            let theme = CardTheme.theme(for: selectedTheme ?? .light)
             guard let image = FarewellImageGenerator.generate(for: record, theme: theme) else { return }
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             withAnimation {
@@ -116,7 +129,7 @@ struct SharePreviewView: View {
 
     private var shareButton: some View {
         Button {
-            shareImage = cachedImages[selectedTheme]
+            shareImage = cachedImages[selectedTheme ?? .light]
             showPreviewShare = true
         } label: {
             Label(String(localized: "分享"), systemImage: "square.and.arrow.up")
