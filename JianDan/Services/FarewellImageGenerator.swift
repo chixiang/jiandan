@@ -56,15 +56,16 @@ struct FarewellShareCard: View {
     let photoImage: UIImage?
     let theme: CardTheme
     let cardSize: CGSize
+    let hasRealPhoto: Bool
 
-    private var isPortraitPhoto: Bool {
+    private var shouldUseLandscapeBody: Bool {
         guard let img = photoImage else { return false }
-        return img.size.height > img.size.width
+        return !hasRealPhoto || img.size.height > img.size.width
     }
 
     var body: some View {
         Group {
-            if isPortraitPhoto, let img = photoImage {
+            if shouldUseLandscapeBody, let img = photoImage {
                 landscapeBody(photo: img)
             } else {
                 portraitBody
@@ -296,17 +297,68 @@ struct FarewellShareCard: View {
     }
 }
 
+// MARK: - Placeholder Quote Image
+
+struct PlaceholderQuoteView: View {
+    let quoteText: String
+    let attribution: String
+    let theme: CardTheme
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Spacer()
+
+            Text("\"")
+                .font(Font.system(size: 12, design: .serif).italic())
+                .foregroundStyle(theme.textSecondary.opacity(0.25))
+
+            Text(quoteText)
+                .font(Font.system(size: 10, design: .serif).italic())
+                .foregroundStyle(theme.textSecondary.opacity(0.35))
+                .multilineTextAlignment(.center)
+                .lineSpacing(4)
+                .padding(.horizontal, 20)
+
+            Text("\"")
+                .font(Font.system(size: 12, design: .serif).italic())
+                .foregroundStyle(theme.textSecondary.opacity(0.25))
+                .padding(.top, 2)
+
+            Text(attribution)
+                .font(Font.system(size: 8, design: .serif).italic())
+                .foregroundStyle(theme.textSecondary.opacity(0.3))
+                .padding(.top, 6)
+
+            Spacer()
+        }
+        .frame(width: 360, height: 240)
+        .background(theme.background)
+    }
+}
+
 // MARK: - Image Generator
 
 enum FarewellImageGenerator {
     @MainActor static func generate(for record: FarewellRecord, theme: CardTheme) -> UIImage? {
-        let photoImage: UIImage? = {
+        let realPhoto: UIImage? = {
             guard let filename = record.photoFilenames.first else { return nil }
             return ImageStore.loadImage(filename: filename)
         }()
 
-        let isPortrait = photoImage.map { $0.size.height > $0.size.width } ?? false
-        let cardSize = isPortrait ? CGSize(width: 585, height: 390) : CGSize(width: 390, height: 585)
+        let photoImage: UIImage?
+        let cardSize: CGSize
+
+        if let img = realPhoto {
+            photoImage = img
+            cardSize = img.size.height > img.size.width
+                ? CGSize(width: 585, height: 390)
+                : CGSize(width: 390, height: 585)
+        } else {
+            let repo = QuoteRepository()
+            let quote = repo.randomQuote()
+            photoImage = Self.generatePlaceholderImage(quote: quote, theme: theme)
+            cardSize = CGSize(width: 585, height: 390)
+        }
 
         let view = FarewellShareCard(
             name: record.name,
@@ -318,9 +370,19 @@ enum FarewellImageGenerator {
             farewellLetter: record.farewellLetter,
             photoImage: photoImage,
             theme: theme,
-            cardSize: cardSize
+            cardSize: cardSize,
+            hasRealPhoto: realPhoto != nil
         )
 
+        let renderer = ImageRenderer(content: view)
+        renderer.scale = 3.0
+        return renderer.uiImage
+    }
+
+    @MainActor private static func generatePlaceholderImage(quote: Wisdom?, theme: CardTheme) -> UIImage? {
+        let text = quote?.textEn ?? quote?.text ?? ""
+        let attribution = quote?.attributionEn ?? quote?.attribution ?? ""
+        let view = PlaceholderQuoteView(quoteText: text, attribution: attribution, theme: theme)
         let renderer = ImageRenderer(content: view)
         renderer.scale = 3.0
         return renderer.uiImage
