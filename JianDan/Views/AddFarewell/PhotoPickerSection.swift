@@ -10,6 +10,7 @@ struct PhotoItem: Identifiable {
     let id = UUID()
     var data: Data
     var existingFilename: String?
+    var isLoading = false
 }
 
 /// 照片选择区（最多 3 张）
@@ -39,15 +40,25 @@ struct PhotoPickerSection: View {
         }
         .onChange(of: selectedItems) { _, newItems in
             Task {
-                var newItemsData: [PhotoItem] = []
-                for item in newItems {
-                    if let data = try? await item.loadTransferable(type: Data.self) {
-                        newItemsData.append(PhotoItem(data: data))
-                    }
-                }
+                let placeholders = newItems.map { _ in PhotoItem(data: Data(), isLoading: true) }
                 await MainActor.run {
-                    items.append(contentsOf: newItemsData)
+                    items.append(contentsOf: placeholders)
                     selectedItems = []
+                }
+
+                for (index, selectedItem) in newItems.enumerated() {
+                    if let data = try? await selectedItem.loadTransferable(type: Data.self) {
+                        await MainActor.run {
+                            if let idx = items.firstIndex(where: { $0.id == placeholders[index].id }) {
+                                items[idx].data = data
+                                items[idx].isLoading = false
+                            }
+                        }
+                    } else {
+                        await MainActor.run {
+                            items.removeAll { $0.id == placeholders[index].id }
+                        }
+                    }
                 }
             }
         }
@@ -126,7 +137,7 @@ struct PhotoPickerSection: View {
             GridItem(.flexible())
         ], spacing: 8) {
             ForEach(items) { item in
-                PhotoTile(data: item.data, onRemove: {
+                PhotoTile(data: item.data, isLoading: item.isLoading, onRemove: {
                     items.removeAll { $0.id == item.id }
                 })
             }
@@ -157,13 +168,16 @@ struct PhotoPickerSection: View {
 
 private struct PhotoTile: View {
     let data: Data
+    let isLoading: Bool
     let onRemove: () -> Void
 
     var body: some View {
         Color.clear
             .aspectRatio(1, contentMode: .fit)
             .overlay {
-                if let uiImage = UIImage(data: data) {
+                if isLoading {
+                    ProgressView()
+                } else if let uiImage = UIImage(data: data) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
@@ -171,11 +185,13 @@ private struct PhotoTile: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay(alignment: .topTrailing) {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.title3)
-                    .foregroundStyle(.white, .black.opacity(0.6))
-                    .padding(4)
-                    .onTapGesture { onRemove() }
+                if !isLoading {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(.white, .black.opacity(0.6))
+                        .padding(4)
+                        .onTapGesture { onRemove() }
+                }
             }
     }
 }
