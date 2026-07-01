@@ -50,6 +50,7 @@ struct FarewellShareCard: View {
     let categoryDisplayName: String
     let methodDisplayName: String
     let farewellDate: Date
+    let purchaseDate: Date?
     let companionshipDays: Int?
     let emotionValue: Int?
     let farewellLetter: String?
@@ -200,10 +201,10 @@ struct FarewellShareCard: View {
         ZStack {
             RoundedRectangle(cornerRadius: 2)
                 .stroke(theme.divider, lineWidth: 0.5)
-                .padding(14)
+                .padding(10)
             RoundedRectangle(cornerRadius: 2)
                 .stroke(theme.divider, lineWidth: 0.5)
-                .padding(18)
+                .padding(14)
         }
         .allowsHitTesting(false)
     }
@@ -230,20 +231,24 @@ struct FarewellShareCard: View {
 
     private var infoText: some View {
         HStack(spacing: 0) {
+            if let purchase = purchaseDate {
+                Text(dateStringDot(from: purchase))
+            } else {
+                Text("某天")
+            }
+            Text(" ~ ")
             Text(dateStringDot(from: farewellDate))
-                .font(Font.system(size: 8, weight: .light, design: .default))
-                .foregroundStyle(theme.textSecondary.opacity(0.7))
 
             if let days = companionshipDays {
                 Text("  ·  ")
                     .font(Font.system(size: 7))
                     .foregroundStyle(theme.textSecondary.opacity(0.3))
 
-                Text("\(days)天")
-                    .font(Font.system(size: 8, weight: .light, design: .default))
-                    .foregroundStyle(theme.textSecondary.opacity(0.7))
+                Text("陪伴我 \(days) 天")
             }
         }
+        .font(Font.system(size: 8, weight: .light, design: .default))
+        .foregroundStyle(theme.textSecondary.opacity(0.7))
     }
 
     private func emotionDots(value: Int) -> some View {
@@ -370,6 +375,7 @@ enum FarewellImageGenerator {
             categoryDisplayName: record.category.displayName,
             methodDisplayName: record.method.localizedName,
             farewellDate: record.farewellDate,
+            purchaseDate: record.purchaseDate,
             companionshipDays: record.companionshipDays,
             emotionValue: record.emotionValue,
             farewellLetter: record.farewellLetter,
