@@ -462,8 +462,8 @@ struct EditFarewellView: View {
     private func save() {
         // 记录当前已有的照片文件名
         let oldFilenames = Set(record.photoFilenames)
-        let keptFilenames = Set(photos.compactMap(\.existingFilename))
-        let removedFilenames = Array(oldFilenames.subtracting(keptFilenames))
+        let keptFilenames = photos.compactMap(\.existingFilename)
+        let removedFilenames = Array(oldFilenames.subtracting(Set(keptFilenames)))
 
         // 删除已移除的照片文件
         if !removedFilenames.isEmpty {
@@ -478,8 +478,8 @@ struct EditFarewellView: View {
             }
         }
 
-        // 更新记录的图片文件名列表
-        record.photoFilenames = keptFilenames.union(newFilenames).sorted()
+        // 更新记录的图片文件名列表（保持 photos 数组的顺序）
+        record.photoFilenames = keptFilenames + newFilenames
 
         if record.photoFilenames.isEmpty {
             if let image = FarewellImageGenerator.generatePlaceholderImage(),
