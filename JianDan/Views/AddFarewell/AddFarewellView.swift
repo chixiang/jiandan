@@ -185,6 +185,18 @@ struct AddFarewellView: View {
             }
         }
 
+        if savedFilenames.isEmpty {
+            if let image = FarewellImageGenerator.generatePlaceholderImage(),
+               let data = image.jpegData(compressionQuality: 0.85) {
+                do {
+                    let filename = try ImageStore.save(data)
+                    savedFilenames.append(filename)
+                } catch {
+                    print("Placeholder save failed: \(error)")
+                }
+            }
+        }
+
         let price = Double(purchasePriceText)
         let record = FarewellRecord(
             name: trimmedName,

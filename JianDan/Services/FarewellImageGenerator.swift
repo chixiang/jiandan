@@ -379,6 +379,12 @@ enum FarewellImageGenerator {
         return renderer.uiImage
     }
 
+    @MainActor static func generatePlaceholderImage() -> UIImage? {
+        let repo = QuoteRepository()
+        let quote = repo.randomQuote()
+        return generatePlaceholderImage(quote: quote, theme: .light)
+    }
+
     @MainActor private static func generatePlaceholderImage(quote: Wisdom?, theme: CardTheme) -> UIImage? {
         let text = quote?.textEn ?? quote?.text ?? ""
         let attribution = quote?.attributionEn ?? quote?.attribution ?? ""
