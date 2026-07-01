@@ -18,16 +18,20 @@ struct FarewellCardView: View {
                     Image(systemName: record.category.iconName)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Text(record.name)
-                        .font(.headline)
-                        .lineLimit(2)
-                }
+                        .frame(width: 20)
 
-                // 陪伴天数
-                if let days = record.companionshipDays {
-                    Text("陪伴我 \(days) 天")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(record.name)
+                            .font(.headline)
+                            .lineLimit(2)
+
+                        // 陪伴天数
+                        if let days = record.companionshipDays {
+                            Text("陪伴我 \(days) 天")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
             }
 

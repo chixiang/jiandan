@@ -123,7 +123,7 @@ struct FarewellShareCard: View {
             }
             .padding(.leading, 24)
             .padding(.trailing, 28)
-            .padding(.top, 28)
+            .padding(.top, 48)
         }
         .frame(width: cardSize.width, height: cardSize.height)
         .background(theme.background)
