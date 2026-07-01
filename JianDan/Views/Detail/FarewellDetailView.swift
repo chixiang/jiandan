@@ -482,6 +482,15 @@ struct EditFarewellView: View {
         // 更新记录的图片文件名列表
         record.photoFilenames = keptFilenames.union(newFilenames).sorted()
 
+        if record.photoFilenames.isEmpty {
+            if let image = FarewellImageGenerator.generatePlaceholderImage(),
+               let data = image.jpegData(compressionQuality: 0.85) {
+                if let filename = try? ImageStore.save(data) {
+                    record.photoFilenames = [filename]
+                }
+            }
+        }
+
         do {
             try EditFarewellSaver.save(record, in: modelContext)
             dismiss()

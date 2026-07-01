@@ -82,6 +82,7 @@ struct FarewellShareCard: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 240, maxHeight: 310)
+                .shadow(color: theme.textPrimary.opacity(0.08), radius: 8, x: 0, y: 4)
                 .padding(.leading, 28)
                 .padding(.trailing, 12)
 
@@ -138,6 +139,7 @@ struct FarewellShareCard: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: 326, maxHeight: 240)
+                    .shadow(color: theme.textPrimary.opacity(0.08), radius: 8, x: 0, y: 4)
                     .padding(.top, 32)
                     .padding(.horizontal, 32)
 
@@ -310,23 +312,23 @@ struct PlaceholderQuoteView: View {
 
             Text("\"")
                 .font(Font.system(size: 12, design: .serif).italic())
-                .foregroundStyle(theme.textSecondary.opacity(0.25))
+                .foregroundStyle(theme.textSecondary.opacity(0.35))
 
             Text(quoteText)
                 .font(Font.system(size: 10, design: .serif).italic())
-                .foregroundStyle(theme.textSecondary.opacity(0.35))
+                .foregroundStyle(theme.textSecondary.opacity(0.55))
                 .multilineTextAlignment(.center)
                 .lineSpacing(4)
                 .padding(.horizontal, 20)
 
             Text("\"")
                 .font(Font.system(size: 12, design: .serif).italic())
-                .foregroundStyle(theme.textSecondary.opacity(0.25))
+                .foregroundStyle(theme.textSecondary.opacity(0.35))
                 .padding(.top, 2)
 
             Text(attribution)
                 .font(Font.system(size: 8, design: .serif).italic())
-                .foregroundStyle(theme.textSecondary.opacity(0.3))
+                .foregroundStyle(theme.textSecondary.opacity(0.45))
                 .padding(.top, 6)
 
             Spacer()
@@ -356,7 +358,10 @@ enum FarewellImageGenerator {
         } else {
             let repo = QuoteRepository()
             let quote = repo.randomQuote()
-            photoImage = Self.generatePlaceholderImage(quote: quote, theme: theme)
+            let lang = currentLanguage()
+            let text = quote?.localizedText(for: lang) ?? ""
+            let attribution = quote?.localizedAttribution(for: lang) ?? ""
+            photoImage = Self.generatePlaceholderImage(text: text, attribution: attribution, theme: theme)
             cardSize = CGSize(width: 585, height: 390)
         }
 
@@ -379,15 +384,22 @@ enum FarewellImageGenerator {
         return renderer.uiImage
     }
 
+    private static func currentLanguage() -> AppLanguage {
+        let raw = UserDefaults.standard.string(forKey: "app.language")
+        let saved = raw.flatMap(AppLanguage.init(rawValue:)) ?? .system
+        return saved.resolvedForCurrentSystem
+    }
+
     @MainActor static func generatePlaceholderImage() -> UIImage? {
         let repo = QuoteRepository()
         let quote = repo.randomQuote()
-        return generatePlaceholderImage(quote: quote, theme: .light)
+        let lang = currentLanguage()
+        let text = quote?.localizedText(for: lang) ?? ""
+        let attribution = quote?.localizedAttribution(for: lang) ?? ""
+        return generatePlaceholderImage(text: text, attribution: attribution, theme: .light)
     }
 
-    @MainActor private static func generatePlaceholderImage(quote: Wisdom?, theme: CardTheme) -> UIImage? {
-        let text = quote?.textEn ?? quote?.text ?? ""
-        let attribution = quote?.attributionEn ?? quote?.attribution ?? ""
+    @MainActor private static func generatePlaceholderImage(text: String, attribution: String, theme: CardTheme) -> UIImage? {
         let view = PlaceholderQuoteView(quoteText: text, attribution: attribution, theme: theme)
         let renderer = ImageRenderer(content: view)
         renderer.scale = 3.0
