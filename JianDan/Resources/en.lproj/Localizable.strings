@@ -98,9 +98,7 @@
 "日元" = "JPY";
 "英镑" = "GBP";
 "切换语言" = "Switch Language";
-"立即重启" = "Restart Now";
-"稍后" = "Later";
-"语言将在下次启动时切换。是否立即重启？" = "Language change takes effect on next launch. Restart now?";
+"语言将在下次启动时切换。" = "Language change takes effect on next launch.";
 "告别数" = "Farewells";
 "平均陪伴" = "Avg Days";
 "最长陪伴" = "Longest";

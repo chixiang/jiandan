@@ -14,10 +14,14 @@ struct FarewellCardView: View {
             )
 
             VStack(alignment: .leading, spacing: 6) {
-                // 名称
-                Text(record.name)
-                    .font(.headline)
-                    .lineLimit(2)
+                HStack(spacing: 6) {
+                    Image(systemName: record.category.iconName)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text(record.name)
+                        .font(.headline)
+                        .lineLimit(2)
+                }
 
                 // 陪伴天数
                 if let days = record.companionshipDays {

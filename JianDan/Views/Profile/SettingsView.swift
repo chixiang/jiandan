@@ -197,12 +197,9 @@ struct SettingsView: View {
                 CategoryManagementView()
             }
             .alert("切换语言", isPresented: $showingRestartAlert) {
-                Button("立即重启", role: .destructive) {
-                    exit(0)
-                }
-                Button("稍后", role: .cancel) { }
+                Button("好的", role: .cancel) { }
             } message: {
-                Text("语言将在下次启动时切换。是否立即重启？")
+                Text("语言将在下次启动时切换。")
             }
             .navigationTitle("设置")
             .navigationBarTitleDisplayMode(.inline)
