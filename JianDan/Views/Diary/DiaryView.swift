@@ -4,13 +4,13 @@ import SwiftData
 /// 列表排序方式
 enum SortKey: String, CaseIterable {
     case farewellDate = "告别日期"
-    case purchaseDate = "购入日期"
+    case purchaseDate = "获得日期"
     case price = "价格"
 
     var localizedName: String {
         switch self {
         case .farewellDate: return String(localized: "告别日期")
-        case .purchaseDate: return String(localized: "购入日期")
+        case .purchaseDate: return String(localized: "获得日期")
         case .price: return String(localized: "价格")
         }
     }

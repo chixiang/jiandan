@@ -69,10 +69,10 @@ struct AddFarewellView: View {
                     }
 
                     Section("更多") {
-                        Toggle("记录购入日期", isOn: $showPurchaseDate)
+                        Toggle("记录获得日期", isOn: $showPurchaseDate)
 
                         if showPurchaseDate {
-                            DatePicker("购入日期", selection: Binding(
+                            DatePicker("获得日期", selection: Binding(
                                 get: { purchaseDate ?? Date.now.addingTimeInterval(-365 * 86400) },
                                 set: { purchaseDate = $0 }
                             ), in: ...farewellDate, displayedComponents: .date)
@@ -81,7 +81,7 @@ struct AddFarewellView: View {
                         HStack(spacing: 6) {
                             Text(currencyManager.currency.symbol)
                                 .foregroundStyle(theme.secondary)
-                            TextField("购入价格（选填）", text: $purchasePriceText)
+                            TextField("价格（选填）", text: $purchasePriceText)
                                 .keyboardType(.decimalPad)
                         }
 

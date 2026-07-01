@@ -89,11 +89,11 @@ struct FarewellDetailView: View {
                 if record.purchaseDate != nil || record.purchasePrice != nil {
                     Divider()
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("购入")
+                        Text("获得")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         if let date = record.purchaseDate {
-                            Text("购于 \(date.formatted(.dateTime.year().month().day()))")
+                            Text("获得于 \(date.formatted(.dateTime.year().month().day()))")
                                 .font(.body)
                         }
                         if let price = record.purchasePrice {
@@ -338,7 +338,7 @@ struct EditFarewellView: View {
                 }
 
                 Section("更多") {
-                    Toggle("记录购入日期", isOn: Binding(
+                    Toggle("记录获得日期", isOn: Binding(
                         get: { record.purchaseDate != nil },
                         set: { newValue in
                             if newValue {
@@ -350,7 +350,7 @@ struct EditFarewellView: View {
                     ))
 
                     if record.purchaseDate != nil {
-                        DatePicker("购入日期", selection: Binding(
+                        DatePicker("获得日期", selection: Binding(
                             get: { record.purchaseDate ?? Date.now.addingTimeInterval(-365 * 86400) },
                             set: { record.purchaseDate = $0 }
                         ), in: ...record.farewellDate, displayedComponents: .date)
@@ -359,7 +359,7 @@ struct EditFarewellView: View {
                     HStack(spacing: 6) {
                         Text(currencyManager.currency.symbol)
                             .foregroundStyle(theme.secondary)
-                        TextField("购入价格（选填）", text: Binding(
+                        TextField("价格（选填）", text: Binding(
                             get: {
                                 if let price = record.purchasePrice, price > 0 {
                                     return String(format: "%.0f", price)

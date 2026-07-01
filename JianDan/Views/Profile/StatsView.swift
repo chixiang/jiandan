@@ -38,7 +38,7 @@ struct StatsView: View {
                 )
                 StatCard(
                     value: priceString(stats.totalPurchasePrice),
-                    label: String(localized: "购入总价"),
+                    label: String(localized: "总价"),
                     icon: currencyManager.currency.iconCircle
                 )
             }
