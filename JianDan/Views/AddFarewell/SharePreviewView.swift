@@ -30,6 +30,7 @@ struct SharePreviewView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: cardWidth)
                                         .shadow(color: .black.opacity(0.4), radius: 16)
+                                        .id(mode)
                                 }
                             }
                         }
