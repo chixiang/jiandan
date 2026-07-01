@@ -160,20 +160,23 @@ private struct PhotoTile: View {
     let onRemove: () -> Void
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            if let uiImage = UIImage(data: data) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fill)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        Color.clear
+            .aspectRatio(1, contentMode: .fit)
+            .overlay {
+                if let uiImage = UIImage(data: data) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                }
             }
-
-            Image(systemName: "xmark.circle.fill")
-                .font(.title3)
-                .foregroundStyle(.white, .black.opacity(0.6))
-                .padding(4)
-                .onTapGesture { onRemove() }
-        }
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .overlay(alignment: .topTrailing) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.title3)
+                    .foregroundStyle(.white, .black.opacity(0.6))
+                    .padding(4)
+                    .onTapGesture { onRemove() }
+            }
     }
 }
 
