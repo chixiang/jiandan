@@ -120,7 +120,11 @@ struct PhotoPickerSection: View {
     // MARK: - 已选状态
 
     private var filledGrid: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
+        LazyVGrid(columns: [
+            GridItem(.flexible(), spacing: 8),
+            GridItem(.flexible(), spacing: 8),
+            GridItem(.flexible())
+        ], spacing: 8) {
             ForEach(items) { item in
                 PhotoTile(data: item.data, onRemove: {
                     items.removeAll { $0.id == item.id }
