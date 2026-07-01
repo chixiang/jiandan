@@ -384,7 +384,7 @@ struct EditFarewellView: View {
                 }
 
                 Section("告别留言") {
-                    TextField("写一段话给它", text: Binding(
+                    TextField("写一段话给它（选填）", text: Binding(
                         get: { record.farewellLetter ?? "" },
                         set: { record.farewellLetter = $0.isEmpty ? nil : $0 }
                     ), axis: .vertical)
