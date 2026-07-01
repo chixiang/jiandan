@@ -387,7 +387,11 @@ enum FarewellImageGenerator {
 
         let renderer = ImageRenderer(content: view)
         renderer.scale = 3.0
-        return renderer.uiImage
+        guard let uiImage = renderer.uiImage else { return nil }
+        let opaque = UIGraphicsImageRenderer(size: uiImage.size).image { _ in
+            uiImage.draw(at: .zero)
+        }
+        return opaque
     }
 
     private static func currentLanguage() -> AppLanguage {
