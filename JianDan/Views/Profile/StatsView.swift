@@ -184,9 +184,13 @@ private struct BreakdownRow: View {
     var body: some View {
         HStack(spacing: 12) {
             HStack(spacing: 6) {
-                Image(systemName: icon ?? "")
-                    .frame(width: 16)
-                    .opacity(icon == nil ? 0 : 1)
+                if let iconName = icon {
+                    Image(systemName: iconName)
+                        .frame(width: 16)
+                } else {
+                    Color.clear
+                        .frame(width: 16)
+                }
                 Text(label)
                     .lineLimit(1)
             }
