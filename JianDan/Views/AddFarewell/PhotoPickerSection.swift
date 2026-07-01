@@ -142,8 +142,7 @@ struct PhotoPickerSection: View {
                         Text("添加")
                             .font(.caption)
                     }
-                    .frame(maxWidth: .infinity)
-                    .aspectRatio(1, contentMode: .fit)
+                    .frame(width: 60, height: 60)
                     .background(.regularMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
