@@ -56,12 +56,7 @@ struct JianDanApp: App {
     static func seedTestDataIfNeeded(context: ModelContext) {
         guard ProcessInfo.processInfo.arguments.contains("-seedTestData") else { return }
         let importer = DataImporter(context: context)
-        let result = importer.importSampleRecords()
-        if let err = result.error {
-            print("[SeedData] 导入失败: \(err)")
-        } else {
-            print("[SeedData] 已导入 \(result.imported) 条，跳过 \(result.skipped) 条")
-        }
+        _ = importer.importSampleRecords()
     }
 
     /// UI 测试可注入短文：用 launch arg `-splashQuoteId <id>` 锁定指定 id 的短文

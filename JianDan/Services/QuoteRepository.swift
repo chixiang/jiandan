@@ -67,7 +67,6 @@ final class QuoteRepository {
             forResource: Self.jsonResourceName,
             withExtension: Self.jsonResourceExtension
         ) else {
-            print("[QuoteRepository] JSON file not found in bundle: \(Self.jsonResourceName).\(Self.jsonResourceExtension)")
             return []
         }
 
@@ -81,8 +80,6 @@ final class QuoteRepository {
                 else {
                     return nil
                 }
-                // Wisdom.init 用 precondition；JSON 端已清洗到非空字段
-                // 长度上限由 JSON 作者保证（仓库信任内置资源）
                 return Wisdom(
                     id: entry.id,
                     text: entry.text,
@@ -95,7 +92,6 @@ final class QuoteRepository {
                 )
             }
         } catch {
-            print("[QuoteRepository] Failed to decode JSON: \(error)")
             return []
         }
     }

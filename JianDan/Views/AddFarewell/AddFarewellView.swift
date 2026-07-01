@@ -181,7 +181,6 @@ struct AddFarewellView: View {
                 let filename = try ImageStore.save(photo.data)
                 savedFilenames.append(filename)
             } catch {
-                print("ImageStore save failed: \(error)")
             }
         }
 
@@ -192,7 +191,6 @@ struct AddFarewellView: View {
                     let filename = try ImageStore.save(data)
                     savedFilenames.append(filename)
                 } catch {
-                    print("Placeholder save failed: \(error)")
                 }
             }
         }
@@ -231,7 +229,6 @@ struct AddFarewellView: View {
                 }
             }
         } catch {
-            print("Save failed: \(error)")
         }
     }
 

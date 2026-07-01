@@ -229,7 +229,6 @@ struct FarewellDetailView: View {
             try RecordDeleter.delete(record, in: modelContext)
             dismiss()
         } catch {
-            print("Delete failed: \(error)")
         }
     }
 
@@ -495,7 +494,6 @@ struct EditFarewellView: View {
             try EditFarewellSaver.save(record, in: modelContext)
             dismiss()
         } catch {
-            print("Edit save failed: \(error)")
         }
     }
 }

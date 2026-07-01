@@ -38,34 +38,24 @@ struct PhotoPickerSection: View {
             }
         }
         .onChange(of: selectedItems) { _, newItems in
-            print("[PhotoPicker] 📸 selectedItems changed: \(newItems.count) items")
             Task {
                 var newItemsData: [PhotoItem] = []
                 for item in newItems {
                     if let data = try? await item.loadTransferable(type: Data.self) {
                         newItemsData.append(PhotoItem(data: data))
-                        print("[PhotoPicker] ⬇️ loaded photo: \(newItemsData.last!.id)")
-                    } else {
-                        print("[PhotoPicker] ⚠️ load failed for item")
                     }
                 }
                 await MainActor.run {
                     items.append(contentsOf: newItemsData)
-                    print("[PhotoPicker] ✅ appended \(newItemsData.count) photos, total=\(items.count)")
                     selectedItems = []
-                    print("[PhotoPicker] 🔄 selectedItems reset to []")
                 }
             }
         }
         .fullScreenCover(isPresented: $showCamera) {
             CameraPicker { data in
-                print("[PhotoPicker] 📷 camera captured, items.count=\(items.count), max=\(maxCount)")
                 if items.count < maxCount {
                     let newItem = PhotoItem(data: data)
                     items.append(newItem)
-                    print("[PhotoPicker] ✅ camera photo added: id=\(newItem.id), total=\(items.count)")
-                } else {
-                    print("[PhotoPicker] ⚠️ camera ignored: max reached")
                 }
             }
             .ignoresSafeArea()
@@ -130,13 +120,10 @@ struct PhotoPickerSection: View {
     // MARK: - 已选状态
 
     private var filledGrid: some View {
-        let _ = print("[PhotoPicker] 🖼️ filledGrid render: count=\(items.count), ids=\(items.map(\.id))")
-        return LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
             ForEach(items) { item in
                 PhotoTile(data: item.data, onRemove: {
-                    print("[PhotoPicker] 🗑️ delete start: id=\(item.id), count=\(items.count), allIDs=\(items.map(\.id))")
                     items.removeAll { $0.id == item.id }
-                    print("[PhotoPicker] ✅ delete done: count=\(items.count)")
                 })
             }
             if items.count < maxCount {
