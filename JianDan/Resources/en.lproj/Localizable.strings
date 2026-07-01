@@ -64,6 +64,7 @@
 "8 条样本" = "8 sample records";
 "陪伴了 %lld 天" = "Companionship: %lld days";
 "陪伴 %lld 天" = "%lld days";
+"陪伴我 %lld 天" = "With me for %lld days";
 "购于 %@" = "Purchased %@";
 "更新于 %@" = "Updated %@";
 "记录于 %@" = "Created %@";

@@ -112,7 +112,7 @@ struct RemembranceView: View {
                     .font(.caption)
                     if let days = item.companionshipDays {
                         Text("·")
-                        Text("陪伴 \(days) 天")
+                        Text("陪伴我 \(days) 天")
                             .font(.caption)
                     }
                 }
