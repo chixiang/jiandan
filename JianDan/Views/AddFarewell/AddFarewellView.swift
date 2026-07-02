@@ -17,7 +17,7 @@ struct AddFarewellView: View {
     @State private var method: FarewellMethod = .donate
     @State private var farewellDate: Date = .now
     @State private var purchaseDate: Date? = nil
-    @State private var purchasePriceText: String = ""
+    @State private var purchasePrice: Double? = nil
     @State private var recipientDetail: String = ""
     @State private var farewellLetter: String = ""
     @State private var emotionValue: Int? = nil
@@ -78,12 +78,7 @@ struct AddFarewellView: View {
                             ), in: ...farewellDate, displayedComponents: .date)
                         }
 
-                        HStack(spacing: 6) {
-                            Text(currencyManager.currency.symbol)
-                                .foregroundStyle(theme.secondary)
-                            TextField("价格（选填）", text: $purchasePriceText)
-                                .keyboardType(.decimalPad)
-                        }
+                        PriceInputView(price: $purchasePrice, symbol: currencyManager.currency.symbol)
 
                         EmotionStarsView(value: $emotionValue)
                     }
@@ -195,7 +190,6 @@ struct AddFarewellView: View {
             }
         }
 
-        let price = Double(purchasePriceText)
         let record = FarewellRecord(
             name: trimmedName,
             category: category,
@@ -204,7 +198,7 @@ struct AddFarewellView: View {
             photoFilenames: savedFilenames
         )
         record.purchaseDate = purchaseDate
-        record.purchasePrice = (price ?? 0) > 0 ? price : nil
+        record.purchasePrice = purchasePrice
         record.emotionValue = emotionValue
         record.recipientDetail = recipientDetail.isEmpty ? nil : recipientDetail
         record.farewellLetter = farewellLetter.isEmpty ? nil : farewellLetter

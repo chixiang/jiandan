@@ -18,6 +18,7 @@
 		288710547798C8DF86143CCD /* QuoteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5707BFE98662FEDB681AC732 /* QuoteRepository.swift */; };
 		2E508AC5FBF9E6A67D6A4574 /* FarewellCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8FCD077678E9390B716892 /* FarewellCardView.swift */; };
 		343A8F732E1FA38AB7285DFA /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB68B3D4F4079460C6C4CA5 /* AppColors.swift */; };
+		39ED5FEF4196749DDE8A5066 /* PriceInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93174AF13D308030FE5B1BB4 /* PriceInputView.swift */; };
 		3AE204AF3BD642F6E26321DA /* daily_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F751EEA74965384BB7428FF /* daily_quotes.json */; };
 		3C2A753FDBD8CE6F6CA715C2 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53494900FAC687ED7FCEAAD2 /* Currency.swift */; };
 		432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8F4526A17982744B455D11 /* ProfileView.swift */; };
@@ -164,6 +165,7 @@
 		896B1E52A2AB8C4B2F35E5F4 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8C1244719ED29A3502A40DD4 /* ImageStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStoreTests.swift; sourceTree = "<group>"; };
 		8FBC91255D9A175AAB537393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		93174AF13D308030FE5B1BB4 /* PriceInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInputView.swift; sourceTree = "<group>"; };
 		953BE81A83D14FA4885D6EC6 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		9B8FCD077678E9390B716892 /* FarewellCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellCardView.swift; sourceTree = "<group>"; };
 		9C7A5B2D4756F6443DF04E00 /* StatsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculator.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */,
 				5C6DD2FFBF32B06E4BB63605 /* NewCategorySheet.swift */,
 				315FD98085A1654860A02556 /* PhotoPickerSection.swift */,
+				93174AF13D308030FE5B1BB4 /* PriceInputView.swift */,
 				19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */,
 				19F95690CDC8F8F866CABEFC /* ShareSheet.swift */,
 			);
@@ -659,6 +662,7 @@
 				5E3EEC3B819F26C81EFDFE61 /* PhotoCarouselView.swift in Sources */,
 				129C3445F14098B47F0DFE41 /* PhotoPickerSection.swift in Sources */,
 				966EFDED469F08924E0B9D13 /* PhotoThumbView.swift in Sources */,
+				39ED5FEF4196749DDE8A5066 /* PriceInputView.swift in Sources */,
 				432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */,
 				288710547798C8DF86143CCD /* QuoteRepository.swift in Sources */,
 				B6F5BF0A413029B2880415E8 /* RandomSource.swift in Sources */,

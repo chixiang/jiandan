@@ -100,7 +100,7 @@ struct FarewellDetailView: View {
                             HStack(spacing: 4) {
                                 Image(systemName: currencyManager.currency.icon)
                                     .foregroundStyle(.secondary)
-                                Text(price, format: .number.precision(.fractionLength(0)))
+                                Text(price, format: .number.precision(.fractionLength(2)))
                             }
                             .font(.body)
                         }
@@ -355,26 +355,13 @@ struct EditFarewellView: View {
                         ), in: ...record.farewellDate, displayedComponents: .date)
                     }
 
-                    HStack(spacing: 6) {
-                        Text(currencyManager.currency.symbol)
-                            .foregroundStyle(theme.secondary)
-                        TextField("价格（选填）", text: Binding(
-                            get: {
-                                if let price = record.purchasePrice, price > 0 {
-                                    return String(format: "%.0f", price)
-                                }
-                                return ""
-                            },
-                            set: { newValue in
-                                if let price = Double(newValue), price > 0 {
-                                    record.purchasePrice = price
-                                } else {
-                                    record.purchasePrice = nil
-                                }
-                            }
-                        ))
-                        .keyboardType(.decimalPad)
-                    }
+                    PriceInputView(
+                        price: Binding(
+                            get: { record.purchasePrice },
+                            set: { record.purchasePrice = $0 }
+                        ),
+                        symbol: currencyManager.currency.symbol
+                    )
 
                     EmotionStarsView(value: Binding(
                         get: { record.emotionValue },

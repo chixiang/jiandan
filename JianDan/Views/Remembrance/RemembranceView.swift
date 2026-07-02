@@ -123,7 +123,7 @@ struct RemembranceView: View {
                     pill(item.category.displayName, icon: item.category.iconName)
                     pill(item.method.localizedName, icon: item.method.icon)
                     if let price = item.purchasePrice, price > 0 {
-                        pill(String(format: "%.0f", price), icon: currencyManager.currency.icon)
+                        pill(String(format: "%.2f", price), icon: currencyManager.currency.icon)
                     }
                 }
 
