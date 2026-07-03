@@ -152,6 +152,59 @@ struct SettingsView: View {
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
                     }
+
+                    // 关于
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("关于")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
+                            .tracking(2)
+                            .padding(.horizontal, 4)
+
+                        VStack(spacing: 0) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "info.circle")
+                                    .font(.subheadline)
+                                    .foregroundStyle(theme.accent)
+                                    .frame(width: 24)
+                                Text("应用")
+                                    .font(AppTypography.body)
+                                    .foregroundStyle(theme.primaryText)
+                                Spacer()
+                                Text("app_display_name")
+                                    .font(AppTypography.body)
+                                    .foregroundStyle(theme.secondary)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 14)
+
+                            Divider()
+                                .background(theme.divider)
+                                .padding(.leading, 52)
+
+                            HStack(spacing: 12) {
+                                Image(systemName: "tag")
+                                    .font(.subheadline)
+                                    .foregroundStyle(theme.accent)
+                                    .frame(width: 24)
+                                Text("版本")
+                                    .font(AppTypography.body)
+                                    .foregroundStyle(theme.primaryText)
+                                Spacer()
+                                Text(versionString)
+                                    .font(AppTypography.body)
+                                    .foregroundStyle(theme.secondary)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 14)
+                        }
+                        .background(theme.cardBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(theme.divider, lineWidth: 0.5)
+                        )
+                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
@@ -173,6 +226,12 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+}
+
+private extension SettingsView {
+    var versionString: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
 }
 
