@@ -1,12 +1,13 @@
 import SwiftUI
 
-/// 开屏短文协调器：管理「可见性 + 计时 + 跳过」三件事
+/// 开屏短文协调器：管理「可见性 + 计时 + 跳过 + 进度」四件事
 ///
 /// 设计原则：
 /// - **冷启动触发**：进程启动时由 `JianDanApp` 注入 `quote` 后立即开始展示
 /// - **5 秒自动淡出**：使用 SwiftUI `.task(id:)` 配合 sleep 实现，超时可跳过
 /// - **点击任意位置立即淡出**：蒙层透明 Button 覆盖在最顶层
 /// - **重复启动不重置**：淡出后即便 quote 变化也不再展示（避免动画反复触发）
+/// - **倒计时进度**：通过 `remainingFraction` 暴露 1.0→0.0 进度，供 UI 层展示环形指示器
 ///
 /// 状态机：
 /// - `isVisible = true` → 显示，5s 计时开始
@@ -25,16 +26,49 @@ final class SplashCoordinator {
     /// 自动淡出秒数（默认 5s；测试可注入更短的值）
     let autoDismissSeconds: TimeInterval
 
+    /// 已流逝秒数（从 init 开始累加，用于进度指示器）
+    private(set) var elapsed: TimeInterval = 0
+
+    /// 剩余比例 1.0→0.0（给 UI 层做环形进度条使用）
+    var remainingFraction: Double {
+        max(0, 1 - elapsed / max(autoDismissSeconds, 1))
+    }
+
+    /// 驱动 `elapsed` 递增的计时器（精确到 ~50ms）
+    @ObservationIgnored
+    private var progressTimer: Timer?
+
     init(quote: Wisdom, autoDismissSeconds: TimeInterval = 5.0) {
         self.quote = quote
         self.autoDismissSeconds = autoDismissSeconds
         self.isVisible = true
+        startProgressTimer()
+    }
+
+    deinit {
+        progressTimer?.invalidate()
     }
 
     /// 外部调用：跳过开屏（点击 / 自动倒计时结束都会调这个）
     func dismiss() {
         guard isVisible else { return }
         isVisible = false
+        progressTimer?.invalidate()
+        progressTimer = nil
+    }
+
+    // MARK: - Private
+
+    /// 启动一个 ~50ms 间隔的 Timer 在主线程累加 `elapsed`
+    /// 每次累加触发 `@Observable` 更新，驱动 UI 层进度条重绘。
+    private func startProgressTimer() {
+        progressTimer = Timer.scheduledTimer(
+            withTimeInterval: 0.05,
+            repeats: true
+        ) { [weak self] _ in
+            guard let self, self.isVisible else { return }
+            self.elapsed += 0.05
+        }
     }
 }
 
@@ -70,7 +104,11 @@ struct SplashContainer<Content: View>: View {
         content()
             .overlay {
                 if let coordinator, coordinator.isVisible {
-                    SplashQuoteView(quote: coordinator.quote, language: languageManager.language)
+                    SplashQuoteView(
+                        quote: coordinator.quote,
+                        language: languageManager.language,
+                        remainingFraction: coordinator.remainingFraction
+                    )
                         .transition(.opacity)
                         // 点击 splash 时立即 dismiss；只有 splash 可见时拦截 tap
                         // —— splash 不可见后不再挂 .onTapGesture，让 NavigationLink
