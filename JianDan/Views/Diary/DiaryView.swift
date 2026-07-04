@@ -163,6 +163,7 @@ struct DiaryView: View {
                 AddFarewellView()
             }
             .sensoryFeedback(.impact(weight: .light), trigger: sortKey)
+            .sensoryFeedback(.selection, trigger: isSearching)
         }
     }
 }
@@ -172,6 +173,7 @@ struct DiaryView: View {
 private struct DiaryListView: View {
     @Environment(\.appTheme) private var theme
     @Query private var records: [FarewellRecord]
+    @State private var hasAppeared = false
     let selectedCategoryIDs: Set<String>
     let selectedMethods: Set<String>
     let selectedEmotions: Set<Int>
@@ -249,6 +251,13 @@ private struct DiaryListView: View {
                                 }
                                 .buttonStyle(.plain)
                                 .environment(\.heroNamespace, heroNamespace)
+                                .opacity(hasAppeared ? 1 : 0)
+                                .scaleEffect(hasAppeared ? 1 : 0.95)
+                                .animation(
+                                    .spring(response: 0.4, dampingFraction: 0.85)
+                                        .delay(Double(index) * 0.04),
+                                    value: hasAppeared
+                                )
                                 .scrollTransition { content, phase in
                                     content
                                         .opacity(phase.isIdentity ? 1 : 0.85)
@@ -260,6 +269,11 @@ private struct DiaryListView: View {
                         .padding(.vertical, 8)
                     }
                     .scrollIndicators(.hidden)
+                    .onAppear {
+                        withAnimation {
+                            hasAppeared = true
+                        }
+                    }
                 }
             }
         }

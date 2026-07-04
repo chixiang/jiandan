@@ -177,7 +177,8 @@ private struct PhotoTile: View {
             .aspectRatio(1, contentMode: .fit)
             .overlay {
                 if isLoading {
-                    ProgressView()
+                    Color.gray.opacity(0.15)
+                        .shimmer()
                 } else if let uiImage = UIImage(data: data) {
                     Image(uiImage: uiImage)
                         .resizable()

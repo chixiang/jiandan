@@ -199,6 +199,7 @@ private struct FilterChip: View {
             .clipShape(Capsule())
         }
         .buttonStyle(.plain)
+        .sensoryFeedback(.selection, trigger: isSelected)
     }
 }
 
