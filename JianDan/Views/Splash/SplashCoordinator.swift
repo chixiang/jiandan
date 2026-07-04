@@ -86,6 +86,10 @@ final class SplashCoordinator {
 /// - `coordinator != nil`：透明度 0→1 入场（0.4s），5s 后或被点击后 1→0 出场（0.4s）
 /// - 出场动画完成后，整体从 hierarchy 卸载（避免遮挡 Tab 交互）
 ///
+/// 回调：
+/// - `onDismiss`：在 splash 真正消失时（点击 dismiss / 自动倒计时结束 / 从未展示）触发一次，
+///   让下游（如 DiaryView 的 stagger 入场）等待合适时机再开始。
+///
 /// 设计注意：
 /// - 直接读取传入的 `coordinator`（不内部 State 化），因为父视图的 `@State` 在 body
 ///   第一次求值时是 nil。如果容器用 State 镜像初始值，后续父视图变化不会传进来。
@@ -93,10 +97,16 @@ final class SplashCoordinator {
 struct SplashContainer<Content: View>: View {
     @Environment(LanguageManager.self) private var languageManager
     let coordinator: SplashCoordinator?
+    var onDismiss: () -> Void = {}
     @ViewBuilder var content: () -> Content
 
-    init(coordinator: SplashCoordinator?, @ViewBuilder content: @escaping () -> Content) {
+    init(
+        coordinator: SplashCoordinator?,
+        onDismiss: @escaping () -> Void = {},
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.coordinator = coordinator
+        self.onDismiss = onDismiss
         self.content = content
     }
 
@@ -115,6 +125,7 @@ struct SplashContainer<Content: View>: View {
                         // 等内层 hit test 正常命中。
                         .onTapGesture {
                             coordinator.dismiss()
+                            onDismiss()
                         }
                         .task(id: ObjectIdentifier(coordinator)) {
                             // 每个 coordinator 实例只跑一次倒计时
@@ -124,7 +135,14 @@ struct SplashContainer<Content: View>: View {
                                 nanoseconds: UInt64(coordinator.autoDismissSeconds * 1_000_000_000)
                             )
                             coordinator.dismiss()
+                            onDismiss()
                         }
+                } else {
+                    // 无 splash（-disableSplash）或已 dismiss 后：
+                    // 触发一次 onDismiss 让下游不等。
+                    // onAppear 在此条件稳定期间只触发一次，不会重复。
+                    Color.clear
+                        .onAppear { onDismiss() }
                 }
             }
             .animation(.spring(response: 0.35, dampingFraction: 0.9), value: coordinator?.isVisible)

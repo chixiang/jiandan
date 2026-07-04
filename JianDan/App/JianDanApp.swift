@@ -16,6 +16,10 @@ struct JianDanApp: App {
     /// 声明时立即初始化，确保 body 首次渲染时 coordinator 已就位，避免列表画面先闪现。
     @State private var splashCoordinator: SplashCoordinator? = Self.makeSplashCoordinator()
 
+    /// Splash 结束信号：被 SplashContainer 的 `onDismiss` 翻转，
+    /// 下游（如 DiaryView 的 staggered fade-in）通过 `.task(id:)` 订阅。
+    @State private var splashSignal = SplashSignal()
+
     /// 启动时检测 launch arguments；UI 测试可通过 `-resetStore` 清空 SwiftData store，
     /// 或 `-resetUserDefaults` 清空 UserDefaults（包括主题选择等持久化状态）。
     private static func shouldResetStore() -> Bool {
@@ -93,12 +97,16 @@ struct JianDanApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SplashContainer(coordinator: splashCoordinator) {
+            SplashContainer(
+                coordinator: splashCoordinator,
+                onDismiss: { splashSignal.didDismiss = true }
+            ) {
                 RootTabView()
                     .appTheme(themeManager.mode)
                     .environment(themeManager)
                     .environment(currencyManager)
             }
+            .environment(splashSignal)
             .environment(languageManager)
         }
         .modelContainer(for: [FarewellRecord.self, UserCategory.self])

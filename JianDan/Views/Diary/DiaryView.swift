@@ -172,7 +172,9 @@ struct DiaryView: View {
 
 private struct DiaryListView: View {
     @Environment(\.appTheme) private var theme
+    @Environment(SplashSignal.self) private var splashSignal
     @Query private var records: [FarewellRecord]
+    @State private var didEnter = false
     let selectedCategoryIDs: Set<String>
     let selectedMethods: Set<String>
     let selectedEmotions: Set<Int>
@@ -244,12 +246,19 @@ private struct DiaryListView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: .listItemSpacing) {
-                            ForEach(displayedRecords, id: \.id) { record in
+                            ForEach(Array(displayedRecords.enumerated()), id: \.element.id) { index, record in
                                 NavigationLink(value: record) {
                                     FarewellCardView(record: record)
                                 }
                                 .buttonStyle(PressScaleButtonStyle())
                                 .environment(\.heroNamespace, heroNamespace)
+                                .opacity(didEnter ? 1 : 0)
+                                .scaleEffect(didEnter ? 1 : 0.96)
+                                .animation(
+                                    .spring(response: 0.5, dampingFraction: 0.8)
+                                        .delay(Double(index) * 0.06),
+                                    value: didEnter
+                                )
                                 .transition(.asymmetric(
                                     insertion: .move(edge: .bottom).combined(with: .opacity),
                                     removal: .opacity.combined(with: .scale(scale: 0.96))
@@ -266,6 +275,13 @@ private struct DiaryListView: View {
                     }
                     .scrollIndicators(.hidden)
                     .animation(.spring(response: 0.5, dampingFraction: 0.8), value: displayedRecords.map(\.id))
+                    .task(id: splashSignal.didDismiss) {
+                        if splashSignal.didDismiss {
+                            withAnimation(.linear(duration: 0.2)) {
+                                didEnter = true
+                            }
+                        }
+                    }
                 }
             }
         }

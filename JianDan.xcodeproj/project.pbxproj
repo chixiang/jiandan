@@ -49,6 +49,7 @@
 		755AC1BA250516FF6A2BC3A1 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F572DC358EF97BE079D35690 /* StatsView.swift */; };
 		76EEF45DF3E8704C6F324925 /* DataImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF65B8444AA069C0674633 /* DataImporter.swift */; };
 		7C9C8DEE7BC5DBDD45FDB7C9 /* FarewellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8219FA361E37E6D1FF2EAAE8 /* FarewellDetailView.swift */; };
+		80A5EA1E7278F1F038F0CC5B /* SplashSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213D1E39B6D19CFFEDDC3FA4 /* SplashSignal.swift */; };
 		833176EEBED53483C1CFB099 /* AddFarewellValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9768E2C59E1A3862EBFD78 /* AddFarewellValidator.swift */; };
 		890FC4F0258F39243567F303 /* MethodPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */; };
 		8969BBF985D0CB1833233819 /* SplashQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D0E40B76735BC947EDB60 /* SplashQuoteView.swift */; };
@@ -124,6 +125,7 @@
 		19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePreviewView.swift; sourceTree = "<group>"; };
 		19F95690CDC8F8F866CABEFC /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		2029782CE9E44F5A7D36E945 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		213D1E39B6D19CFFEDDC3FA4 /* SplashSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashSignal.swift; sourceTree = "<group>"; };
 		215CC86D5E1D25181A78747C /* WisdomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomTests.swift; sourceTree = "<group>"; };
 		2331AF26202D599EC5D36C4A /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
 		2784CD7FE36FCEA935CA5A40 /* JianDanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JianDanUITests.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				5707BFE98662FEDB681AC732 /* QuoteRepository.swift */,
 				3641D28CD7043ECADF9EF4F9 /* RandomSource.swift */,
 				612AFBA9F7DF1593D7F59626 /* RecordDeleter.swift */,
+				213D1E39B6D19CFFEDDC3FA4 /* SplashSignal.swift */,
 				9C7A5B2D4756F6443DF04E00 /* StatsCalculator.swift */,
 				F97A802DEEFF748A880F9068 /* ThemeManager.swift */,
 			);
@@ -690,6 +693,7 @@
 				902CCEC2683401339A4BAF8C /* ShimmerModifier.swift in Sources */,
 				ABF18B5080D84A0730A97178 /* SplashCoordinator.swift in Sources */,
 				8969BBF985D0CB1833233819 /* SplashQuoteView.swift in Sources */,
+				80A5EA1E7278F1F038F0CC5B /* SplashSignal.swift in Sources */,
 				4CF125A0F526B99CFA6D81E6 /* StatsCalculator.swift in Sources */,
 				755AC1BA250516FF6A2BC3A1 /* StatsView.swift in Sources */,
 				62E402B2A4F658262B879FA5 /* ThemeManager.swift in Sources */,
