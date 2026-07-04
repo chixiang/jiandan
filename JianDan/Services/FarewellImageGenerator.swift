@@ -43,257 +43,110 @@ struct CardTheme {
     }
 }
 
-// MARK: - Card View
+// MARK: - Polaroid Card View
 
 struct FarewellShareCard: View {
     let name: String
-    let categoryDisplayName: String
-    let methodDisplayName: String
-    let farewellDate: Date
-    let purchaseDate: Date?
     let companionshipDays: Int?
-    let emotionValue: Int?
     let farewellLetter: String?
     let photoImage: UIImage?
-    let theme: CardTheme
-    let cardSize: CGSize
-    let hasRealPhoto: Bool
 
-    private var shouldUseLandscapeBody: Bool {
-        guard let img = photoImage else { return false }
-        return !hasRealPhoto || img.size.height > img.size.width
+    // Polaroid white card — hardcoded
+    private let cardBg = Color.white
+    private let textPrimary = Color(red: 0.24, green: 0.24, blue: 0.24)
+    private let textSecondary = Color(red: 0.54, green: 0.54, blue: 0.54)
+    private let divider = Color(red: 0.90, green: 0.88, blue: 0.85)
+    private let cardW: CGFloat = 360
+    private let cardH: CGFloat = 540
+
+    private var isPhotoLandscape: Bool {
+        guard let img = photoImage else { return true }
+        return img.size.width > img.size.height
+    }
+
+    private var photoSideMargin: CGFloat { cardW * 0.05 }
+    private var photoTopMargin: CGFloat { photoSideMargin + (isPhotoLandscape ? 16 : 0) }
+    private var photoW: CGFloat { cardW - photoSideMargin * 2 }
+    private var photoH: CGFloat {
+        isPhotoLandscape ? photoW * 3 / 4 : min(photoW * 4 / 3, cardH * 0.65)
     }
 
     var body: some View {
-        Group {
-            if shouldUseLandscapeBody, let img = photoImage {
-                landscapeBody(photo: img)
-            } else {
-                portraitBody
-            }
-        }
-        .overlay(matBorder)
-    }
-
-    // MARK: - Landscape (585×390, photo left + text right)
-
-    private func landscapeBody(photo: UIImage) -> some View {
-        HStack(spacing: 0) {
-            Image(uiImage: photo)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: 240, maxHeight: 310)
-                .shadow(color: theme.textPrimary.opacity(0.08), radius: 8, x: 0, y: 4)
-                .padding(.leading, 28)
-                .padding(.trailing, 12)
-
-            Spacer(minLength: 0)
-
-            VStack(alignment: .leading, spacing: 0) {
-                Text(name)
-                    .font(AppTypography.title.font)
-                    .foregroundStyle(theme.textPrimary)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Color.clear.frame(height: 10)
-
-                tagsText
-
-                infoText
-                    .padding(.top, 4)
-
-                if let value = emotionValue {
-                    emotionDots(value: value)
-                        .padding(.top, 6)
-                }
-
-                if let letter = farewellLetter, !letter.isEmpty {
-                    hairline
-                        .padding(.vertical, 16)
-
-                    letterView(letter: letter)
-                }
-
-                Spacer(minLength: 0)
-
-                hairline
-
-                footerView
-                    .padding(.top, 4)
-                    .padding(.bottom, 28)
-            }
-            .padding(.leading, 24)
-            .padding(.trailing, 28)
-            .padding(.top, 48)
-        }
-        .frame(width: cardSize.width, height: cardSize.height)
-        .background(theme.background)
-    }
-
-    // MARK: - Portrait (390×585, centered)
-
-    @ViewBuilder
-    private var portraitBody: some View {
         VStack(spacing: 0) {
+            // Photo area
             if let img = photoImage {
                 Image(uiImage: img)
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 326, maxHeight: 240)
-                    .shadow(color: theme.textPrimary.opacity(0.08), radius: 8, x: 0, y: 4)
-                    .padding(.top, 32)
-                    .padding(.horizontal, 32)
-
-                Color.clear.frame(height: 24)
-            } else {
-                Color.clear.frame(height: 56)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: photoW, height: photoH)
+                    .clipped()
+                    .padding(.top, photoTopMargin)
+                    .padding(.horizontal, photoSideMargin)
             }
 
-            VStack(spacing: 0) {
-                Text(name)
-                    .font(AppTypography.title.font)
-                    .foregroundStyle(theme.textPrimary)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
+            // Name
+            Text(name)
+                .font(AppTypography.title.font)
+                .foregroundStyle(textPrimary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 20)
 
-                Color.clear.frame(height: 10)
-
-                tagsText
-
-                infoText
-                    .padding(.top, 4)
-
-                if let value = emotionValue {
-                    emotionDots(value: value)
-                        .padding(.top, 6)
-                }
+            // Companionship days
+            if let days = companionshipDays {
+                Text("陪伴我 \(days) 天")
+                    .font(Font.system(size: 10, weight: .light))
+                    .foregroundStyle(textSecondary)
+                    .padding(.top, 6)
             }
-            .padding(.horizontal, 32)
 
-            hairline
-                .padding(.horizontal, 32)
-                .padding(.top, 16)
-
+            // Letter
             if let letter = farewellLetter, !letter.isEmpty {
                 letterView(letter: letter)
-                    .padding(.horizontal, 32)
-                    .padding(.top, 14)
+                    .padding(.top, 12)
+                    .padding(.horizontal, 24)
             }
 
             Spacer(minLength: 0)
 
-            hairline
-                .padding(.horizontal, 32)
+            // Footer
+            divider.frame(height: 0.5)
+                .padding(.horizontal, 24)
 
-            footerView
-                .padding(.horizontal, 32)
-                .padding(.top, 4)
-                .padding(.bottom, 32)
+            HStack(alignment: .bottom) {
+                Text("告别清单 · Farewell List")
+                    .font(Font.system(size: 7, weight: .light))
+                    .tracking(2)
+                    .foregroundStyle(textSecondary.opacity(0.5))
+                Spacer()
+                Text(dateStringDot(from: .now))
+                    .font(Font.system(size: 7, weight: .light))
+                    .foregroundStyle(textSecondary.opacity(0.35))
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
         }
-        .frame(width: cardSize.width, height: cardSize.height)
-        .background(theme.background)
-    }
-
-    // MARK: - Mat Border
-
-    @ViewBuilder
-    private var matBorder: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 2)
-                .stroke(theme.divider, lineWidth: 0.5)
-                .padding(10)
-            RoundedRectangle(cornerRadius: 2)
-                .stroke(theme.divider, lineWidth: 0.5)
-                .padding(14)
-        }
-        .allowsHitTesting(false)
+        .frame(width: cardW, height: cardH)
+        .background(cardBg)
+        .clipShape(RoundedRectangle(cornerRadius: 4))
+        .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 4)
     }
 
     // MARK: - Sub-views
-
-    private var tagsText: some View {
-        HStack(spacing: 0) {
-            Text(categoryDisplayName)
-                .font(Font.system(size: 9, weight: .light, design: .default))
-                .tracking(2)
-                .foregroundStyle(theme.textSecondary)
-
-            Text("  ·  ")
-                .font(Font.system(size: 8, weight: .light))
-                .foregroundStyle(theme.textSecondary.opacity(0.4))
-
-            Text(methodDisplayName)
-                .font(Font.system(size: 9, weight: .light, design: .default))
-                .tracking(2)
-                .foregroundStyle(theme.textSecondary)
-        }
-    }
-
-    private var infoText: some View {
-        HStack(spacing: 0) {
-            if let purchase = purchaseDate {
-                Text(dateStringDot(from: purchase))
-            } else {
-                Text("某天")
-            }
-            Text(" ~ ")
-            Text(dateStringDot(from: farewellDate))
-
-            if let days = companionshipDays {
-                Text("  ·  ")
-                    .font(Font.system(size: 7))
-                    .foregroundStyle(theme.textSecondary.opacity(0.3))
-
-                Text("陪伴我 \(days) 天")
-            }
-        }
-        .font(Font.system(size: 8, weight: .light, design: .default))
-        .foregroundStyle(theme.textSecondary.opacity(0.7))
-    }
-
-    private func emotionDots(value: Int) -> some View {
-        HStack(spacing: 5) {
-            ForEach(1...3, id: \.self) { i in
-                Text(i <= value ? "●" : "○")
-                    .font(Font.system(size: 7))
-                    .foregroundStyle(i <= value ? theme.accent : theme.textSecondary.opacity(0.25))
-            }
-        }
-    }
-
-    private var hairline: some View {
-        theme.divider
-            .frame(height: 0.5)
-    }
 
     private func letterView(letter: String) -> some View {
         HStack(spacing: 0) {
             Text("\"")
                 .font(Font.system(size: 10, design: .serif).italic())
-                .foregroundStyle(theme.textSecondary.opacity(0.5))
-
+                .foregroundStyle(textSecondary.opacity(0.5))
             Text(letter.prefix(120) + (letter.count > 120 ? "…" : ""))
                 .font(Font.system(size: 10, design: .serif).italic())
-                .foregroundStyle(theme.textSecondary)
+                .foregroundStyle(textSecondary)
                 .lineLimit(2)
                 .lineSpacing(4)
-
             Text("\"")
                 .font(Font.system(size: 10, design: .serif).italic())
-                .foregroundStyle(theme.textSecondary.opacity(0.5))
-        }
-    }
-
-    private var footerView: some View {
-        VStack(spacing: 4) {
-            Text("告别清单 · Farewell List")
-                .font(Font.system(size: 7, weight: .light, design: .default))
-                .tracking(2)
-                .foregroundStyle(theme.textSecondary.opacity(0.5))
-
-            Text(dateStringDot(from: .now))
-                .font(Font.system(size: 7, weight: .light, design: .default))
-                .foregroundStyle(theme.textSecondary.opacity(0.35))
+                .foregroundStyle(textSecondary.opacity(0.5))
         }
     }
 
@@ -353,13 +206,8 @@ enum FarewellImageGenerator {
         }()
 
         let photoImage: UIImage?
-        let cardSize: CGSize
-
         if let img = realPhoto {
             photoImage = img
-            cardSize = img.size.height > img.size.width
-                ? CGSize(width: 585, height: 390)
-                : CGSize(width: 390, height: 585)
         } else {
             let repo = QuoteRepository()
             let quote = repo.randomQuote()
@@ -367,22 +215,13 @@ enum FarewellImageGenerator {
             let text = quote?.localizedText(for: lang) ?? ""
             let attribution = quote?.localizedAttribution(for: lang) ?? ""
             photoImage = Self.generatePlaceholderImage(text: text, attribution: attribution, theme: theme)
-            cardSize = CGSize(width: 585, height: 390)
         }
 
         let view = FarewellShareCard(
             name: record.name,
-            categoryDisplayName: record.category.displayName,
-            methodDisplayName: record.method.localizedName,
-            farewellDate: record.farewellDate,
-            purchaseDate: record.purchaseDate,
             companionshipDays: record.companionshipDays,
-            emotionValue: record.emotionValue,
             farewellLetter: record.farewellLetter,
-            photoImage: photoImage,
-            theme: theme,
-            cardSize: cardSize,
-            hasRealPhoto: realPhoto != nil
+            photoImage: photoImage
         )
 
         let renderer = ImageRenderer(content: view)

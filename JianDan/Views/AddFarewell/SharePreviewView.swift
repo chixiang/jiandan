@@ -4,52 +4,30 @@ struct SharePreviewView: View {
     let record: FarewellRecord
     let onClose: () -> Void
 
-    @State private var selectedTheme: AppThemeMode? = .light
-    @State private var cachedImages: [AppThemeMode: UIImage] = [:]
+    @Environment(\.appTheme) private var theme
+
+    @State private var polaroidImage: UIImage? = nil
     @State private var isReady = false
     @State private var toastMessage: String?
-    @State private var showPreviewShare = false
-    @State private var shareImage: UIImage?
+    @State private var showSystemShare = false
+
+    private let cardSize = CGSize(width: 360, height: 540)
 
     var body: some View {
         ZStack {
-            Rectangle()
-                .fill(.thickMaterial)
+            theme.background.opacity(0.95)
                 .ignoresSafeArea()
                 .onTapGesture { onClose() }
 
-            if isReady {
-                VStack(spacing: 12) {
+            if isReady, let image = polaroidImage {
+                VStack(spacing: 16) {
                     Spacer()
 
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 8) {
-                            ForEach(AppThemeMode.allCases) { mode in
-                                if let image = cachedImages[mode] {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: cardWidth)
-                                        .shadow(color: .black.opacity(0.4), radius: 16)
-                                        .id(mode)
-                                }
-                            }
-                        }
-                        .scrollTargetLayout()
-                    }
-                    .scrollClipDisabled()
-                    .contentMargins(.horizontal, (UIScreen.main.bounds.width - cardWidth) / 2, for: .scrollContent)
-                    .scrollTargetBehavior(.viewAligned)
-                    .scrollPosition(id: $selectedTheme)
-                    .frame(height: previewHeight)
-
-                    HStack(spacing: 8) {
-                        ForEach(AppThemeMode.allCases) { mode in
-                            Circle()
-                                .fill(selectedTheme == mode ? .white : .white.opacity(0.4))
-                                .frame(width: 6, height: 6)
-                        }
-                    }
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: displayWidth)
+                        .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 8)
 
                     Spacer()
 
@@ -60,13 +38,13 @@ struct SharePreviewView: View {
 
                     Button(String(localized: "关闭"), role: .cancel) { onClose() }
                         .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.6))
+                        .foregroundStyle(theme.secondary)
                         .padding(.top, 4)
                 }
                 .padding(.vertical, 60)
             } else {
                 ProgressView()
-                    .tint(.white)
+                    .tint(theme.accent)
             }
 
             if let toast = toastMessage {
@@ -85,30 +63,24 @@ struct SharePreviewView: View {
                 .zIndex(2)
             }
         }
-        .onAppear(perform: generateImages)
-        .sheet(isPresented: $showPreviewShare) {
-            if let image = shareImage {
+        .onAppear(perform: generateImage)
+        .sheet(isPresented: $showSystemShare) {
+            if let image = polaroidImage {
                 ShareSheet(items: [image])
             }
         }
     }
 
-    private var cardWidth: CGFloat {
-        UIScreen.main.bounds.width * 0.88
-    }
-
-    private var previewHeight: CGFloat {
-        guard let size = cachedImages.first?.value.size else { return 400 }
-        let aspect = size.width / size.height
-        let byWidth = cardWidth / aspect
-        let bySafe = UIScreen.main.bounds.height * 0.6
-        return min(byWidth, bySafe)
+    private var displayWidth: CGFloat {
+        let maxW = UIScreen.main.bounds.width * 0.88
+        let maxH = UIScreen.main.bounds.height * 0.55
+        let ratio = cardSize.width / cardSize.height
+        return min(maxW, maxH * ratio)
     }
 
     private var saveButton: some View {
         Button {
-            let theme = CardTheme.theme(for: selectedTheme ?? .light)
-            guard let image = FarewellImageGenerator.generate(for: record, theme: theme) else { return }
+            guard let image = polaroidImage else { return }
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             withAnimation {
                 toastMessage = String(localized: "已保存")
@@ -123,35 +95,29 @@ struct SharePreviewView: View {
                 .font(.subheadline)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(.white.opacity(0.2))
+                .background(theme.accent.opacity(0.15))
                 .clipShape(Capsule())
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(theme.accent)
     }
 
     private var shareButton: some View {
         Button {
-            shareImage = cachedImages[selectedTheme ?? .light]
-            showPreviewShare = true
+            showSystemShare = true
         } label: {
             Label(String(localized: "分享"), systemImage: "square.and.arrow.up")
                 .font(.subheadline)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(.white.opacity(0.2))
+                .background(theme.accent.opacity(0.15))
                 .clipShape(Capsule())
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(theme.accent)
     }
 
-    private func generateImages() {
+    private func generateImage() {
         Task { @MainActor in
-            var images: [AppThemeMode: UIImage] = [:]
-            for mode in AppThemeMode.allCases {
-                let theme = CardTheme.theme(for: mode)
-                images[mode] = FarewellImageGenerator.generate(for: record, theme: theme)
-            }
-            cachedImages = images
+            polaroidImage = FarewellImageGenerator.generate(for: record, theme: .light)
             isReady = true
         }
     }
