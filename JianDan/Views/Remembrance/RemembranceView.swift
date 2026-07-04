@@ -39,7 +39,7 @@ struct RemembranceView: View {
                         }
                     }) {
                         Image(systemName: "shuffle")
-                            .font(.subheadline)
+                            .font(AppTypography.caption)
                             .foregroundStyle(theme.accent)
                             .symbolEffect(.bounce, value: record?.id)
                     }
@@ -88,7 +88,7 @@ struct RemembranceView: View {
 
                 // ---- 名称 ----
                 Text(item.name)
-                    .font(.system(size: 26, weight: .regular, design: .serif))
+                    .font(AppTypography.largeTitle)
                     .foregroundStyle(theme.primaryText)
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
@@ -111,11 +111,11 @@ struct RemembranceView: View {
                         Text("~")
                         Text(item.farewellDate, format: .dateTime.year().month().day())
                     }
-                    .font(.caption)
+                    .font(AppTypography.caption)
                     if let days = item.companionshipDays {
                         Text("·")
                         Text("陪伴我 \(days) 天")
-                            .font(.caption)
+                            .font(AppTypography.caption)
                     }
                 }
                 .foregroundStyle(theme.secondary)
@@ -132,7 +132,7 @@ struct RemembranceView: View {
                 // ---- 去向详情 ----
                 if let detail = item.recipientDetail, !detail.isEmpty {
                     Label(detail, systemImage: "arrow.right")
-                        .font(.caption)
+                        .font(AppTypography.caption)
                         .foregroundStyle(theme.secondary)
                 }
 
@@ -145,7 +145,7 @@ struct RemembranceView: View {
                                 .frame(width: 8, height: 8)
                         }
                         Text(emotionLabel(emotion))
-                            .font(.caption)
+                            .font(AppTypography.caption)
                             .foregroundStyle(theme.secondary)
                             .padding(.leading, 4)
                     }
@@ -159,7 +159,7 @@ struct RemembranceView: View {
                             .frame(width: 24, height: 0.5)
 
                         Text("“\(letter)”")
-                            .font(.system(size: 16, design: .serif))
+                            .font(AppTypography.body)
                             .italic()
                             .foregroundStyle(theme.primaryText)
                             .lineSpacing(8)
@@ -188,9 +188,9 @@ struct RemembranceView: View {
     private func pill(_ text: String, icon: String) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
-                .font(.caption2)
+                .font(AppTypography.caption)
             Text(text)
-                .font(.caption)
+                .font(AppTypography.caption)
         }
         .foregroundStyle(theme.secondary)
         .padding(.horizontal, 10)

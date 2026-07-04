@@ -3,6 +3,7 @@ import SwiftUI
 /// 单张照片缩略图（拍立得风格）
 /// 通过 ImageStore 从沙盒加载图片
 struct PhotoThumbView: View {
+    @Environment(\.appTheme) private var theme
     let filename: String?
     let category: AnyCategory
     var size: CGFloat = 80
@@ -17,10 +18,10 @@ struct PhotoThumbView: View {
                 // 占位：分类图标
                 ZStack {
                     Rectangle()
-                        .fill(.tertiary.opacity(0.3))
+                        .fill(theme.divider.opacity(0.3))
                     Image(systemName: category.iconName)
                         .font(.system(size: size * 0.4))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(theme.secondary)
                 }
             }
         }

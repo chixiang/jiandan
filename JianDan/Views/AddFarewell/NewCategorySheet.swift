@@ -7,6 +7,7 @@ import SwiftData
 /// - 图标：24 个常用 SF Symbol 网格（避免 SF Symbol picker 过于发散）
 /// - 保存：合法后插入 UserCategory 并 dismiss
 struct NewCategorySheet: View {
+    @Environment(\.appTheme) private var theme
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
 
@@ -26,8 +27,8 @@ struct NewCategorySheet: View {
                     TextField("如：数码配件", text: $name)
                         .submitLabel(.done)
                     Text("\(name.trimmingCharacters(in: .whitespacesAndNewlines).count) / \(UserCategory.nameMaxLength)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(theme.secondary)
                 }
 
                 Section("图标") {
@@ -49,11 +50,11 @@ struct NewCategorySheet: View {
                 Section("预览") {
                     HStack {
                         Image(systemName: selectedIcon)
-                            .foregroundStyle(.primary)
+                            .foregroundStyle(theme.primaryText)
                         Text(previewName)
-                            .foregroundStyle(.primary)
+                            .foregroundStyle(theme.primaryText)
                     }
-                    .font(.subheadline)
+                    .font(AppTypography.body)
                     .padding(.vertical, 4)
                 }
             }

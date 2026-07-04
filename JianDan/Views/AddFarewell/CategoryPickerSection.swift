@@ -14,6 +14,7 @@ struct CategoryPickerSection: View {
     /// 提供给 chip 的删除回调（仅自定义 chip 显示删除）
     var onRequestDelete: ((AnyCategory) -> Void)? = nil
 
+    @Environment(\.appTheme) private var theme
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \UserCategory.sortOrder, order: .forward) private var customCategories: [UserCategory]
     @State private var showingNewCategorySheet = false
@@ -21,7 +22,7 @@ struct CategoryPickerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("分类")
-                .font(.headline)
+                .font(AppTypography.headline)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
@@ -41,6 +42,7 @@ struct CategoryPickerSection: View {
                     if !customCategories.isEmpty {
                         Divider()
                             .frame(height: 24)
+                            .background(theme.divider)
                             .padding(.horizontal, 4)
                     }
 
@@ -86,7 +88,7 @@ private struct CategoryChip: View {
                 Image(systemName: iconName)
                 Text(label)
             }
-            .font(.subheadline)
+            .font(AppTypography.body)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(isSelected ? theme.accent.opacity(0.2) : theme.divider.opacity(0.3))
@@ -115,7 +117,7 @@ private struct NewCategoryChip: View {
                 Image(systemName: "plus")
                 Text("新分类")
             }
-            .font(.subheadline)
+            .font(AppTypography.body)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(Color.clear)

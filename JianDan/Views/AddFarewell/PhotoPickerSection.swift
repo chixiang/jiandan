@@ -20,6 +20,7 @@ struct PhotoItem: Identifiable {
 /// 模拟器上点拍照按钮会弹出提示 alert。
 struct PhotoPickerSection: View {
     @Binding var items: [PhotoItem]
+    @Environment(\.appTheme) private var theme
     private let maxCount = FarewellRecord.maxPhotos
 
     @State private var selectedItems: [PhotosPickerItem] = []
@@ -30,7 +31,7 @@ struct PhotoPickerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("照片")
-                .font(.headline)
+                .font(AppTypography.headline)
 
             if items.isEmpty {
                 emptyActions
@@ -105,7 +106,7 @@ struct PhotoPickerSection: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 32)
-                .background(.regularMaterial)
+                .background(theme.cardBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
             .buttonStyle(.plain)
@@ -121,7 +122,7 @@ struct PhotoPickerSection: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 32)
-                .background(.regularMaterial)
+                .background(theme.cardBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
             .buttonStyle(.plain)
@@ -153,12 +154,12 @@ struct PhotoPickerSection: View {
                 } label: {
                     VStack {
                         Image(systemName: "plus")
-                            .font(.title2)
+                            .font(AppTypography.title)
                         Text("添加")
-                            .font(.caption)
+                            .font(AppTypography.caption)
                     }
                     .frame(width: 60, height: 60)
-                    .background(.regularMaterial)
+                    .background(theme.cardBackground)
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
             }

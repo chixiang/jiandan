@@ -51,6 +51,7 @@ struct CategoryFilterBar: View {
                     if !customCategories.isEmpty {
                         Divider()
                             .frame(height: 16)
+                            .background(theme.divider)
                             .padding(.horizontal, 4)
 
                         ForEach(customCategories, id: \.id) { custom in
@@ -80,7 +81,7 @@ struct CategoryFilterBar: View {
             withAnimation { isExpanded.toggle() }
         } label: {
             Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                .font(.caption2)
+                .font(AppTypography.caption)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 5)
                 .background(theme.divider.opacity(0.3))
@@ -190,7 +191,7 @@ private struct FilterChip: View {
                 Text(label)
                     .lineLimit(1)
             }
-            .font(.caption)
+            .font(AppTypography.caption)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
             .background(isSelected ? theme.accent : theme.divider.opacity(0.3))

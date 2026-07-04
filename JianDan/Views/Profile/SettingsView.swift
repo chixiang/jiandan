@@ -130,14 +130,14 @@ struct SettingsView: View {
                         Button(action: { showingCategoryManagement = true }) {
                             HStack(spacing: 12) {
                                 Image(systemName: "tag")
-                                    .font(.subheadline)
+                                    .font(AppTypography.body)
                                     .foregroundStyle(theme.accent)
                                 Text("管理自定义分类")
                                     .font(AppTypography.body)
                                     .foregroundStyle(theme.primaryText)
                                 Spacer()
                                 Image(systemName: "chevron.right")
-                                    .font(.caption)
+                                    .font(AppTypography.caption)
                                     .foregroundStyle(theme.secondary)
                             }
                             .padding(.horizontal, 16)
@@ -164,7 +164,7 @@ struct SettingsView: View {
                         VStack(spacing: 0) {
                             HStack(spacing: 12) {
                                 Image(systemName: "info.circle")
-                                    .font(.subheadline)
+                                    .font(AppTypography.body)
                                     .foregroundStyle(theme.accent)
                                     .frame(width: 24)
                                 Text("应用")
@@ -184,7 +184,7 @@ struct SettingsView: View {
 
                             HStack(spacing: 12) {
                                 Image(systemName: "tag")
-                                    .font(.subheadline)
+                                    .font(AppTypography.body)
                                     .foregroundStyle(theme.accent)
                                     .frame(width: 24)
                                 Text("版本")
@@ -261,7 +261,7 @@ private struct ThemeOptionRow: View {
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(.subheadline)
+                        .font(AppTypography.body)
                         .foregroundStyle(theme.accent)
                 }
             }
@@ -312,7 +312,7 @@ private struct LanguageOptionRow: View {
         Button(action: onSelect) {
             HStack(spacing: 12) {
                 Image(systemName: lang.icon)
-                    .font(.body)
+                    .font(AppTypography.body)
                     .foregroundStyle(theme.primaryText)
                     .frame(width: 24)
 
@@ -324,7 +324,7 @@ private struct LanguageOptionRow: View {
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(.subheadline)
+                        .font(AppTypography.body)
                         .foregroundStyle(theme.accent)
                 }
             }
@@ -350,7 +350,7 @@ private struct CurrencyOptionRow: View {
         Button(action: onSelect) {
             HStack(spacing: 12) {
                 Image(systemName: currency.icon)
-                    .font(.body)
+                    .font(AppTypography.body)
                     .foregroundStyle(theme.primaryText)
                     .frame(width: 24)
 
@@ -361,12 +361,12 @@ private struct CurrencyOptionRow: View {
                 Spacer()
 
                 Text(currency.symbol)
-                    .font(.subheadline)
+                    .font(AppTypography.body)
                     .foregroundStyle(theme.secondary)
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(.subheadline)
+                        .font(AppTypography.body)
                         .foregroundStyle(theme.accent)
                 }
             }

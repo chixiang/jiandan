@@ -124,7 +124,7 @@ private struct StatCard: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 6) {
                 Image(systemName: icon)
-                    .font(.caption)
+                    .font(AppTypography.caption)
                     .foregroundStyle(theme.accent)
                 Text(label)
                     .font(AppTypography.caption)

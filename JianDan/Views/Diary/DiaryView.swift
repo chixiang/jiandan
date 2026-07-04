@@ -39,6 +39,7 @@ enum SortKey: String, CaseIterable {
 
 struct DiaryView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appTheme) private var theme
     @Namespace private var heroNamespace
     @State private var selectedCategoryIDs: Set<String> = []
     @State private var selectedMethods: Set<String> = []
@@ -76,7 +77,7 @@ struct DiaryView: View {
                     }
                 )
             }
-            .background(Color(.systemBackground))
+            .background(theme.background)
             .navigationDestination(for: FarewellRecord.self) { record in
                 FarewellDetailView(record: record)
                     .environment(\.heroNamespace, heroNamespace)
@@ -99,7 +100,7 @@ struct DiaryView: View {
                     if isSearching {
                         HStack(spacing: 8) {
                             Image(systemName: "magnifyingglass")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(theme.secondary)
                             TextField(String(localized: "搜索物品名称..."), text: $searchText)
                                 .textFieldStyle(.plain)
                                 .focused($isSearchFocused)

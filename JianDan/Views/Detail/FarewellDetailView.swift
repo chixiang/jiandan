@@ -31,7 +31,7 @@ struct FarewellDetailView: View {
                 // 名称 + 日期
                 VStack(alignment: .leading, spacing: 8) {
                     Text(record.name)
-                        .font(.title)
+                        .font(AppTypography.title)
                         .fontWeight(.regular)
 
                     HStack(spacing: 12) {
@@ -39,18 +39,18 @@ struct FarewellDetailView: View {
                             Image(systemName: "calendar")
                             Text(record.farewellDate, format: .dateTime.year().month().day())
                         }
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(theme.secondary)
 
                         if let days = record.companionshipDays {
                             Text("陪伴了 \(days) 天")
-                                .font(.subheadline)
-                                .foregroundStyle(.tertiary)
+                                .font(AppTypography.caption)
+                                .foregroundStyle(theme.secondary)
                         }
                     }
                 }
 
-                Divider()
+                sectionDivider()
 
                 // 分类与去向
                 VStack(alignment: .leading, spacing: 12) {
@@ -75,72 +75,68 @@ struct FarewellDetailView: View {
 
                 // 情感值
                 if let emotion = record.emotionValue {
-                    Divider()
+                    sectionDivider()
                     VStack(alignment: .leading, spacing: 8) {
                         Text("当时心情")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
                         HStack(spacing: 12) {
                             ForEach(1...3, id: \.self) { i in
                                 Circle()
-                                    .fill(i <= emotion ? theme.accent : Color.secondary.opacity(0.3))
+                                    .fill(i <= emotion ? theme.accent : theme.divider)
                                     .frame(width: 10, height: 10)
                             }
                             Text(emotionLabel(emotion))
-                                .font(.subheadline)
-                                .foregroundStyle(.primary)
+                                .font(AppTypography.body)
+                                .foregroundStyle(theme.primaryText)
                         }
                     }
                 }
 
                 // 购入信息
                 if record.purchaseDate != nil || record.purchasePrice != nil {
-                    Divider()
+                    sectionDivider()
                     VStack(alignment: .leading, spacing: 8) {
                         Text("获得")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
                         if let date = record.purchaseDate {
                             Text("获得于 \(date.formatted(.dateTime.year().month().day()))")
-                                .font(.body)
+                                .font(AppTypography.body)
                         }
                         if let price = record.purchasePrice {
                             HStack(spacing: 4) {
                                 Image(systemName: currencyManager.currency.icon)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(theme.secondary)
                                 Text(price, format: .number.precision(.fractionLength(2)))
                             }
-                            .font(.body)
+                            .font(AppTypography.body)
                         }
                     }
                 }
 
                 // 告别留言
                 if let letter = record.farewellLetter, !letter.isEmpty {
-                    Divider()
+                    sectionDivider()
                     VStack(alignment: .leading, spacing: 12) {
                         Text("告别留言")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(theme.secondary)
                         Text(letter)
-                            .font(.body)
+                            .font(AppTypography.body)
                             .lineSpacing(6)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(16)
-                            .background(.regularMaterial)
+                            .background(theme.cardBackground)
                             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
                 }
 
                 // 元数据
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("记录于 \(record.createdAt.formatted(.dateTime.year().month().day().hour().minute()))")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
+                    metaText("记录于 \(record.createdAt.formatted(.dateTime.year().month().day().hour().minute()))")
                     if record.updatedAt != record.createdAt {
-                        Text("更新于 \(record.updatedAt.formatted(.dateTime.year().month().day().hour().minute()))")
-                            .font(.caption2)
-                            .foregroundStyle(.tertiary)
+                        metaText("更新于 \(record.updatedAt.formatted(.dateTime.year().month().day().hour().minute()))")
                     }
                 }
             }
@@ -224,6 +220,21 @@ struct FarewellDetailView: View {
         }
     }
 
+    // MARK: - 辅助视图
+
+    @ViewBuilder
+    private func sectionDivider() -> some View {
+        Rectangle()
+            .fill(theme.divider)
+            .frame(height: 0.5)
+    }
+
+    private func metaText(_ text: String) -> some View {
+        Text(text)
+            .font(AppTypography.caption)
+            .foregroundStyle(theme.secondary)
+    }
+
     private func emotionLabel(_ value: Int) -> String {
         switch value {
         case 1: return String(localized: "平静")
@@ -261,6 +272,7 @@ struct FarewellDetailView: View {
 
 /// 详情行（图标 + 标签 + 值）
 private struct DetailRow: View {
+    @Environment(\.appTheme) private var theme
     let icon: String
     let label: LocalizedStringKey
     let value: String
@@ -268,15 +280,15 @@ private struct DetailRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .font(.body)
-                .foregroundStyle(.secondary)
+                .font(AppTypography.body)
+                .foregroundStyle(theme.secondary)
                 .frame(width: 24)
             Text(label)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(AppTypography.caption)
+                .foregroundStyle(theme.secondary)
                 .frame(width: 80, alignment: .leading)
             Text(value)
-                .font(.body)
+                .font(AppTypography.body)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }

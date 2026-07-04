@@ -97,8 +97,8 @@ struct AddFarewellView: View {
                         HStack {
                             Spacer()
                             Text("\(farewellLetter.count) / \(FarewellRecord.farewellLetterMaxLength)")
-                                .font(.caption)
-                                .foregroundStyle(farewellLetter.count > FarewellRecord.farewellLetterMaxLength * 4 / 5 ? .orange : .secondary)
+                                .font(AppTypography.caption)
+                                .foregroundStyle(farewellLetter.count > FarewellRecord.farewellLetterMaxLength * 4 / 5 ? .orange : theme.secondary)
                         }
                     }
                 }
@@ -157,7 +157,7 @@ struct AddFarewellView: View {
                     )
 
                 Text(savedName)
-                    .font(Font.system(.title2, design: .serif))
+                    .font(AppTypography.largeTitle)
                     .foregroundStyle(theme.primaryText)
 
                 Text("感谢陪伴")

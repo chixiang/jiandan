@@ -8,6 +8,7 @@ import SwiftData
 /// - 用户自定义分类（可点击删除，长按也有同样效果）
 /// 顶部「+ 新分类」按钮弹出 NewCategorySheet
 struct CategoryManagementView: View {
+    @Environment(\.appTheme) private var theme
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \UserCategory.sortOrder, order: .forward) private var customCategories: [UserCategory]
@@ -33,8 +34,8 @@ struct CategoryManagementView: View {
                 Section {
                     if customCategories.isEmpty {
                         Text("暂无自定义分类")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .font(AppTypography.body)
+                            .foregroundStyle(theme.secondary)
                     } else {
                         ForEach(customCategories, id: \.id) { cat in
                             CategoryManagementRow(
@@ -56,7 +57,7 @@ struct CategoryManagementView: View {
                     Text("自定义分类")
                 } footer: {
                     Text("删除自定义分类时，引用它的记录会自动归入「其他」。")
-                        .font(.caption)
+                        .font(AppTypography.caption)
                 }
             }
             .navigationTitle("分类管理")
@@ -118,6 +119,7 @@ struct CategoryManagementView: View {
 
 /// 单行：图标 + 名称 + 删除按钮
 private struct CategoryManagementRow: View {
+    @Environment(\.appTheme) private var theme
     let name: String
     let iconName: String
     let canDelete: Bool
@@ -128,14 +130,14 @@ private struct CategoryManagementRow: View {
             Image(systemName: iconName)
                 .font(.title3)
                 .frame(width: 28)
-                .foregroundStyle(.primary)
+                .foregroundStyle(theme.primaryText)
             Text(name)
-                .font(.subheadline)
+                .font(AppTypography.body)
             Spacer()
             if !canDelete {
                 Text("内置")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.secondary)
             }
         }
     }

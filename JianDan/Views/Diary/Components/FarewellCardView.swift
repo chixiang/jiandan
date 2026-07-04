@@ -3,6 +3,7 @@ import SwiftUI
 /// 告别卡片：拍立得风格
 struct FarewellCardView: View {
     let record: FarewellRecord
+    @Environment(\.appTheme) private var theme
     @Environment(\.heroNamespace) private var heroNamespace
 
     var body: some View {
@@ -28,20 +29,20 @@ struct FarewellCardView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 6) {
                     Image(systemName: record.category.iconName)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(theme.secondary)
                         .frame(width: 20)
 
                     VStack(alignment: .leading, spacing: 6) {
                         Text(record.name)
-                            .font(.headline)
+                            .font(AppTypography.headline)
                             .lineLimit(2)
 
                         // 陪伴天数
                         if let days = record.companionshipDays {
                             Text("陪伴我 \(days) 天")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .font(AppTypography.caption)
+                                .foregroundStyle(theme.secondary)
                         }
                     }
                 }
@@ -50,8 +51,12 @@ struct FarewellCardView: View {
             Spacer(minLength: 0)
         }
         .padding(16)
-        .background(.regularMaterial)
+        .background(theme.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .strokeBorder(theme.divider, lineWidth: 0.5)
+        )
     }
 }
 

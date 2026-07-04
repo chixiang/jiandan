@@ -8,7 +8,7 @@ struct EmotionStarsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("心情")
-                .font(.headline)
+                .font(AppTypography.headline)
 
             HStack(spacing: 12) {
                 ForEach(1...3, id: \.self) { i in
@@ -18,11 +18,11 @@ struct EmotionStarsView: View {
                     } label: {
                         VStack(spacing: 4) {
                             Circle()
-                                .fill(i <= (value ?? 0) ? theme.accent : Color.secondary.opacity(0.3))
+                                .fill(i <= (value ?? 0) ? theme.accent : theme.divider)
                                 .frame(width: 16, height: 16)
                             Text(label(for: i))
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
+                                .font(AppTypography.caption)
+                                .foregroundStyle(theme.secondary)
                         }
                     }
                     .buttonStyle(.plain)
@@ -32,8 +32,8 @@ struct EmotionStarsView: View {
 
             if value == nil {
                 Text("（点击选择）")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(theme.secondary)
             }
         }
     }

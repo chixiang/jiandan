@@ -7,7 +7,7 @@ struct MethodPickerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("去向")
-                .font(.headline)
+                .font(AppTypography.headline)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
@@ -37,7 +37,7 @@ private struct MethodChip: View {
                 Image(systemName: method.icon)
                 Text(method.localizedName)
             }
-            .font(.subheadline)
+            .font(AppTypography.body)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(isSelected ? theme.accent.opacity(0.2) : theme.divider.opacity(0.3))
