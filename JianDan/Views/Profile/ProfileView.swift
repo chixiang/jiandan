@@ -30,7 +30,6 @@ struct ProfileView: View {
                     }
                 }
             }
-            .background(theme.background)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

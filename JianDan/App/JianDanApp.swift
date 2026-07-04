@@ -103,7 +103,7 @@ struct JianDanApp: App {
             ) {
                 RootTabView()
                     .appTheme(themeManager.mode)
-                    .animation(.easeInOut(duration: 0.35), value: themeManager.mode)
+                    .animation(.easeInOut(duration: 0.6), value: themeManager.mode)
                     .environment(themeManager)
                     .environment(currencyManager)
             }

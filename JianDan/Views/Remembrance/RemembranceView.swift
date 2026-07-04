@@ -34,7 +34,6 @@ struct RemembranceView: View {
                     emptyView
                 }
             }
-            .background(theme.background)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {

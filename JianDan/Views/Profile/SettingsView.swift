@@ -50,7 +50,7 @@ ThemeOptionRow(
                         RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                             .strokeBorder(theme.divider, lineWidth: 0.5)
                     )
-                    .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
+                    .animation(.easeInOut(duration: 0.6), value: theme.cardBackground)
 
                     // 语言
                     VStack(alignment: .leading, spacing: .sm) {
@@ -85,7 +85,7 @@ ThemeOptionRow(
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
-                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
+                        .animation(.easeInOut(duration: 0.6), value: theme.cardBackground)
                     }
 
                     // 币种
@@ -119,7 +119,7 @@ ThemeOptionRow(
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
-                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
+                        .animation(.easeInOut(duration: 0.6), value: theme.cardBackground)
                     }
 
                     // 分类管理
@@ -154,7 +154,7 @@ ThemeOptionRow(
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
-                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
+                        .animation(.easeInOut(duration: 0.6), value: theme.cardBackground)
                     }
 
                     // 关于
@@ -208,14 +208,14 @@ ThemeOptionRow(
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
-                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
+                        .animation(.easeInOut(duration: 0.6), value: theme.cardBackground)
                     }
                 }
                 .padding(.horizontal, .screenPadding)
                 .padding(.vertical, .sm)
             }
             .background(theme.background)
-            .animation(.easeInOut(duration: 0.8), value: theme.background)
+            .animation(.easeInOut(duration: 0.6), value: theme.background)
             .sheet(isPresented: $showingCategoryManagement) {
                 CategoryManagementView()
             }

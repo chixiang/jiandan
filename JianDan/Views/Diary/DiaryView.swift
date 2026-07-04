@@ -77,7 +77,6 @@ struct DiaryView: View {
                     }
                 )
             }
-            .background(theme.background)
             .navigationDestination(for: FarewellRecord.self) { record in
                 FarewellDetailView(record: record)
                     .environment(\.heroNamespace, heroNamespace)
