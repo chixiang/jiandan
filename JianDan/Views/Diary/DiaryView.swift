@@ -241,24 +241,25 @@ private struct DiaryListView: View {
                         DiaryEmptyView(onAddTapped: onAddTapped)
                     }
                 } else {
-                    List {
-                        ForEach(displayedRecords) { record in
-                            NavigationLink(value: record) {
-                                FarewellCardView(record: record)
-                            }
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.clear)
-                            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
-                            .environment(\.heroNamespace, heroNamespace)
-                            .scrollTransition { content, phase in
-                                content
-                                    .opacity(phase.isIdentity ? 1 : 0.85)
-                                    .scaleEffect(phase.isIdentity ? 1 : 0.96)
+                    ScrollView {
+                        LazyVStack(spacing: 12) {
+                            ForEach(Array(displayedRecords.enumerated()), id: \.element.id) { index, record in
+                                NavigationLink(value: record) {
+                                    FarewellCardView(record: record)
+                                }
+                                .buttonStyle(.plain)
+                                .environment(\.heroNamespace, heroNamespace)
+                                .scrollTransition { content, phase in
+                                    content
+                                        .opacity(phase.isIdentity ? 1 : 0.85)
+                                        .scaleEffect(phase.isIdentity ? 1 : 0.96)
+                                }
                             }
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
+                    .scrollIndicators(.hidden)
                 }
             }
         }
