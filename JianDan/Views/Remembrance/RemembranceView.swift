@@ -23,7 +23,7 @@ struct RemembranceView: View {
                 } else if let record {
                     detailView(record)
                         .id(record.id)
-                        .transition(.opacity.combined(with: .scale(scale: 0.93)))
+                        .transition(.opacity.combined(with: .scale(scale: 0.95)).combined(with: .move(edge: .bottom)))
                 } else {
                     emptyView
                 }
@@ -56,14 +56,14 @@ struct RemembranceView: View {
             .onChange(of: records.count) { _, _ in
                 if record == nil, !records.isEmpty { pickRandom() }
             }
-            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: record?.id)
+            .animation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.3), value: record?.id)
             .sensoryFeedback(.impact(weight: .light), trigger: record?.id)
         }
     }
 
     private func pickRandom() {
         guard !records.isEmpty else { return }
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+        withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.3)) {
             record = records.randomElement()
         }
     }

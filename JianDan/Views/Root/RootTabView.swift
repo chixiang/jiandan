@@ -32,7 +32,7 @@ struct RootTabView: View {
         }
         .toolbarBackground(.ultraThinMaterial, for: .tabBar)
         .sensoryFeedback(.selection, trigger: selectedTab)
-        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: selectedTab)
+        .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: selectedTab)
         .onAppear {
             // -seedTestData launch arg：模拟器/真机开发测试用
             JianDanApp.seedTestDataIfNeeded(context: modelContext)

@@ -24,7 +24,7 @@ struct CategoryFilterBar: View {
                     .transition(.opacity)
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: isExpanded)
+        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: isExpanded)
     }
 
     // MARK: - 分类
@@ -182,6 +182,9 @@ private struct FilterChip: View {
     let isSelected: Bool
     let onTap: () -> Void
 
+    @State private var breathingUp = false
+    @State private var breathTimer: Timer?
+
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 4) {
@@ -199,7 +202,31 @@ private struct FilterChip: View {
             .clipShape(Capsule())
         }
         .buttonStyle(.plain)
+        .scaleEffect(isSelected && breathingUp ? 1.04 : 1.0)
         .sensoryFeedback(.selection, trigger: isSelected)
+        .onChange(of: isSelected) { _, newValue in
+            if newValue {
+                startBreathing()
+            } else {
+                stopBreathing()
+            }
+        }
+    }
+
+    private func startBreathing() {
+        breathTimer?.invalidate()
+        withAnimation(.easeInOut(duration: 0.3)) { breathingUp = true }
+        breathTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { _ in
+            withAnimation(.easeInOut(duration: 1.5)) {
+                breathingUp.toggle()
+            }
+        }
+    }
+
+    private func stopBreathing() {
+        breathTimer?.invalidate()
+        breathTimer = nil
+        withAnimation(.easeOut(duration: 0.2)) { breathingUp = false }
     }
 }
 

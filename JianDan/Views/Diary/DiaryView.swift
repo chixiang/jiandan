@@ -86,7 +86,7 @@ struct DiaryView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     if !isSearching {
                         Button {
-                            withAnimation(.easeInOut(duration: 0.25)) {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                                 isSearching = true
                                 isSearchFocused = true
                             }
@@ -254,8 +254,8 @@ private struct DiaryListView: View {
                                 .opacity(hasAppeared ? 1 : 0)
                                 .scaleEffect(hasAppeared ? 1 : 0.95)
                                 .animation(
-                                    .spring(response: 0.4, dampingFraction: 0.85)
-                                        .delay(Double(index) * 0.04),
+                                    .spring(response: 0.5, dampingFraction: 0.8)
+                                        .delay(Double(index) * 0.05),
                                     value: hasAppeared
                                 )
                                 .scrollTransition { content, phase in
