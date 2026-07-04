@@ -60,6 +60,8 @@ struct CategoryManagementView: View {
                         .appFont(.caption)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(theme.background)
             .navigationTitle("分类管理")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

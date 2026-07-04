@@ -145,7 +145,7 @@ struct SplashContainer<Content: View>: View {
                         .onAppear { onDismiss() }
                 }
             }
-            .animation(.spring(response: 0.35, dampingFraction: 0.9), value: coordinator?.isVisible)
+            .animation(.easeOut(duration: 0.6), value: coordinator?.isVisible)
     }
 }
 

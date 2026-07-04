@@ -14,6 +14,9 @@ struct RemembranceView: View {
 
     @State private var record: FarewellRecord?
     @State private var showingEmptyAlert = false
+    @State private var transitionEdge: Edge = .bottom
+    @State private var imageAppeared = false
+    @State private var revealedLetterCount = 0
 
     var body: some View {
         NavigationStack {
@@ -23,7 +26,10 @@ struct RemembranceView: View {
                 } else if let record {
                     detailView(record)
                         .id(record.id)
-                        .transition(.opacity.combined(with: .scale(scale: 0.95)).combined(with: .move(edge: .bottom)))
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .scale(scale: 0.95)).combined(with: .move(edge: transitionEdge)),
+                            removal: .opacity.combined(with: .scale(scale: 0.95)).combined(with: .move(edge: transitionEdge.opposite))
+                        ))
                 } else {
                     emptyView
                 }
@@ -63,8 +69,19 @@ struct RemembranceView: View {
 
     private func pickRandom() {
         guard !records.isEmpty else { return }
+        let newRecord = records.randomElement()!
+        // 根据新旧记录在排序列表中的相对位置决定翻页方向
+        if let current = record,
+           let oldIdx = records.firstIndex(where: { $0.id == current.id }),
+           let newIdx = records.firstIndex(where: { $0.id == newRecord.id }) {
+            // records 按 farewellDate desc 排序；index 大 = 时间更早
+            // 视觉上：翻到「更旧」从左滑入，翻到「更新」从右滑入
+            transitionEdge = newIdx > oldIdx ? .leading : .trailing
+        } else {
+            transitionEdge = .bottom  // 首次进入
+        }
         withAnimation(.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.3)) {
-            record = records.randomElement()
+            record = newRecord
         }
     }
 
@@ -79,11 +96,20 @@ struct RemembranceView: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 220)
+                        .frame(maxHeight: 280)
                         .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
                         .shadow(color: theme.needsShadow ? .black.opacity(0.06) : .clear, radius: 8, y: 2)
+                        .scaleEffect(imageAppeared ? 1 : 1.02)
+                        .animation(.easeOut(duration: 0.4), value: imageAppeared)
                         .padding(.horizontal, .md)
-                        .padding(.top, item.photoFilenames.isEmpty ? 0 : .md)
+                        .padding(.top, .lg)
+                        .task(id: item.id) {
+                            imageAppeared = false
+                            try? await Task.sleep(for: .milliseconds(30))
+                            withAnimation(.easeOut(duration: 0.4)) {
+                                imageAppeared = true
+                            }
+                        }
                 }
 
                 // ---- 名称 ----
@@ -93,7 +119,7 @@ struct RemembranceView: View {
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
                     .padding(.horizontal, .xl)
-                    .padding(.top, item.photoFilenames.isEmpty ? 28 : 4)
+                    .padding(.top, .lg)
 
                 // ---- 装饰分隔 ----
                 Rectangle()
@@ -158,10 +184,9 @@ struct RemembranceView: View {
                             .fill(theme.divider)
                             .frame(width: 24, height: 0.5)
 
-                        Text("“\(letter)”")
+                        revealedLetter("“\(letter)”")
                             .appFont(.body)
                             .italic()
-                            .foregroundStyle(theme.primaryText)
                             .lineSpacing(8)
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: 300)
@@ -170,6 +195,15 @@ struct RemembranceView: View {
                         Rectangle()
                             .fill(theme.divider)
                             .frame(width: 24, height: 0.5)
+                    }
+                    .task(id: item.id) {
+                        revealedLetterCount = 0
+                        let total = "“\(letter)”".count
+                        guard total > 0 else { return }
+                        for i in 0..<total {
+                            try? await Task.sleep(for: .milliseconds(30))
+                            revealedLetterCount = i + 1
+                        }
                     }
                 }
 
@@ -212,6 +246,20 @@ struct RemembranceView: View {
         }
     }
 
+    /// 逐字构建金句文本：用 AttributedString 控制每个字符的 opacity，
+    /// 实现类似 SplashQuoteView 的逐字揭示效果。
+    private func revealedLetter(_ text: String) -> Text {
+        var attr = AttributedString(text)
+        for (index, _) in attr.characters.enumerated() {
+            let start = attr.index(attr.startIndex, offsetByCharacters: index)
+            let end = attr.index(afterCharacter: start)
+            attr[start..<end].foregroundColor = index < revealedLetterCount
+                ? theme.primaryText
+                : theme.primaryText.opacity(0)
+        }
+        return Text(attr)
+    }
+
     private var emptyView: some View {
         VStack(spacing: .md) {
             Spacer()
@@ -236,4 +284,16 @@ struct RemembranceView: View {
         .environment(\.appTheme, AppTheme(mode: .light))
         .environment(CurrencyManager())
         .modelContainer(for: FarewellRecord.self, inMemory: true)
+}
+
+private extension Edge {
+    /// 用于 #11C 翻页方向感：返回对侧 edge，让 transition 的 insertion/removal 方向相反。
+    var opposite: Edge {
+        switch self {
+        case .leading: return .trailing
+        case .trailing: return .leading
+        case .top: return .bottom
+        case .bottom: return .top
+        }
+    }
 }

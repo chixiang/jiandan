@@ -142,6 +142,7 @@ struct FarewellDetailView: View {
             }
             .padding(.screenPadding)
         }
+        .background(theme.background)
         .navigationTitle(record.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -226,7 +227,7 @@ struct FarewellDetailView: View {
     private func sectionDivider() -> some View {
         Rectangle()
             .fill(theme.divider)
-            .frame(height: 0.5)
+            .frame(width: 24, height: 0.5)
     }
 
     private func metaText(_ text: String) -> some View {

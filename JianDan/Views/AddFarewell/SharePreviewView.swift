@@ -13,7 +13,8 @@ struct SharePreviewView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.65)
+            Rectangle()
+                .fill(.thickMaterial)
                 .ignoresSafeArea()
                 .onTapGesture { onClose() }
 
