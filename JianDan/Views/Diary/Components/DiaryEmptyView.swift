@@ -24,7 +24,7 @@ struct DiaryEmptyView: View {
             VStack(spacing: 8) {
                 Text("还没有告别记录")
                     .appFont(.title)
-                Text("拥有的愈少，\n自由便愈多")
+                Text("拥有的愈少，自由便愈多")
                     .appFont(.body)
                     .foregroundStyle(theme.secondary)
                     .multilineTextAlignment(.center)
