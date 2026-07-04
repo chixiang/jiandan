@@ -3,15 +3,27 @@ import SwiftUI
 /// 告别卡片：拍立得风格
 struct FarewellCardView: View {
     let record: FarewellRecord
+    @Environment(\.heroNamespace) private var heroNamespace
 
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
-            // 主照片
-            PhotoThumbView(
-                filename: record.photoFilenames.first,
-                category: record.category,
-                size: 88
-            )
+            // 主照片（hero 转场锚点）
+            Group {
+                if let ns = heroNamespace {
+                    PhotoThumbView(
+                        filename: record.photoFilenames.first,
+                        category: record.category,
+                        size: 88
+                    )
+                    .matchedGeometryEffect(id: record.id.uuidString + "-hero", in: ns)
+                } else {
+                    PhotoThumbView(
+                        filename: record.photoFilenames.first,
+                        category: record.category,
+                        size: 88
+                    )
+                }
+            }
 
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 6) {

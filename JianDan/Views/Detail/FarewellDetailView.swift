@@ -7,6 +7,7 @@ struct FarewellDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
+    @Environment(\.heroNamespace) private var heroNamespace
     @Environment(CurrencyManager.self) private var currencyManager
 
     @State private var showingDeleteConfirm = false
@@ -17,8 +18,15 @@ struct FarewellDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                // 照片轮播
-                PhotoCarouselView(filenames: record.photoFilenames)
+                // 照片轮播（hero 转场目标）
+                Group {
+                    if let ns = heroNamespace {
+                        PhotoCarouselView(filenames: record.photoFilenames)
+                            .matchedGeometryEffect(id: record.id.uuidString + "-hero", in: ns)
+                    } else {
+                        PhotoCarouselView(filenames: record.photoFilenames)
+                    }
+                }
 
                 // 名称 + 日期
                 VStack(alignment: .leading, spacing: 8) {
@@ -178,6 +186,7 @@ struct FarewellDetailView: View {
                 record.name
             ))
         }
+        .sensoryFeedback(.warning, trigger: showingDeleteConfirm)
         .sheet(isPresented: $showingEdit) {
             EditFarewellView(record: record)
         }

@@ -109,7 +109,7 @@ struct SplashContainer<Content: View>: View {
                         language: languageManager.language,
                         remainingFraction: coordinator.remainingFraction
                     )
-                        .transition(.opacity)
+                        .transition(.opacity.combined(with: .scale(scale: 0.96)))
                         // 点击 splash 时立即 dismiss；只有 splash 可见时拦截 tap
                         // —— splash 不可见后不再挂 .onTapGesture，让 NavigationLink
                         // 等内层 hit test 正常命中。
@@ -127,7 +127,7 @@ struct SplashContainer<Content: View>: View {
                         }
                 }
             }
-            .animation(.easeInOut(duration: 0.4), value: coordinator?.isVisible)
+            .animation(.spring(response: 0.35, dampingFraction: 0.9), value: coordinator?.isVisible)
     }
 }
 

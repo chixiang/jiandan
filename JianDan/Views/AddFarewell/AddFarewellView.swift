@@ -105,13 +105,15 @@ struct AddFarewellView: View {
                 .navigationTitle("新建告别")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button("取消") { if sharePhase == .hidden { dismiss() } }
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button("保存") { save() }
-                            .disabled(!canSave || sharePhase != .hidden)
-                            .fontWeight(.semibold)
+                    if sharePhase == .hidden {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button("取消") { dismiss() }
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("保存") { save() }
+                                .disabled(!canSave)
+                                .fontWeight(.semibold)
+                        }
                     }
                 }
 
@@ -120,7 +122,7 @@ struct AddFarewellView: View {
                     EmptyView()
                 case .ceremony:
                     ceremonyOverlay
-                        .transition(.opacity)
+                        .transition(.opacity.combined(with: .scale(scale: 0.92)))
                         .zIndex(1)
                 case .preview:
                     if let record = savedRecord {
@@ -133,6 +135,8 @@ struct AddFarewellView: View {
                     }
                 }
             }
+            .sensoryFeedback(.success, trigger: sharePhase)
+            .sensoryFeedback(.impact(weight: .heavy), trigger: ceremonyFilled)
         }
     }
 
@@ -210,10 +214,10 @@ struct AddFarewellView: View {
 
             savedRecord = record
             ceremonyColor = theme.accent
-            withAnimation(.easeOut(duration: 0.4)) {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                 sharePhase = .ceremony
             }
-            withAnimation(.spring(duration: 0.5).delay(0.3)) {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.3).delay(0.3)) {
                 ceremonyFilled = true
             }
 

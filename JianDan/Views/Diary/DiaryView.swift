@@ -1,6 +1,18 @@
 import SwiftUI
 import SwiftData
 
+/// Namespace for hero transitions (card photo ↔ detail photo)
+struct HeroNamespaceKey: EnvironmentKey {
+    static let defaultValue: Namespace.ID? = nil
+}
+
+extension EnvironmentValues {
+    var heroNamespace: Namespace.ID? {
+        get { self[HeroNamespaceKey.self] }
+        set { self[HeroNamespaceKey.self] = newValue }
+    }
+}
+
 /// 列表排序方式
 enum SortKey: String, CaseIterable {
     case farewellDate = "告别日期"
@@ -27,6 +39,7 @@ enum SortKey: String, CaseIterable {
 
 struct DiaryView: View {
     @Environment(\.modelContext) private var modelContext
+    @Namespace private var heroNamespace
     @State private var selectedCategoryIDs: Set<String> = []
     @State private var selectedMethods: Set<String> = []
     @State private var selectedEmotions: Set<Int> = []
@@ -54,6 +67,7 @@ struct DiaryView: View {
                     searchText: searchText,
                     sortKey: sortKey,
                     sortAscending: sortAscending,
+                    heroNamespace: heroNamespace,
                     onAddTapped: { showingAdd = true },
                     onClearFilter: {
                         selectedCategoryIDs = []
@@ -65,6 +79,7 @@ struct DiaryView: View {
             .background(Color(.systemBackground))
             .navigationDestination(for: FarewellRecord.self) { record in
                 FarewellDetailView(record: record)
+                    .environment(\.heroNamespace, heroNamespace)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -76,6 +91,7 @@ struct DiaryView: View {
                             }
                         } label: {
                             Image(systemName: "magnifyingglass")
+                                .symbolEffect(.bounce, value: isSearching)
                         }
                     }
                 }
@@ -137,6 +153,7 @@ struct DiaryView: View {
                         showingAdd = true
                     } label: {
                         Image(systemName: "plus")
+                            .symbolEffect(.bounce, value: showingAdd)
                     }
                     .accessibilityLabel("添加告别记录")
                 }
@@ -144,6 +161,7 @@ struct DiaryView: View {
             .sheet(isPresented: $showingAdd) {
                 AddFarewellView()
             }
+            .sensoryFeedback(.impact(weight: .light), trigger: sortKey)
         }
     }
 }
@@ -159,6 +177,7 @@ private struct DiaryListView: View {
     let searchText: String
     let sortKey: SortKey
     let sortAscending: Bool
+    let heroNamespace: Namespace.ID
     let onAddTapped: () -> Void
     let onClearFilter: () -> Void
 
@@ -169,6 +188,7 @@ private struct DiaryListView: View {
         searchText: String,
         sortKey: SortKey,
         sortAscending: Bool,
+        heroNamespace: Namespace.ID,
         onAddTapped: @escaping () -> Void,
         onClearFilter: @escaping () -> Void
     ) {
@@ -178,6 +198,7 @@ private struct DiaryListView: View {
         self.searchText = searchText
         self.sortKey = sortKey
         self.sortAscending = sortAscending
+        self.heroNamespace = heroNamespace
         self.onAddTapped = onAddTapped
         self.onClearFilter = onClearFilter
         let sort = [sortKey.descriptor(ascending: sortAscending)]
@@ -227,6 +248,12 @@ private struct DiaryListView: View {
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                            .environment(\.heroNamespace, heroNamespace)
+                            .scrollTransition { content, phase in
+                                content
+                                    .opacity(phase.isIdentity ? 1 : 0.85)
+                                    .scaleEffect(phase.isIdentity ? 1 : 0.96)
+                            }
                         }
                     }
                     .listStyle(.plain)

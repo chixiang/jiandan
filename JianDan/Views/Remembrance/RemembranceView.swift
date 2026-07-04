@@ -41,6 +41,7 @@ struct RemembranceView: View {
                         Image(systemName: "shuffle")
                             .font(.subheadline)
                             .foregroundStyle(theme.accent)
+                            .symbolEffect(.bounce, value: record?.id)
                     }
                 }
             }
@@ -55,13 +56,14 @@ struct RemembranceView: View {
             .onChange(of: records.count) { _, _ in
                 if record == nil, !records.isEmpty { pickRandom() }
             }
-            .animation(.easeInOut(duration: 0.35), value: record?.id)
+            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: record?.id)
+            .sensoryFeedback(.impact(weight: .light), trigger: record?.id)
         }
     }
 
     private func pickRandom() {
         guard !records.isEmpty else { return }
-        withAnimation(.easeInOut(duration: 0.35)) {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
             record = records.randomElement()
         }
     }

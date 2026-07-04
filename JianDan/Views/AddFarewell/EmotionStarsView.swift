@@ -14,9 +14,6 @@ struct EmotionStarsView: View {
                 ForEach(1...3, id: \.self) { i in
                     Button {
                         let newValue = (value == i) ? nil : i
-                        if value != newValue {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        }
                         value = newValue
                     } label: {
                         VStack(spacing: 4) {
@@ -31,6 +28,7 @@ struct EmotionStarsView: View {
                     .buttonStyle(.plain)
                 }
             }
+            .sensoryFeedback(.impact(weight: .light), trigger: value)
 
             if value == nil {
                 Text("（点击选择）")
