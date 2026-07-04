@@ -53,7 +53,7 @@ struct SplashQuoteView: View {
                         .frame(width: 20, height: 20)
 
                     Text("告别清单")
-                        .appFont(.caption)
+                        .font(AppTypography.caption.font)
                         .tracking(8)
                         .foregroundStyle(theme.secondary.opacity(0.55))
                 }
@@ -79,7 +79,7 @@ struct SplashQuoteView: View {
             // 出处（金句全揭示后淡入）
             if showAttribution {
                 Text("— \(quote.localizedAttribution(for: language))")
-                    .appFont(.caption)
+                    .font(AppTypography.caption.font)
                     .foregroundStyle(theme.secondary)
                     .tracking(1)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))

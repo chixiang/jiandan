@@ -91,7 +91,7 @@ struct FarewellShareCard: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 Text(name)
-                    .font(Font.system(size: 22, weight: .regular, design: .serif))
+                    .font(AppTypography.title.font)
                     .foregroundStyle(theme.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
 
@@ -151,7 +151,7 @@ struct FarewellShareCard: View {
 
             VStack(spacing: 0) {
                 Text(name)
-                    .font(Font.system(size: 22, weight: .regular, design: .serif))
+                    .font(AppTypography.title.font)
                     .foregroundStyle(theme.textPrimary)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)

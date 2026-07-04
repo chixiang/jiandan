@@ -24,10 +24,10 @@ enum AppTypography {
         switch self {
         case .largeTitle: return .system(.largeTitle, design: .serif).weight(.regular)
         case .title:      return .system(.title2, design: .serif).weight(.regular)
-        case .headline:   return .system(.headline, design: .serif).weight(.regular)
+        case .headline:   return .system(.headline, design: .serif).weight(.medium)
         case .body:       return .system(.body, design: .default)
         case .caption:    return .system(.caption, design: .default)
-        case .stat:       return .system(size: 36, weight: .light, design: .serif)
+        case .stat:       return .system(.largeTitle, design: .serif).weight(.light)
         }
     }
 

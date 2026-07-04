@@ -12,7 +12,7 @@ struct StatsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("统计")
-                .appFont(.caption)
+                .font(AppTypography.caption.font)
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
                 .padding(.horizontal, 4)
@@ -155,7 +155,7 @@ private struct BreakdownCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .appFont(.caption)
+                .font(AppTypography.caption.font)
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
             content

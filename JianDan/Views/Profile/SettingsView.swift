@@ -21,7 +21,7 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     // 分组标题
                     Text("外观")
-                        .appFont(.caption)
+                        .font(AppTypography.caption.font)
                         .foregroundStyle(theme.secondary)
                         .tracking(2)
                         .padding(.horizontal, 4)
@@ -54,7 +54,7 @@ struct SettingsView: View {
                     // 语言
                     VStack(alignment: .leading, spacing: 12) {
                         Text("语言")
-                            .appFont(.caption)
+                            .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
@@ -89,7 +89,7 @@ struct SettingsView: View {
                     // 币种
                     VStack(alignment: .leading, spacing: 12) {
                         Text("币种")
-                            .appFont(.caption)
+                            .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
@@ -122,7 +122,7 @@ struct SettingsView: View {
                     // 分类管理
                     VStack(alignment: .leading, spacing: 12) {
                         Text("分类")
-                            .appFont(.caption)
+                            .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
@@ -156,7 +156,7 @@ struct SettingsView: View {
                     // 关于
                     VStack(alignment: .leading, spacing: 12) {
                         Text("关于")
-                            .appFont(.caption)
+                            .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
