@@ -98,6 +98,7 @@
 "欧元" = "EUR";
 "日元" = "JPY";
 "英镑" = "GBP";
+"语言" = "Language";
 "切换语言" = "Switch Language";
 "语言将在下次启动时切换。" = "Language change takes effect on next launch.";
 "告别数" = "Farewells";
