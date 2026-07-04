@@ -18,13 +18,13 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: .md) {
                     // 分组标题
                     Text("外观")
                         .font(AppTypography.caption.font)
                         .foregroundStyle(theme.secondary)
                         .tracking(2)
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, .xs)
 
                     // 主题选项
                     VStack(spacing: 0) {
@@ -40,24 +40,24 @@ struct SettingsView: View {
                             if mode != AppThemeMode.allCases.last {
                                 Divider()
                                     .background(theme.divider)
-                                    .padding(.leading, 16)
+                                    .padding(.leading, .md)
                             }
                         }
                     }
                     .background(theme.cardBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                             .strokeBorder(theme.divider, lineWidth: 0.5)
                     )
 
                     // 语言
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: .sm) {
                         Text("语言")
                             .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
-                            .padding(.horizontal, 4)
+                            .padding(.horizontal, .xs)
 
                         VStack(spacing: 0) {
                             ForEach(AppLanguage.allCases) { lang in
@@ -79,20 +79,20 @@ struct SettingsView: View {
                             }
                         }
                         .background(theme.cardBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
                     }
 
                     // 币种
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: .sm) {
                         Text("币种")
                             .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
-                            .padding(.horizontal, 4)
+                            .padding(.horizontal, .xs)
 
                         VStack(spacing: 0) {
                             ForEach(Currency.allCases) { currency in
@@ -112,23 +112,23 @@ struct SettingsView: View {
                             }
                         }
                         .background(theme.cardBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
                     }
 
                     // 分类管理
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: .sm) {
                         Text("分类")
                             .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
-                            .padding(.horizontal, 4)
+                            .padding(.horizontal, .xs)
 
                         Button(action: { showingCategoryManagement = true }) {
-                            HStack(spacing: 12) {
+                            HStack(spacing: .sm) {
                                 Image(systemName: "tag")
                                     .appFont(.body)
                                     .foregroundStyle(theme.accent)
@@ -140,29 +140,29 @@ struct SettingsView: View {
                                     .appFont(.caption)
                                     .foregroundStyle(theme.secondary)
                             }
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, .md)
                             .padding(.vertical, 14)
                             .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
                         .background(theme.cardBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
                     }
 
                     // 关于
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: .sm) {
                         Text("关于")
                             .font(AppTypography.caption.font)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
-                            .padding(.horizontal, 4)
+                            .padding(.horizontal, .xs)
 
                         VStack(spacing: 0) {
-                            HStack(spacing: 12) {
+                            HStack(spacing: .sm) {
                                 Image(systemName: "info.circle")
                                     .appFont(.body)
                                     .foregroundStyle(theme.accent)
@@ -175,14 +175,14 @@ struct SettingsView: View {
                                     .appFont(.body)
                                     .foregroundStyle(theme.secondary)
                             }
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, .md)
                             .padding(.vertical, 14)
 
                             Divider()
                                 .background(theme.divider)
                                 .padding(.leading, 52)
 
-                            HStack(spacing: 12) {
+                            HStack(spacing: .sm) {
                                 Image(systemName: "tag")
                                     .appFont(.body)
                                     .foregroundStyle(theme.accent)
@@ -195,19 +195,19 @@ struct SettingsView: View {
                                     .appFont(.body)
                                     .foregroundStyle(theme.secondary)
                             }
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, .md)
                             .padding(.vertical, 14)
                         }
                         .background(theme.cardBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
+                .padding(.horizontal, .screenPadding)
+                .padding(.vertical, .sm)
             }
             .background(theme.background)
             .sheet(isPresented: $showingCategoryManagement) {
@@ -244,7 +244,7 @@ private struct ThemeOptionRow: View {
 
     var body: some View {
         Button(action: onSelect) {
-            HStack(spacing: 12) {
+            HStack(spacing: .sm) {
                 // 色块预览
                 Circle()
                     .fill(swatchColor)
@@ -265,7 +265,7 @@ private struct ThemeOptionRow: View {
                         .foregroundStyle(theme.accent)
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, .md)
             .padding(.vertical, 14)
             .contentShape(Rectangle())
         }
@@ -310,7 +310,7 @@ private struct LanguageOptionRow: View {
 
     var body: some View {
         Button(action: onSelect) {
-            HStack(spacing: 12) {
+            HStack(spacing: .sm) {
                 Image(systemName: lang.icon)
                     .appFont(.body)
                     .foregroundStyle(theme.primaryText)
@@ -328,7 +328,7 @@ private struct LanguageOptionRow: View {
                         .foregroundStyle(theme.accent)
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, .md)
             .padding(.vertical, 14)
             .contentShape(Rectangle())
         }
@@ -348,7 +348,7 @@ private struct CurrencyOptionRow: View {
 
     var body: some View {
         Button(action: onSelect) {
-            HStack(spacing: 12) {
+            HStack(spacing: .sm) {
                 Image(systemName: currency.icon)
                     .appFont(.body)
                     .foregroundStyle(theme.primaryText)
@@ -370,7 +370,7 @@ private struct CurrencyOptionRow: View {
                         .foregroundStyle(theme.accent)
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, .md)
             .padding(.vertical, 14)
             .contentShape(Rectangle())
         }

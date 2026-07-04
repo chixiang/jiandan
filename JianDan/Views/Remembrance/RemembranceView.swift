@@ -72,7 +72,7 @@ struct RemembranceView: View {
 
     private func detailView(_ item: FarewellRecord) -> some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(spacing: .lg) {
                 // ---- 图片卡片（嵌入内容区） ----
                 if let firstPhoto = item.photoFilenames.first,
                    let uiImage = ImageStore.loadImage(filename: firstPhoto) {
@@ -80,10 +80,10 @@ struct RemembranceView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxHeight: 220)
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
                         .shadow(color: theme.needsShadow ? .black.opacity(0.06) : .clear, radius: 8, y: 2)
-                        .padding(.horizontal, 16)
-                        .padding(.top, item.photoFilenames.isEmpty ? 0 : 16)
+                        .padding(.horizontal, .md)
+                        .padding(.top, item.photoFilenames.isEmpty ? 0 : .md)
                 }
 
                 // ---- 名称 ----
@@ -92,7 +92,7 @@ struct RemembranceView: View {
                     .foregroundStyle(theme.primaryText)
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
-                    .padding(.horizontal, 32)
+                    .padding(.horizontal, .xl)
                     .padding(.top, item.photoFilenames.isEmpty ? 28 : 4)
 
                 // ---- 装饰分隔 ----
@@ -101,7 +101,7 @@ struct RemembranceView: View {
                     .frame(width: 32, height: 0.5)
 
                 // ---- 日期 + 陪伴天数 ----
-                HStack(spacing: 8) {
+                HStack(spacing: .xs) {
                     HStack(spacing: 4) {
                         if let purchase = item.purchaseDate {
                             Text(purchase, format: .dateTime.year().month().day())
@@ -121,7 +121,7 @@ struct RemembranceView: View {
                 .foregroundStyle(theme.secondary)
 
                 // ---- 分类 · 方式 · 价格 ----
-                HStack(spacing: 8) {
+                HStack(spacing: .xs) {
                     pill(item.category.displayName, icon: item.category.iconName)
                     pill(item.method.localizedName, icon: item.method.icon)
                     if let price = item.purchasePrice, price > 0 {
@@ -138,7 +138,7 @@ struct RemembranceView: View {
 
                 // ---- 当时心情 ----
                 if let emotion = item.emotionValue {
-                    HStack(spacing: 8) {
+                    HStack(spacing: .xs) {
                         ForEach(1...3, id: \.self) { i in
                             Circle()
                                 .fill(i <= emotion ? theme.accent : theme.divider)
@@ -153,7 +153,7 @@ struct RemembranceView: View {
 
                 // ---- 告别留言（pull-quote） ----
                 if let letter = item.farewellLetter, !letter.isEmpty {
-                    VStack(spacing: 16) {
+                    VStack(spacing: .md) {
                         Rectangle()
                             .fill(theme.divider)
                             .frame(width: 24, height: 0.5)
@@ -175,10 +175,10 @@ struct RemembranceView: View {
 
                 // 底部留白
                 Color.clear
-                    .frame(height: 8)
+                    .frame(height: .xs)
             }
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, .screenPadding)
         }
         .scrollIndicators(.hidden)
     }
@@ -193,7 +193,7 @@ struct RemembranceView: View {
                 .appFont(.caption)
         }
         .foregroundStyle(theme.secondary)
-        .padding(.horizontal, 10)
+        .padding(.horizontal, .sm)
         .padding(.vertical, 5)
         .background(theme.cardBackground)
         .clipShape(Capsule())
@@ -213,7 +213,7 @@ struct RemembranceView: View {
     }
 
     private var emptyView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: .md) {
             Spacer()
             Image(systemName: "heart")
                 .font(.system(size: 48, weight: .ultraLight))

@@ -29,7 +29,7 @@ struct PhotoPickerSection: View {
     @State private var cameraUnavailableAlert = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: .sm) {
             Text("照片")
                 .appFont(.headline)
 
@@ -98,16 +98,16 @@ struct PhotoPickerSection: View {
     // MARK: - 空状态
 
     private var emptyActions: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: .sm) {
             Button(action: openCamera) {
                 HStack {
                     Image(systemName: "camera.fill")
                     Text("拍照")
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 32)
+                .padding(.vertical, .xl)
                 .background(theme.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             }
             .buttonStyle(.plain)
 
@@ -121,9 +121,9 @@ struct PhotoPickerSection: View {
                     Text("从相册选")
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 32)
+                .padding(.vertical, .xl)
                 .background(theme.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             }
             .buttonStyle(.plain)
         }
@@ -133,10 +133,10 @@ struct PhotoPickerSection: View {
 
     private var filledGrid: some View {
         LazyVGrid(columns: [
-            GridItem(.flexible(), spacing: 8),
-            GridItem(.flexible(), spacing: 8),
+            GridItem(.flexible(), spacing: .xs),
+            GridItem(.flexible(), spacing: .xs),
             GridItem(.flexible())
-        ], spacing: 8) {
+        ], spacing: .xs) {
             ForEach(items) { item in
                 PhotoTile(data: item.data, isLoading: item.isLoading, onRemove: {
                     items.removeAll { $0.id == item.id }
@@ -160,7 +160,7 @@ struct PhotoPickerSection: View {
                     }
                     .frame(width: 60, height: 60)
                     .background(theme.cardBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: AppRadius.chip, style: .continuous))
                 }
             }
         }
@@ -185,7 +185,7 @@ private struct PhotoTile: View {
                         .scaledToFill()
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.chip, style: .continuous))
             .overlay(alignment: .topTrailing) {
                 if !isLoading {
                     Image(systemName: "xmark.circle.fill")

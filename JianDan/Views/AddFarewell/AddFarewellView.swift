@@ -146,7 +146,7 @@ struct AddFarewellView: View {
             theme.background.opacity(0.95)
                 .ignoresSafeArea()
 
-            VStack(spacing: 20) {
+            VStack(spacing: .lg) {
                 Circle()
                     .stroke(ceremonyColor, lineWidth: 2)
                     .frame(width: 56, height: 56)

@@ -26,7 +26,7 @@ struct PhotoCarouselView: View {
                     .foregroundStyle(theme.secondary)
             }
             .frame(height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
         } else {
             TabView {
                 ForEach(Array(filenames.enumerated()), id: \.offset) { index, filename in
@@ -60,7 +60,7 @@ struct PhotoCarouselView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: filenames.count > 1 ? .always : .never))
             .frame(height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             .fullScreenCover(item: $viewerItem) { item in
                 FullScreenImageViewer(filenames: item.filenames, initialIndex: item.index)
                     .ignoresSafeArea()

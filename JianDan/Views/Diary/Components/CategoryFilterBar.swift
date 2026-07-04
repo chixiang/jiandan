@@ -32,7 +32,7 @@ struct CategoryFilterBar: View {
     private var categoryRow: some View {
         HStack(spacing: 0) {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
+                HStack(spacing: .xs) {
                     FilterChip(
                         label: String(localized: "全部"),
                         isSelected: selectedCategoryIDs.isEmpty,
@@ -52,7 +52,7 @@ struct CategoryFilterBar: View {
                         Divider()
                             .frame(height: 16)
                             .background(theme.divider)
-                            .padding(.horizontal, 4)
+                            .padding(.horizontal, .xs)
 
                         ForEach(customCategories, id: \.id) { custom in
                             let sid = AnyCategory.from(userCategory: custom).storageID
@@ -65,10 +65,10 @@ struct CategoryFilterBar: View {
                         }
                     }
                 }
-                .padding(.leading, 16)
-                .padding(.trailing, 8)
+                .padding(.leading, .md)
+                .padding(.trailing, .xs)
             }
-            .padding(.trailing, 6)
+            .padding(.trailing, .xs)
 
             expandToggle
                 .padding(.trailing, 10)
@@ -82,7 +82,7 @@ struct CategoryFilterBar: View {
         } label: {
             Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                 .appFont(.caption)
-                .padding(.horizontal, 8)
+                .padding(.horizontal, .xs)
                 .padding(.vertical, 5)
                 .background(theme.divider.opacity(0.3))
                 .foregroundStyle(theme.secondary)
@@ -95,7 +95,7 @@ struct CategoryFilterBar: View {
 
     private var methodRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 6) {
+            HStack(spacing: .xs) {
                 FilterChip(
                     label: String(localized: "全部"),
                     isSelected: selectedMethods.isEmpty,
@@ -111,8 +111,8 @@ struct CategoryFilterBar: View {
                     )
                 }
             }
-            .padding(.leading, 16)
-            .padding(.trailing, 16)
+            .padding(.leading, .md)
+            .padding(.trailing, .md)
         }
         .frame(height: rowHeight)
     }
@@ -121,7 +121,7 @@ struct CategoryFilterBar: View {
 
     private var emotionRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 6) {
+            HStack(spacing: .xs) {
                 FilterChip(
                     label: String(localized: "全部"),
                     isSelected: selectedEmotions.isEmpty,
@@ -132,8 +132,8 @@ struct CategoryFilterBar: View {
                 emotionChip(value: 2, label: String(localized: "复杂"))
                 emotionChip(value: 3, label: String(localized: "不舍"))
             }
-            .padding(.leading, 16)
-            .padding(.trailing, 16)
+            .padding(.leading, .md)
+            .padding(.trailing, .md)
         }
         .frame(height: rowHeight)
     }
@@ -195,7 +195,7 @@ private struct FilterChip: View {
                     .lineLimit(1)
             }
             .appFont(.caption)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, .sm)
             .padding(.vertical, 5)
             .background(isSelected ? theme.accent : theme.divider.opacity(0.3))
             .foregroundStyle(isSelected ? .white : theme.primaryText)

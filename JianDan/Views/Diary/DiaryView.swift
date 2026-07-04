@@ -98,7 +98,7 @@ struct DiaryView: View {
                 }
                 ToolbarItem(placement: .principal) {
                     if isSearching {
-                        HStack(spacing: 8) {
+                        HStack(spacing: .xs) {
                             Image(systemName: "magnifyingglass")
                                 .foregroundStyle(theme.secondary)
                             TextField(String(localized: "搜索物品名称..."), text: $searchText)
@@ -173,7 +173,6 @@ struct DiaryView: View {
 private struct DiaryListView: View {
     @Environment(\.appTheme) private var theme
     @Query private var records: [FarewellRecord]
-    @State private var hasAppeared = false
     let selectedCategoryIDs: Set<String>
     let selectedMethods: Set<String>
     let selectedEmotions: Set<Int>
@@ -232,8 +231,8 @@ private struct DiaryListView: View {
                     .foregroundStyle(theme.secondary)
                     Spacer()
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 8)
+                .padding(.horizontal, .screenPadding)
+                .padding(.vertical, .xs)
             }
             Group {
                 if displayedRecords.isEmpty {
@@ -244,20 +243,17 @@ private struct DiaryListView: View {
                     }
                 } else {
                     ScrollView {
-                        LazyVStack(spacing: 12) {
-                            ForEach(Array(displayedRecords.enumerated()), id: \.element.id) { index, record in
+                        LazyVStack(spacing: .listItemSpacing) {
+                            ForEach(displayedRecords, id: \.id) { record in
                                 NavigationLink(value: record) {
                                     FarewellCardView(record: record)
                                 }
-                                .buttonStyle(.plain)
+                                .buttonStyle(PressScaleButtonStyle())
                                 .environment(\.heroNamespace, heroNamespace)
-                                .opacity(hasAppeared ? 1 : 0)
-                                .scaleEffect(hasAppeared ? 1 : 0.95)
-                                .animation(
-                                    .spring(response: 0.5, dampingFraction: 0.8)
-                                        .delay(Double(index) * 0.05),
-                                    value: hasAppeared
-                                )
+                                .transition(.asymmetric(
+                                    insertion: .move(edge: .bottom).combined(with: .opacity),
+                                    removal: .opacity.combined(with: .scale(scale: 0.96))
+                                ))
                                 .scrollTransition { content, phase in
                                     content
                                         .opacity(phase.isIdentity ? 1 : 0.85)
@@ -265,22 +261,18 @@ private struct DiaryListView: View {
                                 }
                             }
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
+                        .padding(.horizontal, .screenPadding)
+                        .padding(.vertical, .xs)
                     }
                     .scrollIndicators(.hidden)
-                    .onAppear {
-                        withAnimation {
-                            hasAppeared = true
-                        }
-                    }
+                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: displayedRecords.map(\.id))
                 }
             }
         }
     }
 
     private var filteredEmptyView: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: .sm) {
             Spacer()
             Image(systemName: "magnifyingglass")
                 .font(.title2)

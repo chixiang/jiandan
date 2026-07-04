@@ -9,7 +9,7 @@ struct DiaryEmptyView: View {
     @State private var isBreathing = false
 
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: .lg) {
             Spacer()
 
             Image(systemName: "leaf")
@@ -21,7 +21,7 @@ struct DiaryEmptyView: View {
                     value: isFloating
                 )
 
-            VStack(spacing: 8) {
+            VStack(spacing: .xs) {
                 Text("还没有告别记录")
                     .appFont(.title)
                 Text("拥有的愈少，自由便愈多")

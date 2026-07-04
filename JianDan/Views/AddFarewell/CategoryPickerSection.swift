@@ -20,12 +20,12 @@ struct CategoryPickerSection: View {
     @State private var showingNewCategorySheet = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: .sm) {
             Text("分类")
                 .appFont(.headline)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
+                HStack(spacing: .xs) {
                     // 1. 内置分类
                     ForEach(Category.allCases) { category in
                         CategoryChip(
@@ -43,7 +43,7 @@ struct CategoryPickerSection: View {
                         Divider()
                             .frame(height: 24)
                             .background(theme.divider)
-                            .padding(.horizontal, 4)
+                            .padding(.horizontal, .xs)
                     }
 
                     // 2. 自定义分类
@@ -84,13 +84,13 @@ private struct CategoryChip: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 6) {
+            HStack(spacing: .xs) {
                 Image(systemName: iconName)
                 Text(label)
             }
             .appFont(.body)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
+            .padding(.horizontal, .sm)
+            .padding(.vertical, .xs)
             .background(isSelected ? theme.accent.opacity(0.2) : theme.divider.opacity(0.3))
             .foregroundStyle(isSelected ? theme.accent : theme.primaryText)
             .clipShape(Capsule())
@@ -113,13 +113,13 @@ private struct NewCategoryChip: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 6) {
+            HStack(spacing: .xs) {
                 Image(systemName: "plus")
                 Text("新分类")
             }
             .appFont(.body)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
+            .padding(.horizontal, .sm)
+            .padding(.vertical, .xs)
             .background(Color.clear)
             .foregroundStyle(theme.accent)
             .overlay(

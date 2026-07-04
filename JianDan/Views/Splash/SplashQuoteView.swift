@@ -57,7 +57,7 @@ struct SplashQuoteView: View {
                         .tracking(8)
                         .foregroundStyle(theme.secondary.opacity(0.55))
                 }
-                .padding(.bottom, 32)
+                .padding(.bottom, .xl)
             }
             .padding(.horizontal, 40)
         }

@@ -17,7 +17,7 @@ struct FarewellDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: .lg) {
                 // 照片轮播（hero 转场目标）
                 Group {
                     if let ns = heroNamespace {
@@ -29,12 +29,12 @@ struct FarewellDetailView: View {
                 }
 
                 // 名称 + 日期
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: .xs) {
                     Text(record.name)
                         .appFont(.title)
                         .fontWeight(.regular)
 
-                    HStack(spacing: 12) {
+                    HStack(spacing: .sm) {
                         HStack(spacing: 4) {
                             Image(systemName: "calendar")
                             Text(record.farewellDate, format: .dateTime.year().month().day())
@@ -53,7 +53,7 @@ struct FarewellDetailView: View {
                 sectionDivider()
 
                 // 分类与去向
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: .sm) {
                     DetailRow(
                         icon: record.category.iconName,
                         label: "分类",
@@ -76,11 +76,11 @@ struct FarewellDetailView: View {
                 // 情感值
                 if let emotion = record.emotionValue {
                     sectionDivider()
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: .xs) {
                         Text("当时心情")
                             .appFont(.caption)
                             .foregroundStyle(theme.secondary)
-                        HStack(spacing: 12) {
+                        HStack(spacing: .sm) {
                             ForEach(1...3, id: \.self) { i in
                                 Circle()
                                     .fill(i <= emotion ? theme.accent : theme.divider)
@@ -96,7 +96,7 @@ struct FarewellDetailView: View {
                 // 购入信息
                 if record.purchaseDate != nil || record.purchasePrice != nil {
                     sectionDivider()
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: .xs) {
                         Text("获得")
                             .appFont(.caption)
                             .foregroundStyle(theme.secondary)
@@ -118,7 +118,7 @@ struct FarewellDetailView: View {
                 // 告别留言
                 if let letter = record.farewellLetter, !letter.isEmpty {
                     sectionDivider()
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: .sm) {
                         Text("告别留言")
                             .appFont(.caption)
                             .foregroundStyle(theme.secondary)
@@ -126,9 +126,9 @@ struct FarewellDetailView: View {
                             .appFont(.body)
                             .lineSpacing(6)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(16)
+                            .padding(.md)
                             .background(theme.cardBackground)
-                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
                     }
                 }
 
@@ -140,7 +140,7 @@ struct FarewellDetailView: View {
                     }
                 }
             }
-            .padding(20)
+            .padding(.screenPadding)
         }
         .navigationTitle(record.name)
         .navigationBarTitleDisplayMode(.inline)
@@ -278,7 +278,7 @@ private struct DetailRow: View {
     let value: String
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: .sm) {
             Image(systemName: icon)
                 .appFont(.body)
                 .foregroundStyle(theme.secondary)

@@ -22,11 +22,11 @@ struct ProfileView: View {
                     emptyStateView
                 } else {
                     ScrollView {
-                        VStack(spacing: 20) {
+                        VStack(spacing: .lg) {
                             StatsView(stats: stats)
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
+                        .padding(.horizontal, .screenPadding)
+                        .padding(.vertical, .sm)
                     }
                 }
             }
@@ -47,7 +47,7 @@ struct ProfileView: View {
     }
 
     private var emptyStateView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: .md) {
             Spacer()
             Image(systemName: "leaf")
                 .font(.system(size: 48, weight: .ultraLight))

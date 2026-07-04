@@ -26,7 +26,7 @@ struct PhotoThumbView: View {
             }
         }
         .frame(width: size, height: size)
-        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.chip, style: .continuous))
     }
 }
 

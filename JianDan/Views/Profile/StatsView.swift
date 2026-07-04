@@ -10,14 +10,14 @@ struct StatsView: View {
     let stats: FarewellStats
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .md) {
             Text("统计")
                 .font(AppTypography.caption.font)
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
-                .padding(.horizontal, 4)
+                .padding(.horizontal, .xs)
 
-            HStack(spacing: 12) {
+            HStack(spacing: .sm) {
                 StatCard(
                     value: "\(stats.totalCount)",
                     label: String(localized: "告别数"),
@@ -30,7 +30,7 @@ struct StatsView: View {
                 )
             }
 
-            HStack(spacing: 12) {
+            HStack(spacing: .sm) {
                 StatCard(
                     value: "\(stats.longestCompanionshipDays)",
                     label: String(localized: "最长陪伴"),
@@ -121,8 +121,8 @@ private struct StatCard: View {
     let icon: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: .xs) {
+            HStack(spacing: .xs) {
                 Image(systemName: icon)
                     .appFont(.caption)
                     .foregroundStyle(theme.accent)
@@ -137,12 +137,12 @@ private struct StatCard: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
         }
-        .padding(16)
+        .padding(.md)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(theme.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                 .strokeBorder(theme.divider, lineWidth: 0.5)
         )
     }
@@ -153,19 +153,19 @@ private struct BreakdownCard<Content: View>: View {
     @ViewBuilder let content: Content
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: .sm) {
             Text(title)
                 .font(AppTypography.caption.font)
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
             content
         }
-        .padding(16)
+        .padding(.md)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(theme.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                 .strokeBorder(theme.divider, lineWidth: 0.5)
         )
     }
@@ -182,8 +182,8 @@ private struct BreakdownRow: View {
     let maxCount: Int
 
     var body: some View {
-        HStack(spacing: 12) {
-            HStack(spacing: 6) {
+        HStack(spacing: .sm) {
+            HStack(spacing: .xs) {
                 if let iconName = icon {
                     Image(systemName: iconName)
                         .frame(width: 16)

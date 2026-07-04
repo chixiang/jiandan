@@ -7,7 +7,7 @@ struct FarewellCardView: View {
     @Environment(\.heroNamespace) private var heroNamespace
 
     var body: some View {
-        HStack(alignment: .center, spacing: 16) {
+        HStack(alignment: .center, spacing: .md) {
             // 主照片（hero 转场锚点）
             Group {
                 if let ns = heroNamespace {
@@ -26,8 +26,8 @@ struct FarewellCardView: View {
                 }
             }
 
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 6) {
+            VStack(alignment: .leading, spacing: .xs) {
+                HStack(spacing: .xs) {
                     Image(systemName: record.category.iconName)
                         .appFont(.caption)
                         .foregroundStyle(theme.secondary)
@@ -50,11 +50,11 @@ struct FarewellCardView: View {
 
             Spacer(minLength: 0)
         }
-        .padding(16)
+        .padding(.md)
         .background(theme.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                 .strokeBorder(theme.divider, lineWidth: 0.5)
         )
     }
