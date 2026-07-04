@@ -29,19 +29,19 @@ struct FarewellCardView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 6) {
                     Image(systemName: record.category.iconName)
-                        .font(AppTypography.caption)
+                        .appFont(.caption)
                         .foregroundStyle(theme.secondary)
                         .frame(width: 20)
 
                     VStack(alignment: .leading, spacing: 6) {
                         Text(record.name)
-                            .font(AppTypography.headline)
+                            .appFont(.headline)
                             .lineLimit(2)
 
                         // 陪伴天数
                         if let days = record.companionshipDays {
                             Text("陪伴我 \(days) 天")
-                                .font(AppTypography.caption)
+                                .appFont(.caption)
                                 .foregroundStyle(theme.secondary)
                         }
                     }

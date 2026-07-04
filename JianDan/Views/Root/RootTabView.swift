@@ -7,30 +7,32 @@ import SwiftUI
 /// 缺少 Ink 分支，系统回退到 dark 分支的淡青色，而非 AppColors.Ink.accent 的朱砂）。
 struct RootTabView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appTheme) private var theme
     @State private var selectedTab: Int = 0
 
     var body: some View {
         TabView(selection: $selectedTab) {
             DiaryView()
                 .tabItem {
-                    Label("告别清单", systemImage: "leaf")
+                    Label("告别清单", systemImage: selectedTab == 0 ? "leaf.fill" : "leaf")
                 }
                 .tag(0)
 
             RemembranceView()
                 .tabItem {
-                    Label("怀念", systemImage: "heart")
+                    Label("怀念", systemImage: selectedTab == 1 ? "heart.fill" : "heart")
                 }
                 .tag(1)
 
             ProfileView()
                 .tabItem {
-                    Label("我的", systemImage: "person")
+                    Label("我的", systemImage: selectedTab == 2 ? "person.fill" : "person")
                 }
                 .tag(2)
         }
+        .toolbarBackground(.ultraThinMaterial, for: .tabBar)
         .sensoryFeedback(.selection, trigger: selectedTab)
-        .symbolEffect(.bounce, value: selectedTab)
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: selectedTab)
         .onAppear {
             // -seedTestData launch arg：模拟器/真机开发测试用
             JianDanApp.seedTestDataIfNeeded(context: modelContext)

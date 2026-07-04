@@ -226,7 +226,7 @@ private struct DiaryListView: View {
                     Text(String.localizedStringWithFormat(
                         String(localized: "告别清单 (%lld)"), displayedRecords.count
                     ))
-                    .font(AppTypography.caption)
+                    .appFont(.caption)
                     .foregroundStyle(theme.secondary)
                     Spacer()
                 }

@@ -34,7 +34,7 @@ struct CategoryManagementView: View {
                 Section {
                     if customCategories.isEmpty {
                         Text("暂无自定义分类")
-                            .font(AppTypography.body)
+                            .appFont(.body)
                             .foregroundStyle(theme.secondary)
                     } else {
                         ForEach(customCategories, id: \.id) { cat in
@@ -57,7 +57,7 @@ struct CategoryManagementView: View {
                     Text("自定义分类")
                 } footer: {
                     Text("删除自定义分类时，引用它的记录会自动归入「其他」。")
-                        .font(AppTypography.caption)
+                        .appFont(.caption)
                 }
             }
             .navigationTitle("分类管理")
@@ -132,11 +132,11 @@ private struct CategoryManagementRow: View {
                 .frame(width: 28)
                 .foregroundStyle(theme.primaryText)
             Text(name)
-                .font(AppTypography.body)
+                .appFont(.body)
             Spacer()
             if !canDelete {
                 Text("内置")
-                    .font(AppTypography.caption)
+                    .appFont(.caption)
                     .foregroundStyle(theme.secondary)
             }
         }

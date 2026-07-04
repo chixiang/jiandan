@@ -15,16 +15,16 @@ struct DiaryEmptyView: View {
 
             VStack(spacing: 8) {
                 Text("还没有告别记录")
-                    .font(AppTypography.title)
+                    .appFont(.title)
                 Text("拥有的愈少，\n自由便愈多")
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .foregroundStyle(theme.secondary)
                     .multilineTextAlignment(.center)
             }
 
             Button(action: onAddTapped) {
                 Label("记下第一件", systemImage: "plus.circle.fill")
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 12)
             }

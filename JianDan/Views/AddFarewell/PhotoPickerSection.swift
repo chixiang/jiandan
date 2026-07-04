@@ -31,7 +31,7 @@ struct PhotoPickerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("照片")
-                .font(AppTypography.headline)
+                .appFont(.headline)
 
             if items.isEmpty {
                 emptyActions
@@ -154,9 +154,9 @@ struct PhotoPickerSection: View {
                 } label: {
                     VStack {
                         Image(systemName: "plus")
-                            .font(AppTypography.title)
+                            .appFont(.title)
                         Text("添加")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                     }
                     .frame(width: 60, height: 60)
                     .background(theme.cardBackground)

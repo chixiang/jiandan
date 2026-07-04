@@ -22,7 +22,7 @@ struct CategoryPickerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("分类")
-                .font(AppTypography.headline)
+                .appFont(.headline)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
@@ -88,7 +88,7 @@ private struct CategoryChip: View {
                 Image(systemName: iconName)
                 Text(label)
             }
-            .font(AppTypography.body)
+            .appFont(.body)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(isSelected ? theme.accent.opacity(0.2) : theme.divider.opacity(0.3))
@@ -117,7 +117,7 @@ private struct NewCategoryChip: View {
                 Image(systemName: "plus")
                 Text("新分类")
             }
-            .font(AppTypography.body)
+            .appFont(.body)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(Color.clear)

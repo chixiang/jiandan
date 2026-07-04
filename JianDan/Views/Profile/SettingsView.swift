@@ -21,7 +21,7 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     // 分组标题
                     Text("外观")
-                        .font(AppTypography.caption)
+                        .appFont(.caption)
                         .foregroundStyle(theme.secondary)
                         .tracking(2)
                         .padding(.horizontal, 4)
@@ -54,7 +54,7 @@ struct SettingsView: View {
                     // 语言
                     VStack(alignment: .leading, spacing: 12) {
                         Text("语言")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
@@ -89,7 +89,7 @@ struct SettingsView: View {
                     // 币种
                     VStack(alignment: .leading, spacing: 12) {
                         Text("币种")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
@@ -122,7 +122,7 @@ struct SettingsView: View {
                     // 分类管理
                     VStack(alignment: .leading, spacing: 12) {
                         Text("分类")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
@@ -130,14 +130,14 @@ struct SettingsView: View {
                         Button(action: { showingCategoryManagement = true }) {
                             HStack(spacing: 12) {
                                 Image(systemName: "tag")
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.accent)
                                 Text("管理自定义分类")
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.primaryText)
                                 Spacer()
                                 Image(systemName: "chevron.right")
-                                    .font(AppTypography.caption)
+                                    .appFont(.caption)
                                     .foregroundStyle(theme.secondary)
                             }
                             .padding(.horizontal, 16)
@@ -156,7 +156,7 @@ struct SettingsView: View {
                     // 关于
                     VStack(alignment: .leading, spacing: 12) {
                         Text("关于")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                             .foregroundStyle(theme.secondary)
                             .tracking(2)
                             .padding(.horizontal, 4)
@@ -164,15 +164,15 @@ struct SettingsView: View {
                         VStack(spacing: 0) {
                             HStack(spacing: 12) {
                                 Image(systemName: "info.circle")
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.accent)
                                     .frame(width: 24)
                                 Text("应用")
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.primaryText)
                                 Spacer()
                                 Text("app_display_name")
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.secondary)
                             }
                             .padding(.horizontal, 16)
@@ -184,15 +184,15 @@ struct SettingsView: View {
 
                             HStack(spacing: 12) {
                                 Image(systemName: "tag")
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.accent)
                                     .frame(width: 24)
                                 Text("版本")
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.primaryText)
                                 Spacer()
                                 Text(versionString)
-                                    .font(AppTypography.body)
+                                    .appFont(.body)
                                     .foregroundStyle(theme.secondary)
                             }
                             .padding(.horizontal, 16)
@@ -254,14 +254,14 @@ private struct ThemeOptionRow: View {
                     )
 
                 Text(mode.displayName)
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .foregroundStyle(theme.primaryText)
 
                 Spacer()
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(AppTypography.body)
+                        .appFont(.body)
                         .foregroundStyle(theme.accent)
                 }
             }
@@ -312,19 +312,19 @@ private struct LanguageOptionRow: View {
         Button(action: onSelect) {
             HStack(spacing: 12) {
                 Image(systemName: lang.icon)
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .foregroundStyle(theme.primaryText)
                     .frame(width: 24)
 
                 Text(lang.displayName)
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .foregroundStyle(theme.primaryText)
 
                 Spacer()
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(AppTypography.body)
+                        .appFont(.body)
                         .foregroundStyle(theme.accent)
                 }
             }
@@ -350,23 +350,23 @@ private struct CurrencyOptionRow: View {
         Button(action: onSelect) {
             HStack(spacing: 12) {
                 Image(systemName: currency.icon)
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .foregroundStyle(theme.primaryText)
                     .frame(width: 24)
 
                 Text(currency.displayName)
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .foregroundStyle(theme.primaryText)
 
                 Spacer()
 
                 Text(currency.symbol)
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .foregroundStyle(theme.secondary)
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(AppTypography.body)
+                        .appFont(.body)
                         .foregroundStyle(theme.accent)
                 }
             }

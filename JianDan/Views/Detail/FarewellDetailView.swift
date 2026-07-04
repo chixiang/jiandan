@@ -31,7 +31,7 @@ struct FarewellDetailView: View {
                 // 名称 + 日期
                 VStack(alignment: .leading, spacing: 8) {
                     Text(record.name)
-                        .font(AppTypography.title)
+                        .appFont(.title)
                         .fontWeight(.regular)
 
                     HStack(spacing: 12) {
@@ -39,12 +39,12 @@ struct FarewellDetailView: View {
                             Image(systemName: "calendar")
                             Text(record.farewellDate, format: .dateTime.year().month().day())
                         }
-                        .font(AppTypography.caption)
+                        .appFont(.caption)
                         .foregroundStyle(theme.secondary)
 
                         if let days = record.companionshipDays {
                             Text("陪伴了 \(days) 天")
-                                .font(AppTypography.caption)
+                                .appFont(.caption)
                                 .foregroundStyle(theme.secondary)
                         }
                     }
@@ -78,7 +78,7 @@ struct FarewellDetailView: View {
                     sectionDivider()
                     VStack(alignment: .leading, spacing: 8) {
                         Text("当时心情")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                             .foregroundStyle(theme.secondary)
                         HStack(spacing: 12) {
                             ForEach(1...3, id: \.self) { i in
@@ -87,7 +87,7 @@ struct FarewellDetailView: View {
                                     .frame(width: 10, height: 10)
                             }
                             Text(emotionLabel(emotion))
-                                .font(AppTypography.body)
+                                .appFont(.body)
                                 .foregroundStyle(theme.primaryText)
                         }
                     }
@@ -98,11 +98,11 @@ struct FarewellDetailView: View {
                     sectionDivider()
                     VStack(alignment: .leading, spacing: 8) {
                         Text("获得")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                             .foregroundStyle(theme.secondary)
                         if let date = record.purchaseDate {
                             Text("获得于 \(date.formatted(.dateTime.year().month().day()))")
-                                .font(AppTypography.body)
+                                .appFont(.body)
                         }
                         if let price = record.purchasePrice {
                             HStack(spacing: 4) {
@@ -110,7 +110,7 @@ struct FarewellDetailView: View {
                                     .foregroundStyle(theme.secondary)
                                 Text(price, format: .number.precision(.fractionLength(2)))
                             }
-                            .font(AppTypography.body)
+                            .appFont(.body)
                         }
                     }
                 }
@@ -120,10 +120,10 @@ struct FarewellDetailView: View {
                     sectionDivider()
                     VStack(alignment: .leading, spacing: 12) {
                         Text("告别留言")
-                            .font(AppTypography.caption)
+                            .appFont(.caption)
                             .foregroundStyle(theme.secondary)
                         Text(letter)
-                            .font(AppTypography.body)
+                            .appFont(.body)
                             .lineSpacing(6)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(16)
@@ -231,7 +231,7 @@ struct FarewellDetailView: View {
 
     private func metaText(_ text: String) -> some View {
         Text(text)
-            .font(AppTypography.caption)
+            .appFont(.caption)
             .foregroundStyle(theme.secondary)
     }
 
@@ -280,15 +280,15 @@ private struct DetailRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .font(AppTypography.body)
+                .appFont(.body)
                 .foregroundStyle(theme.secondary)
                 .frame(width: 24)
             Text(label)
-                .font(AppTypography.caption)
+                .appFont(.caption)
                 .foregroundStyle(theme.secondary)
                 .frame(width: 80, alignment: .leading)
             Text(value)
-                .font(AppTypography.body)
+                .appFont(.body)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }

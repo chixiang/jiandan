@@ -81,7 +81,7 @@ struct CategoryFilterBar: View {
             withAnimation { isExpanded.toggle() }
         } label: {
             Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                .font(AppTypography.caption)
+                .appFont(.caption)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 5)
                 .background(theme.divider.opacity(0.3))
@@ -191,7 +191,7 @@ private struct FilterChip: View {
                 Text(label)
                     .lineLimit(1)
             }
-            .font(AppTypography.caption)
+            .appFont(.caption)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
             .background(isSelected ? theme.accent : theme.divider.opacity(0.3))

@@ -12,7 +12,7 @@ struct StatsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("统计")
-                .font(AppTypography.caption)
+                .appFont(.caption)
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
                 .padding(.horizontal, 4)
@@ -124,15 +124,15 @@ private struct StatCard: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 6) {
                 Image(systemName: icon)
-                    .font(AppTypography.caption)
+                    .appFont(.caption)
                     .foregroundStyle(theme.accent)
                 Text(label)
-                    .font(AppTypography.caption)
+                    .appFont(.caption)
                     .foregroundStyle(theme.secondary)
             }
 
             Text(value)
-                .font(AppTypography.stat)
+                .appFont(.stat)
                 .foregroundStyle(theme.primaryText)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
@@ -155,7 +155,7 @@ private struct BreakdownCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(AppTypography.caption)
+                .appFont(.caption)
                 .foregroundStyle(theme.secondary)
                 .tracking(2)
             content
@@ -194,7 +194,7 @@ private struct BreakdownRow: View {
                 Text(label)
                     .lineLimit(1)
             }
-            .font(AppTypography.caption)
+            .appFont(.caption)
             .foregroundStyle(theme.primaryText)
             .frame(width: 100, alignment: .leading)
 
@@ -211,7 +211,7 @@ private struct BreakdownRow: View {
             .frame(height: 6)
 
             Text(value)
-                .font(AppTypography.caption)
+                .appFont(.caption)
                 .foregroundStyle(theme.secondary)
                 .frame(width: 64, alignment: .trailing)
         }

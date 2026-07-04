@@ -40,7 +40,7 @@ struct SplashQuoteView: View {
                         .frame(width: 20, height: 20)
 
                     Text("告别清单")
-                        .font(AppTypography.caption)
+                        .appFont(.caption)
                         .tracking(8)
                         .foregroundStyle(theme.secondary.opacity(0.55))
                 }
@@ -55,14 +55,14 @@ struct SplashQuoteView: View {
     private var quoteBlock: some View {
         VStack(spacing: 20) {
             Text(quote.localizedText(for: language))
-                .font(AppTypography.headline)
+                .appFont(.headline)
                 .foregroundStyle(theme.primaryText)
                 .multilineTextAlignment(.center)
                 .lineSpacing(10)
                 .fixedSize(horizontal: false, vertical: true)
 
             Text("— \(quote.localizedAttribution(for: language))")
-                .font(AppTypography.caption)
+                .appFont(.caption)
                 .foregroundStyle(theme.secondary)
                 .tracking(1)
         }

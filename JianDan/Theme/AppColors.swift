@@ -34,7 +34,7 @@ enum AppColors {
     enum Ink {
         static let background = Color.black                                       // #000000
         static let primaryText = Color(red: 0.96, green: 0.94, blue: 0.91)     // #F5F0E8 米白
-        static let accent = Color(red: 0.70, green: 0.23, blue: 0.28)          // #B23A48 朱砂
+        static let accent = Color(red: 0.55, green: 0.23, blue: 0.23)          // #8B3A3A 深朱砂
         static let secondary = Color(red: 0.43, green: 0.43, blue: 0.43)       // #6E6E6E 烟灰
         static let cardBackground = Color(red: 0.07, green: 0.07, blue: 0.07)
         static let divider = Color(red: 0.20, green: 0.20, blue: 0.20)

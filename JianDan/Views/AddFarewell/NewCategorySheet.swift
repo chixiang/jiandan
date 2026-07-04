@@ -27,7 +27,7 @@ struct NewCategorySheet: View {
                     TextField("如：数码配件", text: $name)
                         .submitLabel(.done)
                     Text("\(name.trimmingCharacters(in: .whitespacesAndNewlines).count) / \(UserCategory.nameMaxLength)")
-                        .font(AppTypography.caption)
+                        .appFont(.caption)
                         .foregroundStyle(theme.secondary)
                 }
 
@@ -54,7 +54,7 @@ struct NewCategorySheet: View {
                         Text(previewName)
                             .foregroundStyle(theme.primaryText)
                     }
-                    .font(AppTypography.body)
+                    .appFont(.body)
                     .padding(.vertical, 4)
                 }
             }

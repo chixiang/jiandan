@@ -50,7 +50,7 @@ struct PhotoCarouselView: View {
                                     .font(.system(size: 32, weight: .light))
                                     .foregroundStyle(.orange)
                                 Text("照片已丢失")
-                                    .font(AppTypography.caption)
+                                    .appFont(.caption)
                                     .foregroundStyle(theme.secondary)
                             }
                         }
