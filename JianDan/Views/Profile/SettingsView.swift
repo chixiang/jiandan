@@ -29,13 +29,13 @@ struct SettingsView: View {
                     // 主题选项
                     VStack(spacing: 0) {
                         ForEach(AppThemeMode.allCases) { mode in
-                            ThemeOptionRow(
-                                mode: mode,
-                                isSelected: themeManager.mode == mode,
-                                onSelect: {
-                                    themeManager.mode = mode
-                                }
-                            )
+ThemeOptionRow(
+                            mode: mode,
+                            isSelected: themeManager.mode == mode,
+                            onSelect: {
+                                themeManager.mode = mode
+                            }
+                        )
 
                             if mode != AppThemeMode.allCases.last {
                                 Divider()
@@ -50,6 +50,7 @@ struct SettingsView: View {
                         RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                             .strokeBorder(theme.divider, lineWidth: 0.5)
                     )
+                    .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
 
                     // 语言
                     VStack(alignment: .leading, spacing: .sm) {
@@ -84,6 +85,7 @@ struct SettingsView: View {
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
+                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
                     }
 
                     // 币种
@@ -117,6 +119,7 @@ struct SettingsView: View {
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
+                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
                     }
 
                     // 分类管理
@@ -151,6 +154,7 @@ struct SettingsView: View {
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
+                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
                     }
 
                     // 关于
@@ -204,12 +208,14 @@ struct SettingsView: View {
                             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                                 .strokeBorder(theme.divider, lineWidth: 0.5)
                         )
+                        .animation(.easeInOut(duration: 0.8), value: theme.cardBackground)
                     }
                 }
                 .padding(.horizontal, .screenPadding)
                 .padding(.vertical, .sm)
             }
             .background(theme.background)
+            .animation(.easeInOut(duration: 0.8), value: theme.background)
             .sheet(isPresented: $showingCategoryManagement) {
                 CategoryManagementView()
             }
