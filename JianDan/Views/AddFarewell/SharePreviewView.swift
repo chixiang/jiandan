@@ -4,8 +4,6 @@ struct SharePreviewView: View {
     let record: FarewellRecord
     let onClose: () -> Void
 
-    @Environment(\.appTheme) private var theme
-
     @State private var polaroidImage: UIImage? = nil
     @State private var isReady = false
     @State private var toastMessage: String?
@@ -15,7 +13,7 @@ struct SharePreviewView: View {
 
     var body: some View {
         ZStack {
-            theme.background.opacity(0.95)
+            Color.white
                 .ignoresSafeArea()
                 .onTapGesture { onClose() }
 
@@ -27,7 +25,7 @@ struct SharePreviewView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: displayWidth)
-                        .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 8)
+                        //.shadow(color: .black.opacity(0.12), radius: 16, x: 0, y: 6)
 
                     Spacer()
 
@@ -38,13 +36,13 @@ struct SharePreviewView: View {
 
                     Button(String(localized: "关闭"), role: .cancel) { onClose() }
                         .font(.subheadline)
-                        .foregroundStyle(theme.secondary)
+                        .foregroundStyle(Color(red: 0.54, green: 0.54, blue: 0.54))
                         .padding(.top, 4)
                 }
                 .padding(.vertical, 60)
             } else {
                 ProgressView()
-                    .tint(theme.accent)
+                    .tint(Color(red: 0.54, green: 0.54, blue: 0.54))
             }
 
             if let toast = toastMessage {
@@ -95,10 +93,10 @@ struct SharePreviewView: View {
                 .font(.subheadline)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(theme.accent.opacity(0.15))
+                .background(Color(red: 0.24, green: 0.24, blue: 0.24).opacity(0.08))
                 .clipShape(Capsule())
         }
-        .foregroundStyle(theme.accent)
+        .foregroundStyle(Color(red: 0.24, green: 0.24, blue: 0.24))
     }
 
     private var shareButton: some View {
@@ -109,10 +107,10 @@ struct SharePreviewView: View {
                 .font(.subheadline)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(theme.accent.opacity(0.15))
+                .background(Color(red: 0.24, green: 0.24, blue: 0.24).opacity(0.08))
                 .clipShape(Capsule())
         }
-        .foregroundStyle(theme.accent)
+        .foregroundStyle(Color(red: 0.24, green: 0.24, blue: 0.24))
     }
 
     private func generateImage() {

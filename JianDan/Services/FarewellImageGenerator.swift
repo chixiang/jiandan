@@ -199,7 +199,7 @@ struct PlaceholderQuoteView: View {
 // MARK: - Image Generator
 
 enum FarewellImageGenerator {
-    @MainActor static func generate(for record: FarewellRecord, theme: CardTheme) -> UIImage? {
+    @MainActor static func generate(for record: FarewellRecord, theme: CardTheme, floating: Bool = true) -> UIImage? {
         let realPhoto: UIImage? = {
             guard let filename = record.photoFilenames.first else { return nil }
             return ImageStore.loadImage(filename: filename)
@@ -217,18 +217,32 @@ enum FarewellImageGenerator {
             photoImage = Self.generatePlaceholderImage(text: text, attribution: attribution, theme: theme)
         }
 
-        let view = FarewellShareCard(
+        let card = FarewellShareCard(
             name: record.name,
             companionshipDays: record.companionshipDays,
             farewellLetter: record.farewellLetter,
             photoImage: photoImage
         )
 
-        let renderer = ImageRenderer(content: view)
+        let baseView: AnyView
+        if floating {
+            baseView = AnyView(
+                ZStack {
+                    Color.white
+                    card
+                        .padding(40)
+                }
+                .frame(width: 440, height: 620)
+            )
+        } else {
+            baseView = AnyView(card)
+        }
+
+        let renderer = ImageRenderer(content: baseView)
         renderer.scale = 3.0
         guard let uiImage = renderer.uiImage else { return nil }
         let opaque = UIGraphicsImageRenderer(size: uiImage.size).image { _ in
-            uiImage.draw(at: .zero)
+            uiImage.draw(at: CGPoint.zero)
         }
         return opaque
     }
