@@ -6,6 +6,7 @@ struct ProfileView: View {
     @Environment(\.appTheme) private var theme
     @Environment(ThemeManager.self) private var themeManager
     @Environment(\.modelContext) private var modelContext
+    @Environment(TabObservation.self) private var tabObs
 
     @Query(sort: \FarewellRecord.farewellDate, order: .reverse) private var records: [FarewellRecord]
 
@@ -24,6 +25,7 @@ struct ProfileView: View {
                     ScrollView {
                         VStack(spacing: .lg) {
                             StatsView(stats: stats)
+                                .id(tabObs.profileReloadCount)
                         }
                         .padding(.horizontal, .screenPadding)
                         .padding(.vertical, .sm)

@@ -55,6 +55,7 @@
 		890FC4F0258F39243567F303 /* MethodPickerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */; };
 		8969BBF985D0CB1833233819 /* SplashQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D0E40B76735BC947EDB60 /* SplashQuoteView.swift */; };
 		8A7900B2052AC5E156F60277 /* RecordDeleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612AFBA9F7DF1593D7F59626 /* RecordDeleter.swift */; };
+		8B3E71CF2296479BEF30EC14 /* TabObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C588093BD3688B5E890E99 /* TabObservation.swift */; };
 		8CFD672FE5F1305F54C960AD /* JianDanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784CD7FE36FCEA935CA5A40 /* JianDanUITests.swift */; };
 		8EF52CE61CEAC7D58BCB47ED /* CategoryFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4B7D14D982689491089DE /* CategoryFilterBar.swift */; };
 		902CCEC2683401339A4BAF8C /* ShimmerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9629120408C93733B119F5 /* ShimmerModifier.swift */; };
@@ -199,6 +200,7 @@
 		F3AFD60EDC07084855C3D0A7 /* PolaroidShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolaroidShareView.swift; sourceTree = "<group>"; };
 		F572DC358EF97BE079D35690 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		F5B7C90D71E57A2B5ACC382A /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
+		F6C588093BD3688B5E890E99 /* TabObservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabObservation.swift; sourceTree = "<group>"; };
 		F8291787AC78FDB5D852356D /* EmotionStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionStarsView.swift; sourceTree = "<group>"; };
 		F84CF8105907C5D3A228E813 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		F97A802DEEFF748A880F9068 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				612AFBA9F7DF1593D7F59626 /* RecordDeleter.swift */,
 				213D1E39B6D19CFFEDDC3FA4 /* SplashSignal.swift */,
 				9C7A5B2D4756F6443DF04E00 /* StatsCalculator.swift */,
+				F6C588093BD3688B5E890E99 /* TabObservation.swift */,
 				F97A802DEEFF748A880F9068 /* ThemeManager.swift */,
 			);
 			path = Services;
@@ -696,6 +699,7 @@
 				80A5EA1E7278F1F038F0CC5B /* SplashSignal.swift in Sources */,
 				4CF125A0F526B99CFA6D81E6 /* StatsCalculator.swift in Sources */,
 				755AC1BA250516FF6A2BC3A1 /* StatsView.swift in Sources */,
+				8B3E71CF2296479BEF30EC14 /* TabObservation.swift in Sources */,
 				62E402B2A4F658262B879FA5 /* ThemeManager.swift in Sources */,
 				692147C796073FADE9305950 /* Typography.swift in Sources */,
 				0D5DACD9C229F125E35D64F8 /* UserCategory.swift in Sources */,

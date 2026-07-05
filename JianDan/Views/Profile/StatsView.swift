@@ -45,13 +45,14 @@ struct StatsView: View {
 
             if !stats.categoryBreakdown.isEmpty {
                 BreakdownCard(title: String(localized: "分类分布")) {
-                    ForEach(stats.categoryBreakdown, id: \.category) { item in
+                    ForEach(Array(stats.categoryBreakdown.enumerated()), id: \.element.category) { offset, item in
                         BreakdownRow(
                             icon: item.category.iconName,
                             label: item.category.displayName,
                             value: "\(item.count)",
                             count: item.count,
-                            maxCount: stats.categoryBreakdown.first?.count ?? 1
+                            maxCount: stats.categoryBreakdown.first?.count ?? 1,
+                            index: offset
                         )
                     }
                 }
@@ -59,13 +60,14 @@ struct StatsView: View {
 
             if !stats.categoryPriceBreakdown.isEmpty {
                 BreakdownCard(title: String(localized: "分类总价")) {
-                    ForEach(stats.categoryPriceBreakdown, id: \.category) { item in
+                    ForEach(Array(stats.categoryPriceBreakdown.enumerated()), id: \.element.category) { offset, item in
                         BreakdownRow(
                             icon: item.category.iconName,
                             label: item.category.displayName,
                             value: priceString(item.totalPrice),
                             count: Int(item.totalPrice),
-                            maxCount: Int(stats.categoryPriceBreakdown.first?.totalPrice ?? 0)
+                            maxCount: Int(stats.categoryPriceBreakdown.first?.totalPrice ?? 0),
+                            index: offset
                         )
                     }
                 }
@@ -73,13 +75,14 @@ struct StatsView: View {
 
             if !stats.methodBreakdown.isEmpty {
                 BreakdownCard(title: String(localized: "去向分布")) {
-                    ForEach(Array(stats.methodBreakdown.enumerated()), id: \.offset) { _, item in
+                    ForEach(Array(stats.methodBreakdown.enumerated()), id: \.offset) { offset, item in
                         BreakdownRow(
                             icon: item.icon,
                             label: item.name,
                             value: "\(item.count)",
                             count: item.count,
-                            maxCount: stats.methodBreakdown.first?.count ?? 1
+                            maxCount: stats.methodBreakdown.first?.count ?? 1,
+                            index: offset
                         )
                     }
                 }
@@ -87,13 +90,14 @@ struct StatsView: View {
 
             if !stats.emotionBreakdown.isEmpty {
                 BreakdownCard(title: String(localized: "情感分布")) {
-                    ForEach(stats.emotionBreakdown, id: \.stars) { item in
+                    ForEach(Array(stats.emotionBreakdown.enumerated()), id: \.element.stars) { offset, item in
                         BreakdownRow(
                             icon: nil,
                             label: item.name,
                             value: "\(item.count)",
                             count: item.count,
-                            maxCount: stats.emotionBreakdown.first?.count ?? 1
+                            maxCount: stats.emotionBreakdown.first?.count ?? 1,
+                            index: offset
                         )
                     }
                 }
@@ -180,6 +184,9 @@ private struct BreakdownRow: View {
     let value: String
     let count: Int
     let maxCount: Int
+    let index: Int
+
+    @State private var animated = false
 
     var body: some View {
         HStack(spacing: .sm) {
@@ -199,16 +206,21 @@ private struct BreakdownRow: View {
             .frame(width: 100, alignment: .leading)
 
             GeometryReader { proxy in
-                let ratio = maxCount > 0 ? Double(count) / Double(maxCount) : 0
+                let ratio = maxCount > 0 ? CGFloat(count) / CGFloat(maxCount) : 0 as CGFloat
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 3)
                         .fill(theme.divider)
                     RoundedRectangle(cornerRadius: 3)
                         .fill(theme.accent)
-                        .frame(width: proxy.size.width * ratio)
+                        .frame(width: animated ? proxy.size.width * ratio : 0)
+                        .animation(.spring(response: 0.8, dampingFraction: 0.7)
+                            .delay(Double(index) * 0.06), value: animated)
                 }
             }
             .frame(height: 6)
+            .onAppear {
+                animated = true
+            }
 
             Text(value)
                 .appFont(.caption)

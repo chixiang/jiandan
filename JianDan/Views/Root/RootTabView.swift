@@ -9,6 +9,7 @@ struct RootTabView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appTheme) private var theme
     @State private var selectedTab: Int = 0
+    @State private var tabObs = TabObservation()
 
     var body: some View {
         ZStack {
@@ -40,9 +41,12 @@ struct RootTabView: View {
         }
         .animation(.easeInOut(duration: 0.6), value: theme.background)
         .onAppear {
-            // -seedTestData launch arg：模拟器/真机开发测试用
             JianDanApp.seedTestDataIfNeeded(context: modelContext)
         }
+        .onChange(of: selectedTab) { _, newValue in
+            if newValue == 2 { tabObs.profileReloadCount += 1 }
+        }
+        .environment(tabObs)
     }
 }
 
