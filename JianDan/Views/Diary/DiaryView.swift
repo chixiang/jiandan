@@ -254,8 +254,8 @@ private struct DiaryListView: View {
                                 .opacity(didEnter ? 1 : 0)
                                 .scaleEffect(didEnter ? 1 : 0.96)
                                 .animation(
-                                    .spring(response: 0.5, dampingFraction: 0.8)
-                                        .delay(Double(index) * 0.06),
+                                    .spring(response: 1.0, dampingFraction: 0.8)
+                                        .delay(Double(index) * 0.12),
                                     value: didEnter
                                 )
                                 .transition(.asymmetric(
