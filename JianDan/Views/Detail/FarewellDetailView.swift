@@ -188,8 +188,9 @@ struct FarewellDetailView: View {
             EditFarewellView(record: record)
         }
         .fullScreenCover(isPresented: $showDetailShare) {
-            SharePreviewView(
+            PolaroidShareView(
                 record: record,
+                animateDevelop: false,
                 onClose: { showDetailShare = false }
             )
         }

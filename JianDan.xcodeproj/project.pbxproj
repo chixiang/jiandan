@@ -44,6 +44,7 @@
 		6729CAE706D36D68AC690578 /* JianDanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AD7ECD080FCCA91DE4DE79 /* JianDanApp.swift */; };
 		67D2F73FA8126C3A36F09E6B /* ImageStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1244719ED29A3502A40DD4 /* ImageStoreTests.swift */; };
 		692147C796073FADE9305950 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6435864290CE9E2ECFF7BF3D /* Typography.swift */; };
+		69BB38D93FBB32ADC5EDDE7A /* PolaroidShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AFD60EDC07084855C3D0A7 /* PolaroidShareView.swift */; };
 		6F3142ABE9BBCEA39B33501D /* FarewellFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC922E49CE05ED0E2E58202 /* FarewellFlowUITests.swift */; };
 		716E636EA0AE737EF6F735EA /* CategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DEAAA9324AC86831B8B755 /* CategoryTests.swift */; };
 		755AC1BA250516FF6A2BC3A1 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F572DC358EF97BE079D35690 /* StatsView.swift */; };
@@ -84,7 +85,6 @@
 		D6E8C4170EF533A803AF6038 /* ViewLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86392142ABA790AF7701776B /* ViewLogicTests.swift */; };
 		DC61387E7B35C0ACFA39E7A2 /* CategoryManagementUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFC5F5FAB46F7765CCBDC23 /* CategoryManagementUITests.swift */; };
 		DDB1D458B9EB2C168CF0B004 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953BE81A83D14FA4885D6EC6 /* Category.swift */; };
-		E183F1DBA2E275B55D09AE58 /* SharePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */; };
 		F08B04C6C56711A13179F6CD /* AppThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3BF256622877B3CB2545B /* AppThemeTests.swift */; };
 		F314F4BF2529B3A21329D245 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B641C5B51F39B3E67BAE341 /* LanguageManager.swift */; };
 		F3830D3298699FA078DF7D85 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE7FEDB25497446B422606 /* SettingsView.swift */; };
@@ -122,7 +122,6 @@
 		132E58443AB3251FA4F72E44 /* DiaryEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEmptyView.swift; sourceTree = "<group>"; };
 		14E005263BA1E601FECBD377 /* FarewellImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarewellImageGenerator.swift; sourceTree = "<group>"; };
 		1645C3A512D3DCE50DFD69E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePreviewView.swift; sourceTree = "<group>"; };
 		19F95690CDC8F8F866CABEFC /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		2029782CE9E44F5A7D36E945 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		213D1E39B6D19CFFEDDC3FA4 /* SplashSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashSignal.swift; sourceTree = "<group>"; };
@@ -197,6 +196,7 @@
 		E421DB8D35799B304A11870A /* SplashCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashCoordinator.swift; sourceTree = "<group>"; };
 		E59B82CA460489DD66EA23BB /* StatsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsUITests.swift; sourceTree = "<group>"; };
 		E873A2BD32606816AF62B424 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		F3AFD60EDC07084855C3D0A7 /* PolaroidShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolaroidShareView.swift; sourceTree = "<group>"; };
 		F572DC358EF97BE079D35690 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		F5B7C90D71E57A2B5ACC382A /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
 		F8291787AC78FDB5D852356D /* EmotionStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionStarsView.swift; sourceTree = "<group>"; };
@@ -349,8 +349,8 @@
 				A6B6B4C4218C5334726D6EDB /* MethodPickerSection.swift */,
 				5C6DD2FFBF32B06E4BB63605 /* NewCategorySheet.swift */,
 				315FD98085A1654860A02556 /* PhotoPickerSection.swift */,
+				F3AFD60EDC07084855C3D0A7 /* PolaroidShareView.swift */,
 				93174AF13D308030FE5B1BB4 /* PriceInputView.swift */,
-				19EF24A466BF8F70A6C385A1 /* SharePreviewView.swift */,
 				19F95690CDC8F8F866CABEFC /* ShareSheet.swift */,
 			);
 			path = AddFarewell;
@@ -679,6 +679,7 @@
 				5E3EEC3B819F26C81EFDFE61 /* PhotoCarouselView.swift in Sources */,
 				129C3445F14098B47F0DFE41 /* PhotoPickerSection.swift in Sources */,
 				966EFDED469F08924E0B9D13 /* PhotoThumbView.swift in Sources */,
+				69BB38D93FBB32ADC5EDDE7A /* PolaroidShareView.swift in Sources */,
 				C23293C44CE6148B0AA81ED1 /* PressScaleButtonStyle.swift in Sources */,
 				39ED5FEF4196749DDE8A5066 /* PriceInputView.swift in Sources */,
 				432F65EC6A3C19B982377F15 /* ProfileView.swift in Sources */,
@@ -688,7 +689,6 @@
 				BB7A51F8D22CA1D74EB558AF /* RemembranceView.swift in Sources */,
 				C59A1210C08F55E36A2AA4D3 /* RootTabView.swift in Sources */,
 				F3830D3298699FA078DF7D85 /* SettingsView.swift in Sources */,
-				E183F1DBA2E275B55D09AE58 /* SharePreviewView.swift in Sources */,
 				CFEAD1EB12D1F585104350F1 /* ShareSheet.swift in Sources */,
 				902CCEC2683401339A4BAF8C /* ShimmerModifier.swift in Sources */,
 				ABF18B5080D84A0730A97178 /* SplashCoordinator.swift in Sources */,
