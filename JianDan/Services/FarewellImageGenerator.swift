@@ -50,6 +50,8 @@ struct FarewellShareCard: View {
     let companionshipDays: Int?
     let farewellLetter: String?
     let photoImage: UIImage?
+    let placeholderQuote: String?
+    let placeholderAttribution: String?
 
     // Polaroid white card — hardcoded
     private let cardBg = Color.white
@@ -78,6 +80,12 @@ struct FarewellShareCard: View {
                 Image(uiImage: img)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
+                    .frame(width: photoW, height: photoH)
+                    .clipped()
+                    .padding(.top, photoTopMargin)
+                    .padding(.horizontal, photoSideMargin)
+            } else if let quote = placeholderQuote, !quote.isEmpty {
+                placeholderView(quote: quote, attribution: placeholderAttribution)
                     .frame(width: photoW, height: photoH)
                     .clipped()
                     .padding(.top, photoTopMargin)
@@ -129,7 +137,7 @@ struct FarewellShareCard: View {
         .frame(width: cardW, height: cardH)
         .background(cardBg)
         .clipShape(RoundedRectangle(cornerRadius: 4))
-        .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 4)
+        // 阴影已移至 generate() 中的 ZStack 包裹层，避免影响内部 placeholder UIImage
     }
 
     // MARK: - Sub-views
@@ -147,6 +155,38 @@ struct FarewellShareCard: View {
             Text("\"")
                 .font(Font.system(size: 10, design: .serif).italic())
                 .foregroundStyle(textSecondary.opacity(0.5))
+        }
+    }
+
+    @ViewBuilder
+    private func placeholderView(quote: String, attribution: String?) -> some View {
+        VStack(spacing: 0) {
+            Spacer()
+
+            Text("\"")
+                .font(Font.system(size: 12, design: .serif).italic())
+                .foregroundStyle(textSecondary.opacity(0.35))
+
+            Text(quote)
+                .font(Font.system(size: 10, design: .serif).italic())
+                .foregroundStyle(textSecondary.opacity(0.55))
+                .multilineTextAlignment(.center)
+                .lineSpacing(4)
+                .padding(.horizontal, 20)
+
+            Text("\"")
+                .font(Font.system(size: 12, design: .serif).italic())
+                .foregroundStyle(textSecondary.opacity(0.35))
+                .padding(.top, 2)
+
+            if let attr = attribution, !attr.isEmpty {
+                Text(attr)
+                    .font(Font.system(size: 8, design: .serif).italic())
+                    .foregroundStyle(textSecondary.opacity(0.45))
+                    .padding(.top, 6)
+            }
+
+            Spacer()
         }
     }
 
@@ -200,49 +240,69 @@ struct PlaceholderQuoteView: View {
 
 enum FarewellImageGenerator {
     @MainActor static func generate(for record: FarewellRecord, theme: CardTheme, floating: Bool = true) -> UIImage? {
-        let realPhoto: UIImage? = {
+        let photoImage: UIImage? = {
             guard let filename = record.photoFilenames.first else { return nil }
             return ImageStore.loadImage(filename: filename)
         }()
 
-        let photoImage: UIImage?
-        if let img = realPhoto {
-            photoImage = img
-        } else {
+        var placeholderQuote: String? = nil
+        var placeholderAttribution: String? = nil
+        if photoImage == nil {
             let repo = QuoteRepository()
             let quote = repo.randomQuote()
             let lang = currentLanguage()
-            let text = quote?.localizedText(for: lang) ?? ""
-            let attribution = quote?.localizedAttribution(for: lang) ?? ""
-            photoImage = Self.generatePlaceholderImage(text: text, attribution: attribution, theme: theme)
+            placeholderQuote = quote?.localizedText(for: lang) ?? ""
+            placeholderAttribution = quote?.localizedAttribution(for: lang)
         }
 
         let card = FarewellShareCard(
             name: record.name,
             companionshipDays: record.companionshipDays,
             farewellLetter: record.farewellLetter,
-            photoImage: photoImage
+            photoImage: photoImage,
+            placeholderQuote: placeholderQuote,
+            placeholderAttribution: placeholderAttribution
         )
 
-        let baseView: AnyView
         if floating {
-            baseView = AnyView(
-                ZStack {
-                    Color.white
-                    card
-                        .padding(40)
-                }
-                .frame(width: 440, height: 620)
+            let cardRenderer = ImageRenderer(content: card)
+            cardRenderer.scale = 3.0
+            guard let cardImage = cardRenderer.uiImage else { return nil }
+
+            let padPx = 24.0 * 3.0
+            let canvasSize = CGSize(
+                width: cardImage.size.width + padPx * 2,
+                height: cardImage.size.height + padPx * 2
             )
-        } else {
-            baseView = AnyView(card)
+
+            return UIGraphicsImageRenderer(size: canvasSize).image { ctx in
+                let cg = ctx.cgContext
+
+                UIColor.white.setFill()
+                ctx.fill(CGRect(origin: .zero, size: canvasSize))
+
+                let cardOrigin = CGPoint(x: padPx, y: padPx)
+                let cardRect = CGRect(origin: cardOrigin, size: cardImage.size)
+                let cardPath = UIBezierPath(roundedRect: cardRect, cornerRadius: 4 * 3).cgPath
+
+                cg.saveGState()
+                cg.setShadow(offset: CGSize(width: 0, height: 4 * 3),
+                             blur: 12 * 3,
+                             color: UIColor.black.withAlphaComponent(0.15).cgColor)
+                cg.addPath(cardPath)
+                cg.setFillColor(UIColor.white.cgColor)
+                cg.fillPath()
+                cg.restoreGState()
+
+                cardImage.draw(at: cardOrigin)
+            }
         }
 
-        let renderer = ImageRenderer(content: baseView)
+        let renderer = ImageRenderer(content: card)
         renderer.scale = 3.0
         guard let uiImage = renderer.uiImage else { return nil }
         let opaque = UIGraphicsImageRenderer(size: uiImage.size).image { _ in
-            uiImage.draw(at: CGPoint.zero)
+            uiImage.draw(at: .zero)
         }
         return opaque
     }
