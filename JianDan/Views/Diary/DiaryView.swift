@@ -172,6 +172,7 @@ struct DiaryView: View {
 private struct DiaryListView: View {
     @Environment(\.appTheme) private var theme
     @Environment(SplashSignal.self) private var splashSignal
+    @Environment(TabObservation.self) private var tabObs
     @Query private var records: [FarewellRecord]
     @State private var didEnter = false
     let selectedCategoryIDs: Set<String>
@@ -283,6 +284,7 @@ private struct DiaryListView: View {
                     }
                 }
             }
+            .id(tabObs.diaryReloadCount)
         }
     }
 

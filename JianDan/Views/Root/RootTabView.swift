@@ -44,6 +44,7 @@ struct RootTabView: View {
             JianDanApp.seedTestDataIfNeeded(context: modelContext)
         }
         .onChange(of: selectedTab) { _, newValue in
+            if newValue == 0 { tabObs.diaryReloadCount += 1 }
             if newValue == 2 { tabObs.profileReloadCount += 1 }
         }
         .environment(tabObs)
