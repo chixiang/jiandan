@@ -122,7 +122,7 @@ struct FarewellShareCard: View {
                 .padding(.horizontal, 24)
 
             HStack(alignment: .bottom) {
-                Text("告别清单 · Farewell List")
+                Text("app_display_name")
                     .font(Font.system(size: 7, weight: .light))
                     .tracking(2)
                     .foregroundStyle(textSecondary.opacity(0.5))
