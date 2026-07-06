@@ -40,6 +40,7 @@ enum SortKey: String, CaseIterable {
 struct DiaryView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appTheme) private var theme
+    @Environment(TabObservation.self) private var tabObs
     @Namespace private var heroNamespace
     @State private var selectedCategoryIDs: Set<String> = []
     @State private var selectedMethods: Set<String> = []
@@ -76,6 +77,7 @@ struct DiaryView: View {
                         selectedEmotions = []
                     }
                 )
+                .id(tabObs.diaryReloadCount)
             }
             .navigationDestination(for: FarewellRecord.self) { record in
                 FarewellDetailView(record: record)
@@ -284,7 +286,6 @@ private struct DiaryListView: View {
                     }
                 }
             }
-            .id(tabObs.diaryReloadCount)
         }
     }
 
