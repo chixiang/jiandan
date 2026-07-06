@@ -31,7 +31,7 @@ struct PhotoPickerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .sm) {
             Text("照片")
-                .appFont(.headline)
+                .appFont(.sectionTitle)
 
             if items.isEmpty {
                 emptyActions

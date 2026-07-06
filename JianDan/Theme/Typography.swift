@@ -13,6 +13,8 @@ enum AppTypography {
     case title
     /// 三级标题（如卡片标题、表单 Section 标题）
     case headline
+    /// Section 小标题（心情/分类/告别方式/照片 — 非衬线）
+    case sectionTitle
     /// 正文
     case body
     /// 副文 / 说明
@@ -25,6 +27,7 @@ enum AppTypography {
         case .largeTitle: return .system(.largeTitle, design: .serif).weight(.regular)
         case .title:      return .system(.title2, design: .serif).weight(.regular)
         case .headline:   return .system(.headline, design: .serif).weight(.medium)
+        case .sectionTitle: return .system(.headline, design: .default).weight(.medium)
         case .body:       return .system(.body, design: .default)
         case .caption:    return .system(.caption, design: .default)
         case .stat:       return .system(.largeTitle, design: .serif).weight(.light)
@@ -37,6 +40,7 @@ enum AppTypography {
         case .largeTitle: return 1.5
         case .title:      return 1.2
         case .headline:   return 0.8
+        case .sectionTitle: return 0.8
         case .body:       return 0.3
         case .caption:    return 0.8
         case .stat:       return 1.0

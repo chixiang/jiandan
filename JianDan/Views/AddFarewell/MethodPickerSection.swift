@@ -7,7 +7,7 @@ struct MethodPickerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("去向")
-                .appFont(.headline)
+                .appFont(.sectionTitle)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
