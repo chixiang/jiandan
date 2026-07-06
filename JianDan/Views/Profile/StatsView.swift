@@ -21,12 +21,14 @@ struct StatsView: View {
                 StatCard(
                     value: "\(stats.totalCount)",
                     label: String(localized: "告别数"),
-                    icon: "leaf.fill"
+                    icon: "leaf.fill",
+                    animateTo: Double(stats.totalCount)
                 )
                 StatCard(
                     value: stats.averageCompanionshipDays.map { "\($0)" } ?? "—",
                     label: String(localized: "平均陪伴"),
-                    icon: "heart.fill"
+                    icon: "heart.fill",
+                    animateTo: stats.averageCompanionshipDays.map(Double.init)
                 )
             }
 
@@ -34,12 +36,14 @@ struct StatsView: View {
                 StatCard(
                     value: "\(stats.longestCompanionshipDays)",
                     label: String(localized: "最长陪伴"),
-                    icon: "hourglass"
+                    icon: "hourglass",
+                    animateTo: Double(stats.longestCompanionshipDays)
                 )
                 StatCard(
-                    value: priceString(stats.totalPurchasePrice),
+                    value: stats.totalPurchasePrice > 0 ? "\(Int(stats.totalPurchasePrice))" : "—",
                     label: String(localized: "总价"),
-                    icon: currencyManager.currency.iconCircle
+                    icon: currencyManager.currency.iconCircle,
+                    animateTo: stats.totalPurchasePrice > 0 ? stats.totalPurchasePrice : nil
                 )
             }
 
@@ -112,17 +116,34 @@ struct StatsView: View {
         if price == 0 {
             return "—"
         }
-        return "\(currencyManager.currency.symbol)\(String(format: "%.0f", price))"
+        return "\(currencyManager.currency.symbol)\(Int(price))"
     }
 }
 
 // MARK: - 组件
+
+private struct AnimatingNumber: View, Animatable {
+    var value: Double
+
+    var animatableData: Double {
+        get { value }
+        set { value = newValue }
+    }
+
+    var body: some View {
+        Text(verbatim: "\(Int(value))")
+    }
+}
 
 private struct StatCard: View {
     @Environment(\.appTheme) private var theme
     let value: String
     let label: String
     let icon: String
+    let animateTo: Double?
+
+    @State private var displayValue: Double = 0
+    @State private var animationDone = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: .xs) {
@@ -135,11 +156,19 @@ private struct StatCard: View {
                     .foregroundStyle(theme.secondary)
             }
 
-            Text(value)
-                .appFont(.stat)
-                .foregroundStyle(theme.primaryText)
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
+            Group {
+                if let _ = animateTo, !animationDone {
+                    AnimatingNumber(value: displayValue)
+                        .appFont(.stat)
+                        .animation(.easeOut(duration: 0.5), value: displayValue)
+                } else {
+                    Text(value)
+                        .appFont(.stat)
+                }
+            }
+            .foregroundStyle(theme.primaryText)
+            .lineLimit(1)
+            .minimumScaleFactor(0.6)
         }
         .padding(.md)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -149,6 +178,13 @@ private struct StatCard: View {
             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                 .strokeBorder(theme.divider, lineWidth: 0.5)
         )
+        .onAppear {
+            guard let to = animateTo else { return }
+            displayValue = to
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) {
+                animationDone = true
+            }
+        }
     }
 }
 
