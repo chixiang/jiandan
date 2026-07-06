@@ -54,9 +54,9 @@ enum AppThemeMode: String, CaseIterable, Identifiable, Codable {
     /// 用户友好的描述（与 rawValue 相同，但显式提供方便调用）
     var displayName: String {
         switch self {
-        case .light: return String(localized: "浅色")
-        case .dark: return String(localized: "深色")
-        case .ink: return String(localized: "墨色")
+        case .light: return String(localized: "素笺")
+        case .dark: return String(localized: "暮色")
+        case .ink: return String(localized: "朱墨")
         }
     }
 
