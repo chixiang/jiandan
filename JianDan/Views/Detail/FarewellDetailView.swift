@@ -127,7 +127,7 @@ struct FarewellDetailView: View {
                                 .appFont(.caption)
                                 .foregroundStyle(theme.secondary)
                             Text(letter)
-                                .appFont(.body)
+                                .appFont(.letter)
                                 .lineSpacing(6)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
