@@ -17,7 +17,7 @@ struct FarewellDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: .lg) {
+            VStack(alignment: .leading, spacing: .md) {
                 // 照片轮播（hero 转场目标）
                 Group {
                     if let ns = heroNamespace {
@@ -28,107 +28,109 @@ struct FarewellDetailView: View {
                     }
                 }
 
-                // 名称 + 日期
-                VStack(alignment: .leading, spacing: .xs) {
-                    Text(record.name)
-                        .appFont(.title)
-                        .fontWeight(.regular)
-
-                    HStack(spacing: .sm) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "calendar")
-                            Text(record.farewellDate, format: .dateTime.year().month().day())
+                // 卡片 1：物品信息
+                DetailCard {
+                    VStack(alignment: .leading, spacing: .xs) {
+                        Text(record.name)
+                            .appFont(.title)
+                        HStack(spacing: .sm) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "calendar")
+                                Text(record.farewellDate, format: .dateTime.year().month().day())
+                            }
+                            .appFont(.caption)
+                            .foregroundStyle(theme.secondary)
+                            if let days = record.companionshipDays {
+                                Text("陪伴了 \(days) 天")
+                                    .appFont(.caption)
+                                    .foregroundStyle(theme.secondary)
+                            }
                         }
-                        .appFont(.caption)
-                        .foregroundStyle(theme.secondary)
+                    }
+                }
 
-                        if let days = record.companionshipDays {
-                            Text("陪伴了 \(days) 天")
+                // 卡片 2：分类与去向
+                DetailCard {
+                    VStack(alignment: .leading, spacing: .sm) {
+                        DetailRow(
+                            icon: record.category.iconName,
+                            label: "分类",
+                            value: record.category.displayName
+                        )
+                        DetailRow(
+                            icon: record.method.icon,
+                            label: "去向",
+                            value: record.method.localizedName
+                        )
+                        if let detail = record.recipientDetail, !detail.isEmpty {
+                            DetailRow(
+                                icon: "person",
+                                label: "收件 / 详情",
+                                value: detail
+                            )
+                        }
+                    }
+                }
+
+                // 卡片 3：当时心情
+                if let emotion = record.emotionValue {
+                    DetailCard {
+                        VStack(alignment: .leading, spacing: .xs) {
+                            Text("当时心情")
                                 .appFont(.caption)
                                 .foregroundStyle(theme.secondary)
-                        }
-                    }
-                }
-
-                sectionDivider()
-
-                // 分类与去向
-                VStack(alignment: .leading, spacing: .sm) {
-                    DetailRow(
-                        icon: record.category.iconName,
-                        label: "分类",
-                        value: record.category.displayName
-                    )
-                    DetailRow(
-                        icon: record.method.icon,
-                        label: "去向",
-                        value: record.method.localizedName
-                    )
-                    if let detail = record.recipientDetail, !detail.isEmpty {
-                        DetailRow(
-                            icon: "person",
-                            label: "收件 / 详情",
-                            value: detail
-                        )
-                    }
-                }
-
-                // 情感值
-                if let emotion = record.emotionValue {
-                    sectionDivider()
-                    VStack(alignment: .leading, spacing: .xs) {
-                        Text("当时心情")
-                            .appFont(.caption)
-                            .foregroundStyle(theme.secondary)
-                        HStack(spacing: .sm) {
-                            ForEach(1...3, id: \.self) { i in
-                                Circle()
-                                    .fill(i <= emotion ? theme.accent : theme.divider)
-                                    .frame(width: 10, height: 10)
+                            HStack(spacing: .sm) {
+                                ForEach(1...3, id: \.self) { i in
+                                    Circle()
+                                        .fill(i <= emotion ? theme.accent : theme.divider)
+                                        .frame(width: 10, height: 10)
+                                }
+                                Text(emotionLabel(emotion))
+                                    .appFont(.body)
+                                    .foregroundStyle(theme.primaryText)
                             }
-                            Text(emotionLabel(emotion))
-                                .appFont(.body)
-                                .foregroundStyle(theme.primaryText)
                         }
                     }
                 }
 
-                // 购入信息
+                // 卡片 4：获得
                 if record.purchaseDate != nil || record.purchasePrice != nil {
-                    sectionDivider()
-                    VStack(alignment: .leading, spacing: .xs) {
-                        Text("获得")
-                            .appFont(.caption)
-                            .foregroundStyle(theme.secondary)
-                        if let date = record.purchaseDate {
-                            Text("获得于 \(date.formatted(.dateTime.year().month().day()))")
+                    DetailCard {
+                        VStack(alignment: .leading, spacing: .xs) {
+                            Text("获得")
+                                .appFont(.caption)
+                                .foregroundStyle(theme.secondary)
+                            if let date = record.purchaseDate {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "calendar")
+                                    Text("获得于 \(date.formatted(.dateTime.year().month().day()))")
+                                }
                                 .appFont(.body)
-                        }
-                        if let price = record.purchasePrice {
-                            HStack(spacing: 4) {
-                                Image(systemName: currencyManager.currency.icon)
-                                    .foregroundStyle(theme.secondary)
-                                Text(price, format: .number.precision(.fractionLength(2)))
                             }
-                            .appFont(.body)
+                            if let price = record.purchasePrice {
+                                HStack(spacing: 4) {
+                                    Image(systemName: currencyManager.currency.icon)
+                                        .foregroundStyle(theme.secondary)
+                                    Text(price, format: .number.precision(.fractionLength(2)))
+                                }
+                                .appFont(.body)
+                            }
                         }
                     }
                 }
 
-                // 告别留言
+                // 卡片 5：告别留言
                 if let letter = record.farewellLetter, !letter.isEmpty {
-                    sectionDivider()
-                    VStack(alignment: .leading, spacing: .sm) {
-                        Text("告别留言")
-                            .appFont(.caption)
-                            .foregroundStyle(theme.secondary)
-                        Text(letter)
-                            .appFont(.body)
-                            .lineSpacing(6)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.md)
-                            .background(theme.cardBackground)
-                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+                    DetailCard {
+                        VStack(alignment: .leading, spacing: .sm) {
+                            Text("告别留言")
+                                .appFont(.caption)
+                                .foregroundStyle(theme.secondary)
+                            Text(letter)
+                                .appFont(.body)
+                                .lineSpacing(6)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                 }
 
@@ -224,13 +226,6 @@ struct FarewellDetailView: View {
 
     // MARK: - 辅助视图
 
-    @ViewBuilder
-    private func sectionDivider() -> some View {
-        Rectangle()
-            .fill(theme.divider)
-            .frame(width: 24, height: 0.5)
-    }
-
     private func metaText(_ text: String) -> some View {
         Text(text)
             .appFont(.caption)
@@ -269,6 +264,28 @@ struct FarewellDetailView: View {
         )
         modelContext.delete(cat)
         try? modelContext.save()
+    }
+}
+
+/// 详情卡片容器（统一圆角 + 背景 + 边框）
+private struct DetailCard<Content: View>: View {
+    @Environment(\.appTheme) private var theme
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .padding(.md)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(theme.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
+                    .strokeBorder(theme.divider, lineWidth: 0.5)
+            )
     }
 }
 
@@ -320,7 +337,7 @@ struct EditFarewellView: View {
                         }
                 }
 
-                Section {
+                Section("照片") {
                     PhotoPickerSection(items: $photos)
                 }
 
@@ -359,7 +376,7 @@ struct EditFarewellView: View {
                     }
                 }
 
-                Section("更多") {
+                Section("获得") {
                     Toggle("记录获得日期", isOn: Binding(
                         get: { record.purchaseDate != nil },
                         set: { newValue in
@@ -385,7 +402,9 @@ struct EditFarewellView: View {
                         ),
                         symbol: currencyManager.currency.symbol
                     )
+                }
 
+                Section("心情") {
                     EmotionStarsView(value: Binding(
                         get: { record.emotionValue },
                         set: { record.emotionValue = $0 }
