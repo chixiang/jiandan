@@ -185,7 +185,6 @@ struct RemembranceView: View {
 
                         revealedLetter("“\(letter)”")
                             .appFont(.letter)
-                            .italic()
                             .lineSpacing(8)
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: 300)
