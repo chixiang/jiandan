@@ -16,6 +16,7 @@ struct RemembranceView: View {
     @State private var showingEmptyAlert = false
     @State private var transitionEdge: Edge = .bottom
     @State private var revealedLetterCount = 0
+    @State private var showingEdit = false
     @State private var photoViewerFilenames: [String]?
 
     var body: some View {
@@ -35,6 +36,17 @@ struct RemembranceView: View {
                 }
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    if record != nil {
+                        Button {
+                            showingEdit = true
+                        } label: {
+                            Image(systemName: "square.and.pencil")
+                                .appFont(.caption)
+                                .foregroundStyle(theme.accent)
+                        }
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
                         if records.isEmpty {
@@ -54,6 +66,11 @@ struct RemembranceView: View {
                 Button("好的", role: .cancel) { }
             } message: {
                 Text("先去「告别清单」Tab 记下第一件物品吧")
+            }
+            .sheet(isPresented: $showingEdit) {
+                if let r = record {
+                    EditFarewellView(record: r)
+                }
             }
             .fullScreenCover(item: Binding(
                 get: { photoViewerFilenames.map { IdentifiableArray(value: $0) } },
