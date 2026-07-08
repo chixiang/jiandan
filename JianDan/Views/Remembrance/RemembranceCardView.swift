@@ -10,6 +10,9 @@ struct RemembranceCardView: View {
     @Environment(\.appTheme) private var theme
     @Environment(CurrencyManager.self) private var currencyManager
 
+    @State private var isPressed = false
+    var onLongPress: (() -> Void)? = nil
+
     private var model: RemembranceCardModel { RemembranceCardModel(record: record) }
 
     var body: some View {
@@ -25,9 +28,32 @@ struct RemembranceCardView: View {
                 letterSection
                 divider
             }
+            if model.showsPhotoHint {
+                Text("长按查看照片")
+                    .appFont(.caption)
+                    .foregroundStyle(theme.secondary.opacity(0.4))
+                    .padding(.top, .sm)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, .screenPadding)
+        .contentShape(Rectangle())
+        .gesture(
+            LongPressGesture(minimumDuration: 0.5)
+                .onChanged { _ in
+                    if !isPressed { isPressed = true }
+                }
+                .onEnded { _ in
+                    isPressed = false
+                    onLongPress?()
+                }
+        )
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 5)
+                .onEnded { _ in isPressed = false }
+        )
+        .scaleEffect(isPressed ? 0.98 : 1.0)
+        .animation(.easeOut(duration: 0.2), value: isPressed)
     }
 
     // MARK: - Sections

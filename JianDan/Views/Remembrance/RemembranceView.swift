@@ -16,6 +16,7 @@ struct RemembranceView: View {
     @State private var showingEmptyAlert = false
     @State private var transitionEdge: Edge = .bottom
     @State private var revealedLetterCount = 0
+    @State private var photoViewerFilenames: [String]?
 
     var body: some View {
         NavigationStack {
@@ -54,6 +55,14 @@ struct RemembranceView: View {
             } message: {
                 Text("先去「告别清单」Tab 记下第一件物品吧")
             }
+            .fullScreenCover(item: Binding(
+                get: { photoViewerFilenames.map { IdentifiableArray(value: $0) } },
+                set: { photoViewerFilenames = $0?.value }
+            )) { wrapper in
+                PhotoViewerSheet(filenames: wrapper.value) {
+                    photoViewerFilenames = nil
+                }
+            }
             .onAppear {
                 if record == nil, !records.isEmpty { pickRandom() }
             }
@@ -86,7 +95,15 @@ struct RemembranceView: View {
     // MARK: - 详情
 
     private func detailView(_ item: FarewellRecord) -> some View {
-        RemembranceCardView(record: item, revealedLetterCount: $revealedLetterCount)
+        RemembranceCardView(
+            record: item,
+            revealedLetterCount: $revealedLetterCount,
+            onLongPress: {
+                if !item.photoFilenames.isEmpty {
+                    photoViewerFilenames = item.photoFilenames
+                }
+            }
+        )
             .task(id: item.id) {
                 revealedLetterCount = 0
                 let letter = item.farewellLetter ?? ""
@@ -125,6 +142,11 @@ struct RemembranceView: View {
         .environment(\.appTheme, AppTheme(mode: .light))
         .environment(CurrencyManager())
         .modelContainer(for: FarewellRecord.self, inMemory: true)
+}
+
+private struct IdentifiableArray: Identifiable {
+    let value: [String]
+    var id: String { value.joined(separator: ",") }
 }
 
 private extension Edge {

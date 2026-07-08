@@ -69,6 +69,7 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>4E53B4EC7D0135199D81F87E</string>
 				<string>7EC2A458A31F0115B8120BC2</string>
 				<string>3F205C33EEFC96C6EF0844D3</string>
 				<string>E339859651E8BA11B85D94FE</string>
@@ -814,6 +815,7 @@
 				<string>5E3EEC3B819F26C81EFDFE61</string>
 				<string>129C3445F14098B47F0DFE41</string>
 				<string>966EFDED469F08924E0B9D13</string>
+				<string>F91F467082B5E6CD4112A585</string>
 				<string>69BB38D93FBB32ADC5EDDE7A</string>
 				<string>C23293C44CE6148B0AA81ED1</string>
 				<string>39ED5FEF4196749DDE8A5066</string>
@@ -1205,6 +1207,17 @@
 			<string>CCA890F1002D99CA30902C87</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
+		</dict>
+		<key>4E53B4EC7D0135199D81F87E</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>PhotoViewerSheet.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
 		</dict>
 		<key>510DC1E578B8AAB36EC93E0F</key>
 		<dict>
@@ -2917,6 +2930,13 @@
 			<string>PBXResourcesBuildPhase</string>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<string>0</string>
+		</dict>
+		<key>F91F467082B5E6CD4112A585</key>
+		<dict>
+			<key>fileRef</key>
+			<string>4E53B4EC7D0135199D81F87E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 		<key>F97A802DEEFF748A880F9068</key>
 		<dict>
