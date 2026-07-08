@@ -70,6 +70,7 @@
 			<key>children</key>
 			<array>
 				<string>7EC2A458A31F0115B8120BC2</string>
+				<string>3F205C33EEFC96C6EF0844D3</string>
 				<string>E339859651E8BA11B85D94FE</string>
 			</array>
 			<key>isa</key>
@@ -690,17 +691,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>33F18119F2584BD27F337D88</key>
-		<dict>
-			<key>children</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Fonts</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
 		<key>343A8F732E1FA38AB7285DFA</key>
 		<dict>
 			<key>fileRef</key>
@@ -832,6 +822,7 @@
 				<string>B6F5BF0A413029B2880415E8</string>
 				<string>8A7900B2052AC5E156F60277</string>
 				<string>C547894CEF5361CC8EE49646</string>
+				<string>8EF76CDD29ACA95B521C0ABB</string>
 				<string>BB7A51F8D22CA1D74EB558AF</string>
 				<string>C59A1210C08F55E36A2AA4D3</string>
 				<string>F3830D3298699FA078DF7D85</string>
@@ -923,6 +914,17 @@
 			<string>PBXGroup</string>
 			<key>name</key>
 			<string>Products</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3F205C33EEFC96C6EF0844D3</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>RemembranceCardView.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -1048,7 +1050,6 @@
 		<dict>
 			<key>children</key>
 			<array>
-				<string>33F18119F2584BD27F337D88</string>
 				<string>72AF75FEA00D9679416E50B9</string>
 				<string>7C1D6120609097BDD193316C</string>
 				<string>5DB7B2485C868ACDD7E4D2D2</string>
@@ -2045,6 +2046,13 @@
 		<dict>
 			<key>fileRef</key>
 			<string>06A4B7D14D982689491089DE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>8EF76CDD29ACA95B521C0ABB</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3F205C33EEFC96C6EF0844D3</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
