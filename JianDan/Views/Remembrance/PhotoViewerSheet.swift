@@ -49,7 +49,6 @@ struct PhotoViewerSheet: View {
 
             VStack {
                 HStack {
-                    Spacer()
                     Button(action: onDismiss) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
