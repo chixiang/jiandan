@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 /// 图片存储服务：照片单独存于沙盒，SwiftData 模型只存文件名
-/// - 设计原则：每张照片压缩到最长边 1920px + JPEG 0.85（肉眼无损，省 60-80% 空间）
+/// - 设计原则：每张照片压缩为 1920×1920 正方形 + JPEG 0.85（肉眼无损，省 60-80% 空间）
 /// - 命名规则：UUID + .jpg
 /// - 路径：`Documents/images/<UUID>.jpg`
 final class ImageStore {
@@ -78,20 +78,23 @@ final class ImageStore {
 
     // MARK: - Private
 
-    /// 缩放图片至最长边 ≤ maxDimension
+    /// 缩放 + 中心裁切为正方形（1920×1920）
+    /// 保证输出永远是正方形，旧矩形图片不迁移，仅在展示时裁剪。
     private static func resize(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
         let size = image.size
-        let longest = max(size.width, size.height)
-        guard longest > maxDimension else { return image }
+        let shortSide = min(size.width, size.height)
 
-        let scale = maxDimension / longest
-        let newSize = CGSize(width: size.width * scale, height: size.height * scale)
+        let scale = maxDimension / shortSide
+        let scaledW = size.width * scale
+        let scaledH = size.height * scale
 
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
-        let renderer = UIGraphicsImageRenderer(size: newSize, format: format)
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: maxDimension, height: maxDimension), format: format)
         return renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: newSize))
+            let offsetX = (maxDimension - scaledW) / 2
+            let offsetY = (maxDimension - scaledH) / 2
+            image.draw(in: CGRect(x: offsetX, y: offsetY, width: scaledW, height: scaledH))
         }
     }
 }
