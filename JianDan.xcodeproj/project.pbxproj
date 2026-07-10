@@ -594,6 +594,17 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>2836970884198672AD1C9AF3</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>SquareCropView.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>288710547798C8DF86143CCD</key>
 		<dict>
 			<key>fileRef</key>
@@ -833,6 +844,7 @@
 				<string>ABF18B5080D84A0730A97178</string>
 				<string>8969BBF985D0CB1833233819</string>
 				<string>80A5EA1E7278F1F038F0CC5B</string>
+				<string>C0DD335365752455FC6E1CC7</string>
 				<string>4CF125A0F526B99CFA6D81E6</string>
 				<string>755AC1BA250516FF6A2BC3A1</string>
 				<string>8B3E71CF2296479BEF30EC14</string>
@@ -1567,6 +1579,7 @@
 				<string>F3AFD60EDC07084855C3D0A7</string>
 				<string>93174AF13D308030FE5B1BB4</string>
 				<string>19F95690CDC8F8F866CABEFC</string>
+				<string>2836970884198672AD1C9AF3</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -2617,6 +2630,13 @@
 		<dict>
 			<key>fileRef</key>
 			<string>F8291787AC78FDB5D852356D</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C0DD335365752455FC6E1CC7</key>
+		<dict>
+			<key>fileRef</key>
+			<string>2836970884198672AD1C9AF3</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>

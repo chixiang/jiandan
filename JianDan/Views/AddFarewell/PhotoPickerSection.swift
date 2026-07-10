@@ -28,6 +28,9 @@ struct PhotoPickerSection: View {
     @State private var showPhotoPicker = false
     @State private var cameraUnavailableAlert = false
 
+    @State private var cropQueue: [UIImage] = []
+    @State private var currentCropImage: UIImage? = nil
+
     var body: some View {
         VStack(alignment: .leading, spacing: .sm) {
             Text("照片")
@@ -40,26 +43,19 @@ struct PhotoPickerSection: View {
             }
         }
         .onChange(of: selectedItems) { _, newItems in
+            guard !newItems.isEmpty else { return }
             Task {
-                let placeholders = newItems.map { _ in PhotoItem(data: Data(), isLoading: true) }
-                await MainActor.run {
-                    items.append(contentsOf: placeholders)
-                    selectedItems = []
-                }
-
-                for (index, selectedItem) in newItems.enumerated() {
-                    if let data = try? await selectedItem.loadTransferable(type: Data.self) {
-                        await MainActor.run {
-                            if let idx = items.firstIndex(where: { $0.id == placeholders[index].id }) {
-                                items[idx].data = data
-                                items[idx].isLoading = false
-                            }
-                        }
-                    } else {
-                        await MainActor.run {
-                            items.removeAll { $0.id == placeholders[index].id }
-                        }
+                var images: [UIImage] = []
+                for item in newItems {
+                    if let data = try? await item.loadTransferable(type: Data.self),
+                       let image = UIImage(data: data) {
+                        images.append(image)
                     }
+                }
+                await MainActor.run {
+                    cropQueue = images
+                    selectedItems = []
+                    processNextCrop()
                 }
             }
         }
@@ -83,9 +79,33 @@ struct PhotoPickerSection: View {
             maxSelectionCount: maxCount - items.count,
             matching: .images
         )
+        .sheet(isPresented: .init(
+            get: { currentCropImage != nil },
+            set: { if !$0 { currentCropImage = nil; processNextCrop() } }
+        )) {
+            if let image = currentCropImage {
+                SquareCropView(
+                    image: image,
+                    onCrop: { data in
+                        items.append(PhotoItem(data: data))
+                        currentCropImage = nil
+                        processNextCrop()
+                    },
+                    onCancel: {
+                        currentCropImage = nil
+                        processNextCrop()
+                    }
+                )
+            }
+        }
     }
 
     // MARK: - Actions
+
+    private func processNextCrop() {
+        guard !cropQueue.isEmpty else { currentCropImage = nil; return }
+        currentCropImage = cropQueue.removeFirst()
+    }
 
     private func openCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
