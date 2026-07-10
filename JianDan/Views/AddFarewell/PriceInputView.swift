@@ -18,7 +18,6 @@ struct PriceInputView: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            Spacer()
             Text(symbol)
                 .foregroundStyle(theme.secondary)
             TextField("0.00", text: $displayText)
@@ -28,6 +27,7 @@ struct PriceInputView: View {
                     processInput(newValue)
                 }
         }
+        .frame(maxWidth: .infinity, alignment: .trailing)
         .onAppear {
             if let price, price > 0 {
                 cents = Int(round(price * 100))
