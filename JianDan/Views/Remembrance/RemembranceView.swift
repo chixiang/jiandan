@@ -76,9 +76,8 @@ struct RemembranceView: View {
                 get: { photoViewerFilenames.map { IdentifiableArray(value: $0) } },
                 set: { photoViewerFilenames = $0?.value }
             )) { wrapper in
-                PhotoViewerSheet(filenames: wrapper.value) {
-                    photoViewerFilenames = nil
-                }
+                FullScreenImageViewer(filenames: wrapper.value, initialIndex: 0)
+                    .ignoresSafeArea()
             }
             .onAppear {
                 if record == nil, !records.isEmpty { pickRandom() }
