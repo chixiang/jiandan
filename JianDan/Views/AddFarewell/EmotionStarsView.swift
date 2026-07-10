@@ -7,9 +7,6 @@ struct EmotionStarsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("心情")
-                .appFont(.sectionTitle)
-
             HStack(spacing: 12) {
                 ForEach(1...3, id: \.self) { i in
                     Button {

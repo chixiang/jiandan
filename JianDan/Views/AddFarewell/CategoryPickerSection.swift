@@ -21,9 +21,6 @@ struct CategoryPickerSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: .sm) {
-            Text("分类")
-                .appFont(.sectionTitle)
-
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: .xs) {
                     // 1. 内置分类
