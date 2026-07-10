@@ -75,20 +75,12 @@ struct FarewellDetailView: View {
                 // 卡片 3：告别心情
                 if let emotion = record.emotionValue {
                     DetailCard {
-                        VStack(alignment: .leading, spacing: .xs) {
-                            Text("心情")
-                                .appFont(.caption)
-                                .foregroundStyle(theme.secondary)
-                            HStack(spacing: .sm) {
-                                ForEach(1...3, id: \.self) { i in
-                                    Circle()
-                                        .fill(i <= emotion ? theme.accent : theme.divider)
-                                        .frame(width: 10, height: 10)
-                                }
-                                Text(emotionLabel(emotion))
-                                    .appFont(.body)
-                                    .foregroundStyle(theme.primaryText)
-                            }
+                        VStack(alignment: .leading, spacing: .sm) {
+                            DetailRow(
+                                icon: emotionIcon(for: emotion),
+                                label: "心情",
+                                value: emotionLabel(emotion)
+                            )
                         }
                     }
                 }
@@ -96,24 +88,20 @@ struct FarewellDetailView: View {
                 // 卡片 4：获得
                 if record.purchaseDate != nil || record.purchasePrice != nil {
                     DetailCard {
-                        VStack(alignment: .leading, spacing: .xs) {
-                            Text("获得")
-                                .appFont(.caption)
-                                .foregroundStyle(theme.secondary)
+                        VStack(alignment: .leading, spacing: .sm) {
                             if let date = record.purchaseDate {
-                                HStack(spacing: 4) {
-                                    Image(systemName: "calendar")
-                                    Text("获得于 \(date.formatted(.dateTime.year().month().day()))")
-                                }
-                                .appFont(.body)
+                                DetailRow(
+                                    icon: "calendar",
+                                    label: "日期",
+                                    value: date.formatted(.dateTime.year().month().day())
+                                )
                             }
                             if let price = record.purchasePrice {
-                                HStack(spacing: 4) {
-                                    Image(systemName: currencyManager.currency.icon)
-                                        .foregroundStyle(theme.secondary)
-                                    Text(price, format: .number.precision(.fractionLength(2)))
-                                }
-                                .appFont(.body)
+                                DetailRow(
+                                    icon: currencyManager.currency.icon,
+                                    label: "价格",
+                                    value: String(format: "%.2f", price)
+                                )
                             }
                         }
                     }
@@ -238,6 +226,15 @@ struct FarewellDetailView: View {
         case 2: return String(localized: "复杂")
         case 3: return String(localized: "不舍")
         default: return ""
+        }
+    }
+
+    private func emotionIcon(for value: Int) -> String {
+        switch value {
+        case 1: return "heart"
+        case 2: return "heart.half"
+        case 3: return "heart.fill"
+        default: return "heart"
         }
     }
 
