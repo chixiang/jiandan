@@ -61,17 +61,9 @@ struct FarewellShareCard: View {
     private let cardW: CGFloat = 360
     private let cardH: CGFloat = 540
 
-    private var isPhotoLandscape: Bool {
-        guard let img = photoImage else { return true }
-        return img.size.width > img.size.height
-    }
-
     private var photoSideMargin: CGFloat { cardW * 0.05 }
-    private var photoTopMargin: CGFloat { photoSideMargin + (isPhotoLandscape ? 16 : 0) }
     private var photoW: CGFloat { cardW - photoSideMargin * 2 }
-    private var photoH: CGFloat {
-        isPhotoLandscape ? photoW * 3 / 4 : min(photoW * 4 / 3, cardH * 0.65)
-    }
+    private var photoH: CGFloat { photoW }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -82,13 +74,13 @@ struct FarewellShareCard: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: photoW, height: photoH)
                     .clipped()
-                    .padding(.top, photoTopMargin)
+                    .padding(.top, photoSideMargin)
                     .padding(.horizontal, photoSideMargin)
             } else if let quote = placeholderQuote, !quote.isEmpty {
                 placeholderView(quote: quote, attribution: placeholderAttribution)
                     .frame(width: photoW, height: photoH)
                     .clipped()
-                    .padding(.top, photoTopMargin)
+                    .padding(.top, photoSideMargin)
                     .padding(.horizontal, photoSideMargin)
             }
 

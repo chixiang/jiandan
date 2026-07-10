@@ -80,14 +80,7 @@ struct PolaroidShareView: View {
     private var polaroidCard: some View {
         VStack(spacing: 0) {
             let photoW: CGFloat = 320 * 0.9
-            let photoH: CGFloat = {
-                guard let p = ceremonyPhoto else { return photoW * 3 / 4 }
-                return p.size.width > p.size.height
-                    ? photoW * 3 / 4
-                    : min(photoW * 4 / 3, 480 * 0.65)
-            }()
-            let isPhotoLandscape = ceremonyPhoto.map { $0.size.width > $0.size.height } ?? true
-            let photoTopPad: CGFloat = isPhotoLandscape ? 32 : 16
+            let photoH: CGFloat = photoW
 
             if let photo = ceremonyPhoto {
                 Image(uiImage: photo)
@@ -96,13 +89,13 @@ struct PolaroidShareView: View {
                     .frame(width: photoW, height: photoH)
                     .clipped()
                     .blur(radius: photoBlurRadius)
-                    .padding(.top, photoTopPad)
+                    .padding(.top, 16)
                     .padding(.horizontal, 16)
             } else {
                 Rectangle()
                     .fill(Color(red: 0.90, green: 0.88, blue: 0.85))
-                    .frame(width: photoW, height: photoW * 3 / 4)
-                    .padding(.top, photoTopPad)
+                    .frame(width: photoW, height: photoH)
+                    .padding(.top, 16)
                     .padding(.horizontal, 16)
             }
 
