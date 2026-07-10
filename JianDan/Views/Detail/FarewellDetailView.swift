@@ -76,11 +76,26 @@ struct FarewellDetailView: View {
                 if let emotion = record.emotionValue {
                     DetailCard {
                         VStack(alignment: .leading, spacing: .sm) {
-                            DetailRow(
-                                icon: emotionIcon(for: emotion),
-                                label: "心情",
-                                value: emotionLabel(emotion)
-                            )
+                            HStack(spacing: .sm) {
+                                Image(systemName: "heart")
+                                    .appFont(.body)
+                                    .foregroundStyle(theme.secondary)
+                                    .frame(width: 24)
+                                Text("心情")
+                                    .appFont(.caption)
+                                    .foregroundStyle(theme.secondary)
+                                    .frame(width: 80, alignment: .leading)
+                                HStack(spacing: 6) {
+                                    ForEach(1...3, id: \.self) { i in
+                                        Circle()
+                                            .fill(i <= emotion ? theme.accent : theme.divider)
+                                            .frame(width: 10, height: 10)
+                                    }
+                                    Text(emotionLabel(emotion))
+                                        .appFont(.body)
+                                }
+                                Spacer(minLength: 0)
+                            }
                         }
                     }
                 }
@@ -229,14 +244,6 @@ struct FarewellDetailView: View {
         }
     }
 
-    private func emotionIcon(for value: Int) -> String {
-        switch value {
-        case 1: return "heart"
-        case 2: return "heart.half"
-        case 3: return "heart.fill"
-        default: return "heart"
-        }
-    }
 
     private func deleteRecord() {
         do {
