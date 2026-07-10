@@ -15,7 +15,7 @@ struct PhotoItem: Identifiable {
 
 /// 照片选择区（最多 3 张）
 ///
-/// 空状态提供「拍照」+「从相册选」两个并列按钮；
+/// 空状态提供「拍照」+「相册」两个并列按钮；
 /// 已选状态下末尾「+」按钮弹出菜单，包含两个入口。
 /// 模拟器上点拍照按钮会弹出提示 alert。
 struct PhotoPickerSection: View {
@@ -126,7 +126,7 @@ struct PhotoPickerSection: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, .xl)
-                .background(theme.cardBackground)
+                .background(theme.divider.opacity(0.12))
                 .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             }
             .buttonStyle(.plain)
@@ -138,11 +138,11 @@ struct PhotoPickerSection: View {
             ) {
                 HStack {
                     Image(systemName: "photo.on.rectangle")
-                    Text("从相册选")
+                    Text("相册")
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, .xl)
-                .background(theme.cardBackground)
+                .background(theme.divider.opacity(0.12))
                 .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             }
             .buttonStyle(.plain)
@@ -169,7 +169,7 @@ struct PhotoPickerSection: View {
                     }
 
                     Button(action: { showPhotoPicker = true }) {
-                        Label("从相册选", systemImage: "photo.on.rectangle")
+                        Label("相册", systemImage: "photo.on.rectangle")
                     }
                 } label: {
                     VStack {
@@ -179,7 +179,7 @@ struct PhotoPickerSection: View {
                             .appFont(.caption)
                     }
                     .frame(width: 60, height: 60)
-                    .background(theme.cardBackground)
+                    .background(theme.divider.opacity(0.12))
                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.chip, style: .continuous))
                 }
             }
