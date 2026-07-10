@@ -23,6 +23,7 @@ struct PriceInputView: View {
             TextField("0.00", text: $displayText)
                 .keyboardType(.numberPad)
                 .multilineTextAlignment(.trailing)
+                .fixedSize()
                 .onChange(of: displayText) { _, newValue in
                     processInput(newValue)
                 }
