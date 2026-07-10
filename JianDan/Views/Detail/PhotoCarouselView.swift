@@ -54,6 +54,10 @@ struct PhotoCarouselView: View {
             .tabViewStyle(.page(indexDisplayMode: filenames.count > 1 ? .always : .never))
             .aspectRatio(1, contentMode: .fit)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                    .strokeBorder(theme.divider, lineWidth: 0.5)
+            )
             .fullScreenCover(item: $viewerItem) { item in
                 FullScreenImageViewer(filenames: item.filenames, initialIndex: item.index)
                     .ignoresSafeArea()
