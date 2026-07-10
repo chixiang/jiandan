@@ -51,8 +51,11 @@ struct AddFarewellView: View {
                         DatePicker("告别日期", selection: $farewellDate, in: ...Date.now, displayedComponents: .date)
                     }
 
-                    Section("分类与去向") {
+                    Section("分类") {
                         CategoryPickerSection(selection: $category)
+                    }
+
+                    Section("去向") {
                         MethodPickerSection(selection: $method)
 
                         if method != .discard && method != .other {
@@ -65,7 +68,7 @@ struct AddFarewellView: View {
                         }
                     }
 
-                    Section("更多") {
+                    Section("获得") {
                         Toggle("记录获得日期", isOn: $showPurchaseDate)
 
                         if showPurchaseDate {
@@ -76,7 +79,9 @@ struct AddFarewellView: View {
                         }
 
                         PriceInputView(price: $purchasePrice, symbol: currencyManager.currency.symbol)
+                    }
 
+                    Section("心情") {
                         EmotionStarsView(value: $emotionValue)
                     }
 
