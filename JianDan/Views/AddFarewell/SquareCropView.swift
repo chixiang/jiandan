@@ -95,7 +95,6 @@ struct SquareCropView: View {
                 }
             }
         }
-        .preferredColorScheme(.dark)
         .ignoresSafeArea()
     }
 

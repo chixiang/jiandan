@@ -24,15 +24,16 @@ struct SquareCameraView: View {
 
             VStack {
                 Spacer()
-                HStack(alignment: .center) {
-                    Button(action: { dismiss() }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 36))
-                            .foregroundStyle(.white.opacity(0.7))
-                            .padding(20)
+                ZStack {
+                    HStack {
+                        Button(action: { dismiss() }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 36))
+                                .foregroundStyle(.white.opacity(0.7))
+                                .padding(20)
+                        }
+                        Spacer()
                     }
-
-                    Spacer()
 
                     Button(action: { model.capture() }) {
                         Circle()
@@ -43,8 +44,6 @@ struct SquareCameraView: View {
                                     .stroke(.white.opacity(0.4), lineWidth: 4)
                             )
                     }
-
-                    Spacer().frame(width: 36 + 40)
                 }
                 .padding(.bottom, 50)
             }
