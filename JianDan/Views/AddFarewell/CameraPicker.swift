@@ -17,7 +17,7 @@ struct SquareCameraView: View {
                 .ignoresSafeArea()
 
             GeometryReader { geo in
-                let cropSize = min(geo.size.width * 0.85, geo.size.height * 0.6)
+                let cropSize = geo.size.width
                 CameraCropOverlay(cropSize: cropSize)
             }
             .allowsHitTesting(false)
@@ -131,7 +131,7 @@ private final class PreviewView: UIView {
     init(session: AVCaptureSession) {
         super.init(frame: .zero)
         previewLayer.session = session
-        previewLayer.videoGravity = .resizeAspectFill
+        previewLayer.videoGravity = .resizeAspect
         layer.addSublayer(previewLayer)
     }
 
