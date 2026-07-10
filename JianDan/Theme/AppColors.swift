@@ -13,9 +13,9 @@ enum AppColors {
         static let background = Color(red: 0.98, green: 0.97, blue: 0.96)      // #FAF8F5 米白
         static let primaryText = Color(red: 0.24, green: 0.24, blue: 0.24)     // #3C3C3C 墨灰
         static let accent = Color(red: 0.79, green: 0.65, blue: 0.48)          // #C9A57B 淡赭
-        static let secondary = Color(red: 0.71, green: 0.69, blue: 0.66)       // #B5B0A8 雾灰
+        static let secondary = Color(red: 0.60, green: 0.58, blue: 0.55)       // #9A948D 烟灰
         static let cardBackground = Color.white
-        static let divider = Color(red: 0.90, green: 0.88, blue: 0.85)
+        static let divider = Color(red: 0.84, green: 0.81, blue: 0.77)          // #D6CEC5 浅灰
     }
 
     // MARK: - 深色

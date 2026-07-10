@@ -53,6 +53,7 @@ struct FarewellCardView: View {
         .padding(.md)
         .background(theme.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous))
+        .shadow(color: .black.opacity(0.04), radius: 4, x: 0, y: 2)
         .overlay(
             RoundedRectangle(cornerRadius: AppRadius.sheet, style: .continuous)
                 .strokeBorder(theme.divider, lineWidth: 0.5)
