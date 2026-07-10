@@ -1,43 +1,170 @@
 import SwiftUI
+import AVFoundation
 import UIKit
 
-/// 系统相机拍照包装
+/// 自定义相机 — 拍摄时显示方形取景框，拍完后自动裁切为正方形
 ///
-/// `UIImagePickerController.sourceType == .camera` 在模拟器上不可用，
-/// 调用方需先检查 `UIImagePickerController.isSourceTypeAvailable(.camera)`。
-struct CameraPicker: UIViewControllerRepresentable {
+/// 使用 AVFoundation，预览画面即时显示半透明遮罩 + 白线方框。
+/// 按快门后中心裁切为 1920×1920 正方形 JPEG，自动返回。
+struct SquareCameraView: View {
     @Environment(\.dismiss) private var dismiss
     let onCapture: (Data) -> Void
+    @StateObject private var model = CameraModel()
 
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
-        picker.allowsEditing = true
-        picker.delegate = context.coordinator
-        return picker
-    }
+    var body: some View {
+        ZStack {
+            CameraPreview(session: model.session)
+                .ignoresSafeArea()
 
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: CameraPicker
-        init(_ parent: CameraPicker) { self.parent = parent }
-
-        func imagePickerController(_ picker: UIImagePickerController,
-                                   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let image = info[.editedImage] as? UIImage,
-               let data = image.jpegData(compressionQuality: 0.85) {
-                parent.onCapture(data)
+            GeometryReader { geo in
+                let cropSize = min(geo.size.width * 0.85, geo.size.height * 0.6)
+                CameraCropOverlay(cropSize: cropSize)
             }
-            parent.dismiss()
+            .allowsHitTesting(false)
+
+            VStack {
+                HStack {
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 28))
+                            .foregroundStyle(.white.opacity(0.7))
+                            .padding()
+                    }
+                    Spacer()
+                }
+                Spacer()
+            }
+
+            VStack {
+                Spacer()
+                Button(action: { model.capture() }) {
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 70, height: 70)
+                        .overlay(
+                            Circle()
+                                .stroke(.white.opacity(0.4), lineWidth: 4)
+                        )
+                }
+                .padding(.bottom, 50)
+            }
+        }
+        .onReceive(model.$capturedData) { data in
+            guard let data else { return }
+            onCapture(data)
+            dismiss()
+        }
+    }
+}
+
+// MARK: - Camera Model
+
+private final class CameraModel: NSObject, ObservableObject {
+    let session = AVCaptureSession()
+    @Published var capturedData: Data?
+
+    private let photoOutput = AVCapturePhotoOutput()
+    private let queue = DispatchQueue(label: "camera.session", qos: .userInitiated)
+
+    override init() {
+        super.init()
+        queue.async { [weak self] in
+            self?.setupCamera()
+        }
+    }
+
+    private func setupCamera() {
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
+              let input = try? AVCaptureDeviceInput(device: device) else { return }
+
+        session.beginConfiguration()
+        session.addInput(input)
+        session.addOutput(photoOutput)
+        session.commitConfiguration()
+        session.startRunning()
+    }
+
+    func capture() {
+        let settings = AVCapturePhotoSettings()
+        photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+}
+
+extension CameraModel: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let data = photo.fileDataRepresentation(),
+              let image = UIImage(data: data) else { return }
+
+        let side = min(image.size.width, image.size.height)
+        let scale = 1920 / side
+        let offsetX = -(image.size.width - side) / 2 * scale
+        let offsetY = -(image.size.height - side) / 2 * scale
+
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 1920, height: 1920))
+        let output = renderer.image { _ in
+            image.draw(in: CGRect(x: offsetX, y: offsetY,
+                                  width: image.size.width * scale,
+                                  height: image.size.height * scale))
         }
 
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.dismiss()
+        let jpeg = output.jpegData(compressionQuality: 0.85)
+        DispatchQueue.main.async { [weak self] in
+            self?.capturedData = jpeg
+        }
+    }
+}
+
+// MARK: - Camera Preview
+
+private struct CameraPreview: UIViewRepresentable {
+    let session: AVCaptureSession
+
+    func makeUIView(context: Context) -> PreviewView {
+        PreviewView(session: session)
+    }
+
+    func updateUIView(_ uiView: PreviewView, context: Context) {}
+}
+
+private final class PreviewView: UIView {
+    private let previewLayer = AVCaptureVideoPreviewLayer()
+
+    init(session: AVCaptureSession) {
+        super.init(frame: .zero)
+        previewLayer.session = session
+        previewLayer.videoGravity = .resizeAspectFill
+        layer.addSublayer(previewLayer)
+    }
+
+    required init?(coder: NSCoder) { nil }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        previewLayer.frame = bounds
+    }
+}
+
+// MARK: - Square Overlay
+
+private struct CameraCropOverlay: View {
+    let cropSize: CGFloat
+
+    var body: some View {
+        GeometryReader { geo in
+            let cropX = (geo.size.width - cropSize) / 2
+            let cropY = (geo.size.height - cropSize) / 2
+
+            Path { path in
+                path.addRect(CGRect(origin: .zero, size: geo.size))
+                path.addRect(CGRect(x: cropX, y: cropY, width: cropSize, height: cropSize))
+            }
+            .fill(Color.black.opacity(0.35), style: FillStyle(eoFill: true))
+            .overlay(
+                Rectangle()
+                    .stroke(Color.white, lineWidth: 2)
+                    .frame(width: cropSize, height: cropSize)
+                    .position(x: geo.size.width / 2, y: geo.size.height / 2)
+            )
         }
     }
 }

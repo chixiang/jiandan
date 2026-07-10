@@ -60,7 +60,7 @@ struct PhotoPickerSection: View {
             }
         }
         .fullScreenCover(isPresented: $showCamera) {
-            CameraPicker { data in
+            SquareCameraView { data in
                 if items.count < maxCount {
                     let newItem = PhotoItem(data: data)
                     items.append(newItem)
