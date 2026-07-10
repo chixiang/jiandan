@@ -112,25 +112,28 @@ struct RemembranceView: View {
     // MARK: - 详情
 
     private func detailView(_ item: FarewellRecord) -> some View {
-        RemembranceCardView(
-            record: item,
-            revealedLetterCount: $revealedLetterCount,
-            onLongPress: {
-                if !item.photoFilenames.isEmpty {
-                    photoViewerFilenames = item.photoFilenames
+        ScrollView {
+            RemembranceCardView(
+                record: item,
+                revealedLetterCount: $revealedLetterCount,
+                onTapPhoto: {
+                    if !item.photoFilenames.isEmpty {
+                        photoViewerFilenames = item.photoFilenames
+                    }
                 }
-            }
-        )
-            .task(id: item.id) {
-                revealedLetterCount = 0
-                let letter = item.farewellLetter ?? ""
-                let total = "\u{201C}\(letter)\u{201D}".count
-                guard total > 0 else { return }
-                for i in 0..<total {
-                    try? await Task.sleep(for: .milliseconds(30))
-                    revealedLetterCount = i + 1
+            )
+                .task(id: item.id) {
+                    revealedLetterCount = 0
+                    let letter = item.farewellLetter ?? ""
+                    let total = "\u{201C}\(letter)\u{201D}".count
+                    guard total > 0 else { return }
+                    for i in 0..<total {
+                        try? await Task.sleep(for: .milliseconds(30))
+                        revealedLetterCount = i + 1
+                    }
                 }
-            }
+        }
+        .scrollIndicators(.hidden)
     }
 
     // MARK: - 辅助

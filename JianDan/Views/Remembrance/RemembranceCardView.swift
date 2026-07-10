@@ -1,8 +1,6 @@
 import SwiftUI
 
-/// Pure-text card showing one FarewellRecord's metadata in the order from
-/// the redesign spec §4.2. No image rendering; photos are surfaced via
-/// `PhotoViewerSheet` on long-press (added in Task 4).
+/// 展示一条 FarewellRecord 的完整信息，照片直接显示在顶部（可左右滑动）。
 struct RemembranceCardView: View {
     let record: FarewellRecord
     @Binding var revealedLetterCount: Int
@@ -10,12 +8,16 @@ struct RemembranceCardView: View {
     @Environment(\.appTheme) private var theme
     @Environment(CurrencyManager.self) private var currencyManager
 
-    var onLongPress: (() -> Void)? = nil
+    var onTapPhoto: (() -> Void)? = nil
 
     private var model: RemembranceCardModel { RemembranceCardModel(record: record) }
 
     var body: some View {
         VStack(spacing: .md) {
+            if model.showsPhotoHint {
+                photoCarousel
+                    .onTapGesture { onTapPhoto?() }
+            }
             nameSection
             dateSection
             divider
@@ -27,20 +29,31 @@ struct RemembranceCardView: View {
                 letterSection
                 divider
             }
-            if model.showsPhotoHint {
-                Text("长按查看照片")
-                    .appFont(.caption)
-                    .foregroundStyle(theme.secondary.opacity(0.4))
-                    .padding(.top, .sm)
-            }
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, .screenPadding)
-        .contentShape(Rectangle())
-        .onLongPressGesture(minimumDuration: 0.5, perform: { onLongPress?() })
     }
 
     // MARK: - Sections
+
+    @ViewBuilder
+    private var photoCarousel: some View {
+        if let first = record.photoFilenames.first,
+           ImageStore.loadImage(filename: first) != nil {
+            TabView {
+                ForEach(record.photoFilenames, id: \.self) { filename in
+                    if let image = ImageStore.loadImage(filename: filename) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    }
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: record.photoFilenames.count > 1 ? .always : .never))
+            .aspectRatio(1, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        }
+    }
 
     private var nameSection: some View {
         Text("「\(record.name)」")
