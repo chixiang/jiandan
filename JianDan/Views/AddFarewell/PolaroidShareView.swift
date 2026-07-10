@@ -66,6 +66,7 @@ struct PolaroidShareView: View {
                 .zIndex(2)
             }
         }
+        .sensoryFeedback(.success, trigger: phase) { $1 == .ready }
         .onAppear(perform: handleAppear)
         .sheet(isPresented: $showSystemShare) {
             if let image = shareImage {
