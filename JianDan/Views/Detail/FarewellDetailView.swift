@@ -72,11 +72,11 @@ struct FarewellDetailView: View {
                     }
                 }
 
-                // 卡片 3：当时心情
+                // 卡片 3：告别心情
                 if let emotion = record.emotionValue {
                     DetailCard {
                         VStack(alignment: .leading, spacing: .xs) {
-                            Text("当时心情")
+                            Text("心情")
                                 .appFont(.caption)
                                 .foregroundStyle(theme.secondary)
                             HStack(spacing: .sm) {
