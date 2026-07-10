@@ -7,17 +7,15 @@ private struct ViewerItem: Identifiable {
     let index: Int
 }
 
-/// 多张照片轮播（横向滑动 + 主照片 + 缺图占位）
+/// 多张照片轮播 — 正方形卡片
 struct PhotoCarouselView: View {
     let filenames: [String]
     @Environment(\.appTheme) private var theme
-    private let height: CGFloat = 240
 
     @State private var viewerItem: ViewerItem?
 
     var body: some View {
         if filenames.isEmpty {
-            // 无照片占位
             ZStack {
                 Rectangle()
                     .fill(theme.divider.opacity(0.3))
@@ -25,7 +23,7 @@ struct PhotoCarouselView: View {
                     .font(.system(size: 48, weight: .ultraLight))
                     .foregroundStyle(theme.secondary)
             }
-            .frame(height: height)
+            .aspectRatio(1, contentMode: .fit)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
         } else {
             TabView {
@@ -34,14 +32,10 @@ struct PhotoCarouselView: View {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: height)
-                            .clipped()
                             .onTapGesture {
                                 viewerItem = ViewerItem(filenames: filenames, index: index)
                             }
                     } else {
-                        // 图片文件丢失
                         ZStack {
                             Rectangle()
                                 .fill(theme.divider.opacity(0.3))
@@ -54,12 +48,11 @@ struct PhotoCarouselView: View {
                                     .foregroundStyle(theme.secondary)
                             }
                         }
-                        .frame(height: height)
                     }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: filenames.count > 1 ? .always : .never))
-            .frame(height: height)
+            .aspectRatio(1, contentMode: .fit)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             .fullScreenCover(item: $viewerItem) { item in
                 FullScreenImageViewer(filenames: item.filenames, initialIndex: item.index)

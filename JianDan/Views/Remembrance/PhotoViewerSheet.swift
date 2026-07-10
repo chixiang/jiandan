@@ -31,7 +31,7 @@ struct PhotoViewerSheet: View {
                         if let ui = ImageStore.loadImage(filename: name) {
                             Image(uiImage: ui)
                                 .resizable()
-                                .scaledToFit()
+                                .scaledToFill()
                                 .tag(idx)
                         } else {
                             Image(systemName: "photo")
