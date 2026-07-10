@@ -3,19 +3,19 @@ import SwiftUI
 /// 告别清单品牌色板
 ///
 /// 极简、雅致、留白 —— 三种色调供用户在 Settings 中切换：
-/// - 浅色 (Light): 米白底 + 墨灰字 + 淡赭点缀
+/// - 浅色 (Light): 素白底 + 墨灰字 + 青碧点缀
 /// - 深色 (Dark): 墨黑底 + 米白字 + 淡青点缀
 /// - 墨色 (Ink):  纯黑底 + 米白字 + 朱砂点缀 (极致黑白红)
 enum AppColors {
     // MARK: - 浅色
 
     enum Light {
-        static let background = Color(red: 0.98, green: 0.97, blue: 0.96)      // #FAF8F5 米白
+        static let background = Color(red: 0.96, green: 0.95, blue: 0.94)      // #F4F3F0 素白
         static let primaryText = Color(red: 0.24, green: 0.24, blue: 0.24)     // #3C3C3C 墨灰
-        static let accent = Color(red: 0.79, green: 0.65, blue: 0.48)          // #C9A57B 淡赭
-        static let secondary = Color(red: 0.60, green: 0.58, blue: 0.55)       // #9A948D 烟灰
+        static let accent = Color(red: 0.35, green: 0.58, blue: 0.55)          // #5A958D 青碧
+        static let secondary = Color(red: 0.55, green: 0.53, blue: 0.51)       // #8C8782 烟灰
         static let cardBackground = Color.white
-        static let divider = Color(red: 0.84, green: 0.81, blue: 0.77)          // #D6CEC5 浅灰
+        static let divider = Color(red: 0.84, green: 0.82, blue: 0.80)        // #D6D1CC 浅灰
     }
 
     // MARK: - 深色
