@@ -223,7 +223,7 @@ struct PlaceholderQuoteView: View {
 
             Spacer()
         }
-        .frame(width: 360, height: 240)
+        .frame(width: 360, height: 360)
         .background(theme.background)
     }
 }
