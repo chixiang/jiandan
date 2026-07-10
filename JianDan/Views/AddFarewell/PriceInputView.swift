@@ -17,7 +17,7 @@ struct PriceInputView: View {
     @State private var isUpdating = false
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 0) {
             Spacer()
             Text(symbol)
                 .foregroundStyle(theme.secondary)
