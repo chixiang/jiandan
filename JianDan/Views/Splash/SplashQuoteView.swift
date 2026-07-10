@@ -22,12 +22,9 @@ struct SplashQuoteView: View {
     /// 出处是否已显示（金句全揭示后显示）
     @State private var showAttribution = false
 
-    /// 每字间隔：CJK（中/日）逐字慢速，拉丁语系快速
+    /// 每字间隔：英文 0.03，CJK（中/日）0.09
     private var revealInterval: TimeInterval {
-        switch language {
-        case .zhHans, .ja: return 0.06
-        default:           return 0.03
-        }
+        language.resolvedForCurrentSystem == .en ? 0.03 : 0.09
     }
 
     var body: some View {
