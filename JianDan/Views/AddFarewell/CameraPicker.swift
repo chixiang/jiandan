@@ -23,28 +23,28 @@ struct SquareCameraView: View {
             .allowsHitTesting(false)
 
             VStack {
-                HStack {
+                Spacer()
+                HStack(alignment: .center) {
                     Button(action: { dismiss() }) {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 28))
+                            .font(.system(size: 36))
                             .foregroundStyle(.white.opacity(0.7))
-                            .padding()
+                            .padding(20)
                     }
-                    Spacer()
-                }
-                Spacer()
-            }
 
-            VStack {
-                Spacer()
-                Button(action: { model.capture() }) {
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 70, height: 70)
-                        .overlay(
-                            Circle()
-                                .stroke(.white.opacity(0.4), lineWidth: 4)
-                        )
+                    Spacer()
+
+                    Button(action: { model.capture() }) {
+                        Circle()
+                            .fill(.white)
+                            .frame(width: 70, height: 70)
+                            .overlay(
+                                Circle()
+                                    .stroke(.white.opacity(0.4), lineWidth: 4)
+                            )
+                    }
+
+                    Spacer().frame(width: 36 + 40)
                 }
                 .padding(.bottom, 50)
             }
