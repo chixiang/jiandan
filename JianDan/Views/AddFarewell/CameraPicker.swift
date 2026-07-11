@@ -95,6 +95,7 @@ private final class CameraModel: NSObject, ObservableObject {
     func capture() {
         let settings = AVCapturePhotoSettings()
         photoOutput.capturePhoto(with: settings, delegate: self)
+        session.stopRunning()
     }
 }
 
