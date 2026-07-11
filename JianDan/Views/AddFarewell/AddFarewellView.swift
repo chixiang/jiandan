@@ -14,7 +14,7 @@ struct AddFarewellView: View {
 
     @State private var name: String = ""
     @State private var category: AnyCategory = .builtin(.clothing)
-    @State private var method: FarewellMethod = .donate
+    @State private var method: FarewellMethod = .discard
     @State private var farewellDate: Date = .now
     @State private var purchaseDate: Date? = nil
     @State private var purchasePrice: Double? = nil
