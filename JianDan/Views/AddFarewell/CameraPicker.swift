@@ -16,6 +16,14 @@ struct SquareCameraView: View {
             CameraPreview(session: model.session)
                 .ignoresSafeArea()
 
+            if let preview = model.capturedImage {
+                Image(uiImage: preview)
+                    .resizable()
+                    .scaledToFit()
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+            }
+
             GeometryReader { geo in
                 let cropSize = geo.size.width
                 CameraCropOverlay(cropSize: cropSize)
@@ -61,6 +69,7 @@ struct SquareCameraView: View {
 private final class CameraModel: NSObject, ObservableObject {
     let session = AVCaptureSession()
     @Published var capturedData: Data?
+    @Published var capturedImage: UIImage?
 
     private let photoOutput = AVCapturePhotoOutput()
     private let queue = DispatchQueue(label: "camera.session", qos: .userInitiated)
@@ -108,7 +117,12 @@ extension CameraModel: AVCapturePhotoCaptureDelegate {
 
         let jpeg = output.jpegData(compressionQuality: 0.85)
         DispatchQueue.main.async { [weak self] in
-            self?.capturedData = jpeg
+            guard let self else { return }
+            self.session.stopRunning()
+            self.capturedImage = output
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.capturedData = jpeg
+            }
         }
     }
 }
