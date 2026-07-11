@@ -18,6 +18,7 @@ struct RemembranceView: View {
     @State private var revealedLetterCount = 0
     @State private var showingEdit = false
     @State private var photoViewerFilenames: [String]?
+    @State private var photoViewerIndex: Int = 0
 
     var body: some View {
         NavigationStack {
@@ -76,7 +77,7 @@ struct RemembranceView: View {
                 get: { photoViewerFilenames.map { IdentifiableArray(value: $0) } },
                 set: { photoViewerFilenames = $0?.value }
             )) { wrapper in
-                FullScreenImageViewer(filenames: wrapper.value, initialIndex: 0)
+                FullScreenImageViewer(filenames: wrapper.value, initialIndex: photoViewerIndex)
                     .ignoresSafeArea()
             }
             .onAppear {
@@ -115,10 +116,9 @@ struct RemembranceView: View {
             RemembranceCardView(
                 record: item,
                 revealedLetterCount: $revealedLetterCount,
-                onTapPhoto: {
-                    if !item.photoFilenames.isEmpty {
-                        photoViewerFilenames = item.photoFilenames
-                    }
+                onTapPhoto: { index in
+                    photoViewerIndex = index
+                    photoViewerFilenames = item.photoFilenames
                 }
             )
                 .task(id: item.id) {

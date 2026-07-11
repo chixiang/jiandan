@@ -8,7 +8,9 @@ struct RemembranceCardView: View {
     @Environment(\.appTheme) private var theme
     @Environment(CurrencyManager.self) private var currencyManager
 
-    var onTapPhoto: (() -> Void)? = nil
+    @State private var currentPhotoIndex = 0
+
+    var onTapPhoto: ((Int) -> Void)? = nil
 
     private var model: RemembranceCardModel { RemembranceCardModel(record: record) }
 
@@ -16,7 +18,7 @@ struct RemembranceCardView: View {
         VStack(spacing: .md) {
             if model.showsPhotoHint {
                 photoCarousel
-                    .onTapGesture { onTapPhoto?() }
+                    .onTapGesture { onTapPhoto?(currentPhotoIndex) }
             }
             nameSection
             dateSection
@@ -40,12 +42,13 @@ struct RemembranceCardView: View {
     private var photoCarousel: some View {
         if let first = record.photoFilenames.first,
            ImageStore.loadImage(filename: first) != nil {
-            TabView {
-                ForEach(record.photoFilenames, id: \.self) { filename in
+            TabView(selection: $currentPhotoIndex) {
+                ForEach(Array(record.photoFilenames.enumerated()), id: \.offset) { idx, filename in
                     if let image = ImageStore.loadImage(filename: filename) {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+                            .tag(idx)
                     }
                 }
             }
