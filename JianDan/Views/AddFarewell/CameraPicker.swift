@@ -95,7 +95,6 @@ private final class CameraModel: NSObject, ObservableObject {
     func capture() {
         let settings = AVCapturePhotoSettings()
         photoOutput.capturePhoto(with: settings, delegate: self)
-        session.stopRunning()
     }
 }
 
@@ -104,25 +103,33 @@ extension CameraModel: AVCapturePhotoCaptureDelegate {
         guard let data = photo.fileDataRepresentation(),
               let image = UIImage(data: data) else { return }
 
+        // Step 1: 立即在主线程显示原始图片 → 画面瞬间冻结
+        DispatchQueue.main.async { [weak self] in
+            self?.capturedImage = image
+        }
+
+        // Step 2: 后台裁切
         let side = min(image.size.width, image.size.height)
         let scale = 1920 / side
         let offsetX = -(image.size.width - side) / 2 * scale
         let offsetY = -(image.size.height - side) / 2 * scale
 
-        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 1920, height: 1920))
-        let output = renderer.image { _ in
-            image.draw(in: CGRect(x: offsetX, y: offsetY,
-                                  width: image.size.width * scale,
-                                  height: image.size.height * scale))
-        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            let renderer = UIGraphicsImageRenderer(size: CGSize(width: 1920, height: 1920))
+            let cropped = renderer.image { _ in
+                image.draw(in: CGRect(x: offsetX, y: offsetY,
+                                      width: image.size.width * scale,
+                                      height: image.size.height * scale))
+            }
 
-        let jpeg = output.jpegData(compressionQuality: 0.85)
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.session.stopRunning()
-            self.capturedImage = output
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.capturedData = jpeg
+            let jpeg = cropped.jpegData(compressionQuality: 0.85)
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.session.stopRunning()
+                self.capturedImage = cropped
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.capturedData = jpeg
+                }
             }
         }
     }
