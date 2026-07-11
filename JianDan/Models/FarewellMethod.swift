@@ -2,8 +2,8 @@ import Foundation
 
 /// 告别方式
 enum FarewellMethod: String, CaseIterable, Identifiable, Codable {
-    case gift = "送人"
     case discard = "扔掉"
+    case gift = "送人"
     case donate = "捐赠"
     case resell = "二手出售"
     case store = "暂存"
